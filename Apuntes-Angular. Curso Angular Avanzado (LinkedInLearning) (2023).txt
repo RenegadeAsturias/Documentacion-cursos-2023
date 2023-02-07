@@ -1,0 +1,84 @@
+
+Apuntes-Angular. Curso Angular Avanzado (LinkedIn Learning) (2023)
+
+0.Introducción
+1.Presentación
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Preparación de las bases del proyecto
+-------------------------------------------------------------
+
+$ ng new componentesAvanzados
+
+#Como preparación del proyecto nos propone:
+
+#1 Incluir un framework de trabajo para css
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"/>
+
+#2 Añadimos unas imágenes en la carpeta assets del proyecto:
+src > app > products > mineralwater-orange.jpg
+src > app > products > mineralwater-strawberry.jpg
+src > app > products > proteinbar-chocolate.jpg
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Instalar modelos, interfaces y componentes base
+-------------------------------------------------------------
+
+#1 Definimos una clase (modelo)
+$ ng generate class models/tienda.model
+$ CREATE src/app/models/tienda.model.spec.ts
+$ CREATE src/app/models/tienda.model.ts
+
+#Entramos en la clase y le cambiamos el nombre (le quitamos el models)
+#y se queda:
+export class Tienda { }
+
+#Ahora definimos el modelo:
+export class Tienda { 
+
+	// Definimos un array para guardar los Items de mi tienda
+	tiendaItems:Array<Object>
+	
+	constructor(){
+		// Cargamos el array con los Items de mi tienda
+		this.tiendaItems = [
+			{
+			texto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed...",
+			titulo: 'Orange Mineral Water ",
+			imagen: "mineralwater-orange.jpg",
+			precio: 20
+			},
+			{
+			texto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed...",
+			titulo: 'Strawberry Mineral Water ",
+			imagen: "mineralwater-strawberry.jpg",
+			precio: 33
+			},
+			{
+			texto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed...",
+			titulo: 'Orange Mineral Water ",
+			imagen: "proteinbar-chocolate.jpg",
+			precio: 120
+			}
+		];
+	}
+
+}
+
+#Ahora creamos un interface que defina la estructura del modelo
+
+$ ng generate interface interfaces/Producto
+CREATE src/app/interfaces/producto.ts
+
+#Entramos en el interface y lo definimos:
+
+export interface Producto {
+	precio?: number;
+	titulo?: string;
+	imagen?: string;
+	texto?:  string;
+}
+
