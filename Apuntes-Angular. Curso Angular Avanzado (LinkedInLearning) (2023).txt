@@ -82,3 +82,57 @@ export interface Producto {
 	texto?:  string;
 }
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Qué son los componentes statefull y staleless
+-------------------------------------------------------------
+
+#Los componentes statefull
+son los componentes que contienen información, operaciones
+y posíblemente otros componentes staleless
+
+
+#Los componentes staleless
+son componentes que no contienen un estado
+en general son componentes simples
+que lo que hacen es desplegar información
+
+#1 Vamos a crear un componente statefull
+$ ng generate component con-estado
+
+#2 Vamos la plantilla de componente principal
+src > app > app.component.html
+
+#3 Incluimos dentro el componente que hemos creado
+<app-con-estado></app-con-estado>
+
+#4 Editamos la clase de nuestro componente con-estado
+src > app > con-estado > con-estado.component.ts
+
+#Importamos el interface y el modelo
+import { Producto } from "../interfaces/producto";
+import { Tienda } from "../models/tienda.model";
+
+#Creamos dos variables en la clase
+export class ConEstadoComponent implements OnInit {
+	modeloTienda:Tienda = new Tienda();
+	itemsComprados:Array<Producto>;
+
+#5 Editamos la plantilla de nuestro componente con-estado
+src > app > con-estado > con-estado.component.html
+... ... ...
+<h1 class="title">PRODUCTOS</h1>
+<div class="columns">
+	<div class="column" *ngFor="let item of modeloTienda.tiendaItems">
+		<!----------- --------------->
+		{{item.titulo}}
+		<!----------- --------------->
+	</div>
+</div>
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Conociendo los componentes statefull
+-------------------------------------------------------------
+
+
