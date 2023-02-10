@@ -415,6 +415,158 @@ isItemDisabled() {
 +Envío de enventos con @Output
 -------------------------------------------------------------
 
+#Estamos trabajando con un componente padre statefull
+#y tres componentes hijos staleless
+
+#Desde el componente padre statefull estamos inyectando información
+#a los componentes hijos staleless
+
+#Para hacer esto hemos declarado en el clase del componente hijo
+#la siguiente declaración: @Input() producto: Producto;
+
+#Tendríamos:
+export class SinEstadoComponent implements OnInit {
+	@Input() producto: Producto;
+
+#Y ahora el componente padre inyecta información
+#a través de ese objeto, en la llamada al componente hijo
+#Añadimos [producto]="item"
+#esto inyecta en nuestro componente hijo sin estado (staleless)
+#en nuestro @Input() producto el item en curso
+
+<div class="column" *ngFor="let item of modeloTienda.tiendaItems">
+<!----------- --------------->
+	<app-sin-estado [producto]="item"></app-sin-estado>
+
+
+#Ahora vamos enviarle información desde los componentes hijos statefull
+#al componente padre staleless para que modifique los datos
+
+#La forma en que vamos a interactuar entre estos dos elementos
+#es a partir de los eventos.
+#Entonces, el componente hijo, cuando reciba algún tipo de cambio relevante
+#en este caso, cuando se le hace clic a un botón
+#va a avisar al padre que hubo una interacción del usuario
+#y que es posible que necesitemos modificar los datos
+#pero nunca el componente sin-estado stateless tiene que realizar esos cambios
+#y todo lo que ocurra dentro del componente con estado debe estar encapsulado.
+
+#1 En la clase del componente sin-estado
+Añadir al import: EvenEmitter y asegurarse que apunta al '@angular/core'
+
+import { Component, OnInit, Input, Output, EvenEmitter } from "@angular/core";
+
+@Input producto: Producto;
+
+#Esto es un emisor de eventos que nos permite enviar información al padre
+@Output productoSeleccionado: EventEmitter<Producto> = new EvenEmitter()
+
+#2 Vamos a reutilizar el evento que tenemos definido en los componentes stateless
+
+<button class="button" (click)="seleccionarItem()" -->Definido en el clic del botón
+
+#En la implementación del método añadimos lo siguiente para despachar el evento
+#emitiremos un evento de tipo producto
+seleccionarItem() {
+	this.disabled = true; // Por defecto en su definición es false
+	this.accionCompra = "AÑADIDO AL CARRITO!";
+	#Para el evento:________________________________
+	this.productoSeleccionado.emit(this.producto)
+}
+
+#3 Ahora implementamos la captura del evento
+#para capturarlo cada vez que se despache cuando ocurra el evento.
+#En Angular siempre capturamos los eventos a partir de los paréntesis.
+#En la plantilla del componente padre statefull añadimos:
+
+<div class="column" *ngFor="let item of modeloTienda.tiendaItems">
+<!----------- --------------->
+	<app-sin-estado 
+		[producto]="item"
+		# Para el evento:________________________________
+		(productoSeleccionado)="onProductoSeleccionado($event)"
+	>
+	</app-sin-estado>
+	
+#4 Ahora en la clase del componente padre statefull implementamos el método:
+onProductoSeleccionado(_event: Producto){
+	console.log(_event);
+}
+
+#5 Ahora hacemos clic sobre uno de los botones de un componente disparando el evento.
+#Ahora podemos ver en la consola del navegador cómo se ha despachado un evento producto
+#y lo hemos capturado correctamente.
+#Se imprime en la consola la información del producto sobre el que hicimos clic.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Integración de componentes statefull con componentes staleless
+-------------------------------------------------------------
+
+#1 Retomamos el ejemplo anterior y cambiamos el console.log
+#por una llamada a un método que ya teníamos implementado:
+
+seleccionarItem(item) {
+	this.itemsComprados.push(item);
+}
+
+onProductoSeleccionado(_event: Producto){
+	seleccionarItem(_event);
+}
+
+#2 En la plantilla de nuestro componente con-estado
+src > app > con-estado > con-estado.component.html
+#Mostrábamos también el array con la lista de items comprados
+<section>
+	<li *ngFor="let itemComprado of itemsComprados">{{itemComprado.titulo}}</li>
+</section>
+
+#3 Retocamos la plantilla de nuestro componente con-estado
+en el apartado anterior para mostrar mejor la información
+Mostramos el título y a su derecha el precio del producto
+<section>
+	<li *ngFor="let itemComprado of itemsComprados">
+		Título:{{itemComprado.titulo}}<br/>
+		Precio:{{itemComprado.precio | currency}}
+	</li>
+</section>
+
+#4 Añadimos también un campo con el total de todos los productos comprados
+<br>Total comprados: {{getPrecioTotal() | currency }}
+
+#5 Implementamos en la clase del componente padre statefull
+#el método para sumar los productos comprados
+
+getPrecioTotal(){
+	if(this.itemsComprados){
+		return this.itemsComprados.reduce(
+			(prev:number,item:Producto) => prev + item.precio, 0);
+		);
+	}
+}
+
+#6 Un cambio más. Para que no se vea el contenido de la sección vacía
+#si aún no hemos comprado compoenentes hacemos la siguiente modificación
+
+<section>
+	<div *ngIf="itemsComprados.length > 0">
+		<p>Listado de elementos comprados</p>
+		<li *ngFor="let itemComprado of itemsComprados">
+			Título:{{itemComprado.titulo}}<br/>
+			Precio:{{itemComprado.precio | currency}}
+		</li>
+	</div>
+</section>
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Interacción entre componentes
++Control de componentes anidados con @viewChild
+-------------------------------------------------------------
+
+
+
 
 
 
