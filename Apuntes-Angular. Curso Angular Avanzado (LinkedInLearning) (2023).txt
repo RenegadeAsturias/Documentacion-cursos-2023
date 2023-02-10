@@ -222,5 +222,199 @@ src > app > con-estado > con-estado.component.html
 +Captura de datos con @Input
 -------------------------------------------------------------
 
+#La relación que se establece entre un componente con estado (statefull)
+#y un componente sin estado (stateless)
+#es prácticamente indispensable que el componente staleless reciba información
+#del componente statefull
+
+#1 En la clase del componente sin estado
+src > app > sin-estado > sin-estado.component.ts
+#Vamos a añadir
+
+import { Producto } from "../../interfaces/producto";
+
+#La nomenglatura: @Input() permite exponer o inyectar información
+#en este ejemplo vamos a recibir un objeto de tipo Producto
+
+export class SinEstadoComponent implements OnInit {
+
+	@Input() producto: Producto;
+
+
+#2 En la plantilla del componente sin estado
+src > app > sin-estado > sin-estado.component.html
+
+#Cambiamos todas las notaciones de referencia al objeto
+#que teníamos cuando estaba acoplada al componente statefull
+#ahora nuestro objeto es: producto
+
+{{item.precio}} -----> {{producto.precio}}
+{{item.titulo}} -----> {{producto.titulo}}
+{{item.imagen}} -----> {{producto.imagen}}
+{{item.texto}} ------> {{producto.texto}}
+
+#3 Ahora nos queda decirle a nuestro componente padre (statefull)
+#que puede enviarnos información sobre el item sobre el que estamos trabajando
+#Modificamos en la plantilla de nuestro componente con-estado
+src > app > con-estado > con-estado.component.html
+... ... ...
+<h1 class="title">PRODUCTOS</h1>
+<div class="columns">
+	<div class="column" *ngFor="let item of modeloTienda.tiendaItems">
+		<!----------- --------------->
+		
+		#Añadimos [producto]="item"
+		#esto inyecta en nuestro componente hijo sin estado (staleless)
+		#en nuestro @Input() producto el item en curso
+		
+		<app-sin-estado [producto]="item"></app-sin-estado>
+		<!----------- --------------->
+	</div>
+</div>
+
+#En resumen el componente padre (statefull) que tiene toda la información
+#inyecta y pasa inforación a su componente hijo (staleless) 
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Lógica interna de un componente staleless
+-------------------------------------------------------------
+
+#El objetivo principal de utilizar componentes stateless
+#es mantener nuestra lógica distribuída y funcional.
+#Podemos utilizar procedimientos internos siempre y cuando permanezcan encapsulados.
+
+#1 En la clase del componente sin estado
+src > app > sin-estado > sin-estado.component.ts
+#Vamos a añadir dos propiedades
+
+export class SinEstadoComponent implements OnInit {
+@Input() producto: Producto;
+
+private disabled:boolean;
+public accionCompra:string;
+
+#Incializamos el valor de una de las variables
+
+#Ojo!!! queremos inicialiar la variable con la siguiente sintaxis:
+this.accionCompra = `BUY FOR € ${this.producto.precio}´};
+
+#Quizás podríamos pensar en colocarlo en el constructor
+constructor() {
+	this.accionCompra = `BUY FOR € ${this.producto.precio}´};
+}
+
+#O quizás podríamos pensar en colocarlo en el ngOnInit() 
+ngOnInit() {
+	this.accionCompra = `BUY FOR € ${this.producto.precio}´};
+}
+
+#Explicación de dónde debería ir y por qué:
+
+#Si lo ponemos en el constructor vamos a tener un problema
+#El constructor va a estar definido en el momento en el que se crea nuestra aplicación
+#pero no en el momento en que invocamos nuestro componente.
+
+#El código debería incluirse en el ngOnInit para que funcione correctamente
+#El ngOnInit nos va desplegar los datos en el momento en que este componente está disponible.
+#cuando ya tenemos acceso a los valores de Producto o Precio.
+
+#2 En la plantilla del componente sin estado
+src > app > sin-estado > sin-estado.component.html
+... ... ... ... ...
+<button class="button" (click)="seleccionarItem(item)" >
+BUY FOR {{item.precio}}€
+</button>
+
+#Reemplazamos el código que teníamos anteriormente:
+BUY FOR € ${this.producto.precio}
+
+#Por la nueva variable que ahora tiene el mismo valor
+<button class="button" (click)="seleccionarItem(item)" >
+	{{accionCompra}} 
+</button>
+
+
+#3 Nos damos cuenta también que cuando movimos el código
+#del componente padre con-estado (statefull) con todos los datos
+#al componente hijo sin-estado (staleless)
+#El siguiente código que manejaba el evento click perdió su funcionalidad:
+
+<button class="button" (click)="seleccionarItem(item)" >
+	{{accionCompra}} 
+</button>
+
+#Cambiamos en la plantilla el código anterior por:
+<button class="button" (click)="seleccionarItem()" >
+	{{accionCompra}} 
+</button>
+
+#4 En la clase del componente sin estado
+src > app > sin-estado > sin-estado.component.ts
+#Vamos a implementar de nuevo el método:
+
+export class SinEstadoComponent implements OnInit {
+
+private disabled:boolean;
+public accionCompra:string;
+
+ngOnInit() {
+	this.accionCompra = `BUY FOR € ${this.producto.precio}´};
+}
+
+seleccionarItem() {
+	this.disabled = true; // Por defecto en su definición es false
+	this.accionCompra = "AÑADIDO AL CARRITO!";
+}
+
+#5 Vamos a cambiar un poco más el componente y vamos a aprovechar la variable disabled
+#En la plantilla del componente sin estado
+src > app > sin-estado > sin-estado.component.html
+#Utilizamos la sintaxis [<propiedad_de_HTML>] para definir su valor
+#Por ejemplo:
+
+#La propiedad HTML disabled del botón tomará su valor del método
+<button class="button" (click)="seleccionarItem()" 
+	[disabled]="isItemDisable()" 
+>
+	{{accionCompra}} 
+</button>
+
+#6 En la clase del componente sin estado
+src > app > sin-estado > sin-estado.component.ts
+#Vamos a implementar el nuevo método
+
+isItemDisabled() {
+	return !this.disabled;
+}
+
+#7 Un último cambio, vamos a añadir una clase css al botón
+#utlizando la siguiente sintaxis:
+
+#La propiedad HTML disabled del botón tomará su valor del método
+#Si el producto no ha sido comprado y por tanto el botón no está disabled
+#se le añadirá una clases que haga más llamativo el botón de comprar
+#y se traduciría por algo así: <button class"button is-danger"...
+
+<button class="button" (click)="seleccionarItem()" 
+	[disabled]="isItemDisable()"
+	[ngClass]="{'is-danger':!isItemDisabled()}"
+>
+	{{accionCompra}} 
+</button>
+
+#Estamos realizando cálculos, realizando procesos dentro de nuestro componente
+#pero en ningún caso afectan a los valores... no estamos cambiando los precios,
+#no estamos cambiando ningún estado...
+#Cada uno de los componentes stalelessse mantiene completamente encapsulado 
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Componentes statefull y staleless
++Envío de enventos con @Output
+-------------------------------------------------------------
+
+
 
 
