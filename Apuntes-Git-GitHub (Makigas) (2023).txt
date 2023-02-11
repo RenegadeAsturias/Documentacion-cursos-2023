@@ -1,0 +1,952 @@
+
+******* Curso Git-GitHub (Makigas) (2023) ********
+
+Referencia: https://www.youtube.com/@makigas
+
+
+1º Crear proyecto desde Visual Studio Code
+
+2º Iniciar repositorio
+Y desde la terminal Bash (C:\\programas\\Git\\bin\\bash.exe)
+Renegade@MiPC MINGW64 /c/proyectos/HelloWorld
+$git init
+
++++Proyecto de estudio de Git y GitHub 2023+++
+
+1º Instalar Git y configurar las variables globales:
+$ git config --global user.name "NombreUsuario"
+$ git config --global user.email "mi.email@gmail.com"
+
+2º Crear un directorio 
+$ mkdir Git-GitHub-2023
+
+3º Inicializando un repositorio en un directorio existente
+$ cd Git-GitHub-2023
+$ git init
+
+Nota: Si llama a la rama como: master
+se puede cambiar el nombre a la rama creada como:
+$git branch -m main (en lugar de master)
+
+También nos permite que se inicialice por defecto el nombre
+de todas las ramas para los proyectos nuevos:
+Utilizando:
+git config --global init.defaultBranch <name>
+
+Repaso comandos:
+$ git status
+$ git add helloWorld.txt
+$ git add .
+$ git commit -m "Este es mi primer commit"
+$ git checkout helloWorld.txt -> Recuperar el contenido del último commit del fichero y descartar los cambios.
+$ git reset -> Descartar todos los cambios actuales y restaurar al estado del último commit
+
+$ git log -> Listado de Commits
+$ git log --graph
+$ git log --graph --pretty=oneline
+$ git log --graph --decorate --all --oneline
+
+#Alias
+$ git config --global alias.tree = "log --graph --decorate --all --oneline" -> crear alias : tree
+$ git tree -> ejecutar alias tree (ejecuta: git log --graph --decorate --all --oneline)
+
+#git ignore
+$ touch .gitignore
+
+Nota: Añadir al fichero .gitignore
+**/DS_Store
+
+$ git add. .gitignore
+$ git commit -m "Se añade el .gitignore"
+$ git status
+
+git diff -> Resumen de cambios efectuados en los ficheros antes de hacer commit
+
+git checkout <hash> -> Navegar a un punto del control de versiones
+git checkout HEAD
+
+#Makigas...
+
+#Nota: *Si se nos ha olvidado meter algún cambio en el último commit
+git add index.html
+git commit --amend -> El último commit ahora incluye también los nuevos cambios en staging area
+
+#Deshacer cambios:
+
+EJEMPLO1 : git checkout -- <file>... -> Para descartar los cambios en el directorio de trabajo
+1º Ejemplo: borrar texto en un archivo que está en el repositorio
+2º Por tanto está modificado en el directorio de trabajo
+3º Ejecutar $ git checkout -- index.html -> Para descartar cambios en el directorio de trabajo
+
+EJEMPLO2 : git reset HEAD <file> -> Para descartar los cambios de staging area (to unstage)
+1º Ejemplo: borrar texto en un archivo que está en el repositorio
+2º Por tanto está modificado en el directorio de trabajo
+3º Ejecutar $ git add .
+4º Ejecutar $ git reset HEAD index.html -> Para descartar los cambios de staging area (to unstage)
+5º Ahora la modificación está en mi directorio de trabajo
+6º Ejecutar $ git checkout -- index.html -> Para descartar cambios en el directorio de trabajo
+
+#Deshacer contenido de un commit [reset|revert]
+#Ojo que el comando: git reset -> es un cambio destructivo
+
+EJEMPLO: git reset
+1º git log --oneline -> Para visualizar el listado de commit y buscar el hash de commit al que queremos volver
+2º Alguien en un commit ha borrado el texto de un fichero
+3º git reset f5f0388  -> Elimina los commits futuros para volver al hash seleccionado
+4º git status -> Se muestra el fichero como modificado: 'modified: index.html' en mi directorio de trabajo
+porque el contenido del fichero de mi directorio de trabajo contiene aún el fichero con el texto borrado
+para actualizar el texto borrado del repositorio en mi fichero del mi directorio de trabajo
+5º git checkout -- index.html
+
+EJEMPLO: git reset --hard <hash>
+1º Alguien en un commit ha borrado el texto de un fichero
+2º git reset --hard f5f0388  -> Elimina los commits futuros para volver al hash seleccionado
+3º git status -> Todo ok
+se ha sobreescrito el contenido del fichero del commit seleccionado también en mi directorio de trabajo y en el staging area
+
+EJEMPLO: git reset --soft <hash>
+1º Alguien en un commit ha borrado el texto de un fichero
+2º git reset --soft f5f0388  -> Elimina los commits futuros para volver al hash seleccionado
+3º git status -> Se muestra el fichero como modificado: 'modified: index.html' en el staging area
+se ha sobreescrito el contenido del fichero del commit seleccionado en mi directorio de trabajo y está pendiente en el staging area
+
+#Sintaxis HEAD
+Puntero al Commit que tenemos en revisión
+
+$ git log --oneline --decorate (el flag --decorate -> Visualiza los punteros de nuestro repositorio como (HEAD -> master)
+b4844be (HEAD -> master) Embellece el sitio web
+f5f0388 Indica que el sitio web está a punto de ser inaugurado
+ab18c91 Nueva plantilla de la página web
+...		...
+
+Podemos utilizar la en la sintaxis el nombre del puntero HEAD
+Por ejemplo: HEAD~1 -> Un commit antes de HEAD 
+Por ejemplo: HEAD~2 -> Dos commits antes de HEAD
+
+git diff HEAD~1 HEAD -> Compara el último commit HEAD, con su anterior
+
+#git revert 
+
+EJEMPLO: git revert (para deshacer un commit)
+Para deshacer un commit:
+b4844be (HEAD -> master) Embellece el sitio web
+f5f0388 Indica que el sitio web está a punto de ser inaugurado
+ab18c91 Nueva plantilla de la página web
+
+git revert b4844be (O también git revert HEAD) -> Se deshace el cambio revirtiendo las líneas del cambio mostradas en diff
+Ahora hacemos un commit para reflejar el cambio:
+1234567 Revert "Embellece el sitio web"
+
+
+EJEMPLO: git revert (para deshacer dos commits)
+Para deshacer dos commits:
+7d0829a (HEAD -> master) Blink, blink, blink
+b4844be Embellece el sitio web
+f5f0388 Indica que el sitio web está a punto de ser inaugurado
+ab18c91 Nueva plantilla de la página web
+
+#Una opción es replicar el procedimiento anterior:
+git revert 7d0829a
+git revert b4844be
+# ...pero entonces tendremos dos commits para revertir la situación
+# y desearíamos evitar esto
+d1f5d0a (HEAD -> master) Revert "Blink, blink, blink"
+6e060c0 Revert "Embellece el sitio web"
+7d0829a Blink, blink, blink
+b4844be Embellece el sitio web
+
+#Otra opción
+git revert --no-commit HEAD   -> Deshace el primer commit: HEAD, deja los cambios en staging area y no pide commit
+git revert --no-commit HEAD~1 -> Deshace el segundo commit: HEAD~1, deja los cambios en staging area y no pide commit
+# y ahora:
+# (all conflicts fixed: run "git revert --continue")
+# (use "git revert --abort" to cancel the revert operation)
+# Ejecutamos
+git revert --continue -> Nos pide comentario para el commit y se crea un único commit
+433f33d (HEAD -> master) Revert "Embellece el sitio web"
+7d0829a Blink, blink, blink
+b4844be Embellece el sitio web
+
+#Ramas
+$ git branch
+* main (old master) -> Rama activa y única rama actualmente
+
+$ git branch feature-newstyle -> Crea una nueva rama
+$ git branch 
+  feature-newstyle -> Rama creada
+  * main -> Rama activa
+
+#Cambiar de rama
+$ git checkout feature-newstyle
+
+#Crear una nueva rama y cambiarse a ella
+$ git checkout -b feature-newhomepage
+
+#Cambiar/Renombrar el nombre de una rama
+git branch -m feature-newhomepage feature-newhome
+
+#Borrar una rama
+git branch -d testing
+
+#Commits (18/01/2023)
+
+git log --oneline --decorate --all
+git log --oneline --decorate --all --graph
+
+#Fusiones-Merges: merge
+
+1º Partimos de:
+
+* 4c794ae (HEAD -> fix-fecha) Retrasar la apertura de la web
+* 433f33d (master) Revert "Embellece el sitio web"
+* 7d0829a Blink, Blink, Blink
+
+2º Queremos fusionar el commit 4c794ae, de la rama: fix-fecha con la rama master
+
+3º Ir a rama destino:
+$ git checkout master
+
+2º Indicar rama origen:
+$ git merge fix-fecha
+
+Por defecto, se utiliza la estrategia de Fast-forward
+*Tienes que hacer una fusión entre una rama que tiene modificaciones: fix-fecha
+y otra rama que no tiene modificaciones: master
+
+Para solucionar esta fusión, con  la estrategia Fast-forward
+Git mueve el puntero de la rama master apuntando al HEAD
+de esta forma la rama master ya tiene todos los commits anteriores más el nuevo fusionado.
+
+* 4c794ae (HEAD -> master, fix-fecha) Retrasar la apertura de la web
+* 433f33d Revert "Embellece el sitio web"
+* 7d0829a Blink, Blink, Blink
+
+
+*Estrategia de fusión recursiva
+
+* 4c794ae (HEAD -> master, fix-fecha) Retrasar la apertura de la web
+ * 214960d (feature-newstyle) Retoca el estilo de la página
+* 433f33d Revert "Embellece el sitio web"
+
+se utiliza cuando queremos fusionar cambios en dos ramas en las que ambas tienen cambios
+* 4c794ae (HEAD -> master) y * 214960d (feature-newstyle) 
+
+Nosotros tenemos que juntar cambios hechos en una rama con cambios hechos en la otra rama
+para ello crearemos un tercer commit
+en el que se integren los cambios hechos en ambas ramas
+En ambas ramas se han añadido y eliminado filas
+y Git intentará apliacar los cambios de la rama origen sobre la rama destino
+y si Git lo consigue automáticamente, se completará guardando el nuevo commit con los cambios.
+*Merge made by the 'recursive' stratagy
+
+* 1b660bf (HEAD -> master) Merge branch 'feature-newstyle'
+ * 214960d (feature-newstyle) Retoca el estilo de la página
+* 4c794ae (fix-fecha) Retrasar la apertura de la web
+* 433f33d Revert "Embellece el sitio web"
+
+#Alias
+Se guardan en la configuración de Git
+
+#Comando que queremos asignar a un alias
+$ git log --oneline --decorate --all --graph
+
+#Crear alias asignando a 'alias.lodag' el comando anterior
+$ git config --global alias.lodag 'log --oneline --decorate --all --graph'
+
+#Ejecutar el alias
+$ git lodag
+* 02e0665 (HEAD -> main, mejora-descripcion-proyecto) Mejora descripción proyecto
+* 38d25a1 Creación del proyecto
+
+#Si lo necesitamos se le pueden añadir más parámetros extras
+$ git lodag --graph --all
+
+#Otro ejemplo
+#Para eliminar un archivo del staging area, utilizamos la sintaxis: 
+use "git reset HEAD <file>..." to unstage
+
+#Crear alias asignando a 'alias.unstage' el comando anterior
+$ git config --global alias.unstage 'reset HEAD --'
+
+#Para hacer el unstage de un fichero index.html de un fichero que hemos subido por error al unstage.
+git unstage index.html
+
+#Para ver todos los alias
+git config --global --get-regexp alias
+
+#Para borrar un alias
+git config --global --unset alias.lodag
+
+
+#Resolver Conflictos ******************************************
+***************************************************************
+*************************************************************** .INICIO
+
+#Se ha producido un conflicto al intentar fusionar dos ramas: main y mejora-descripcion-proyecto
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main)
+$ git merge mejora-descripcion-proyecto
+Auto-merging README.txt
+CONFLICT (content): Merge conflict in README.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+$
+
+#Para resolver el conflicto, abrimos el fichero donde Git ha detectado el conflicto
+#Nos encontraremos:
+
+<p>Prueba proyecto README!</p>
+
+<p>Proyecto de propósito educacional.</p>
+
+<<<<<<< HEAD
+        <p>Período 2023/2024</p>
+=======
+        <p>Año actual 2023</p>
+>>>>>>> mejora-descripcion-proyecto
+
+#En el detalle del conflicto que inicia por: 
+<<<<<<< + Commit vigente HEAD en la Rama destino main
+#Seguido del texto del fichero en la Rama destino main
+<p>Período 2023/2024</p>
+
+#Una separación para el conflicto, que representa:
+=======
+
+#En el detalle del conflicto que continúa por
+el texto del fichero de la rama origen
+<p>Año actual 2023</p>
+# Y Finaliza con 
+>>>>>>> mejora-descripcion-proyecto (Siendo mejora-descripcion-proyecto la rama origen)
+
+#PARA RESOLVER EL Conflictos
+Corregir manualmente el conflicto y dejar el código generado por Git
+el contenido que se espera que sea el definitivo.
+
+#**************************************************************************
+#Una vez resolvemos el conflicto Git nos indica las opciones: 
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+$ git status
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   README.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+
+#Ejecutamos $ git add .
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+$ git add .
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+$ git status
+On branch main
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+        modified:   README.txt
+
+#Y Ahora finalizamos con el commit correspondiente
+
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main|MERGING)
+$ git commit -m "Conflicto resuelto"
+[main 5dfffc1] Conflicto resuelto
+
+#Todo OK
+
+*   5dfffc1 (HEAD -> main) Conflicto resuelto
+|\
+| * bb9f6b7 (mejora-descripcion-proyecto) Año actual 2023
+* | dcc7530 (fix-anio-vigente) Perído 2023/2024
+* | a385e3d Actualizado Año actual 2023
+|/
+* 02e0665 Mejora descripción proyecto
+* 38d25a1 Creación del proyecto
+
+#Resolver Conflictos ******************************************
+***************************************************************
+*************************************************************** .FIN
+
+#Tags/Etiquetas (LIGEROS) *************************************
+***************************************************************
+*************************************************************** .INICIO
+
+Los Tags sirven para identificar Commits particulares
+y que nos permita identificarlo mediante algún tipo de alias
+Un Commit que deseamos que pueda perdurar para utilizar como referencia
+o nos sirva para que nos permita volver facilmente.
+
+Crearemos un Tag, y se va a generar un alias asociado a ese Commit en particular
+
+El uso más normal de los Tags el etiquetar versiones de los proyectos
+
+#Creamos un Tag sobre la rama main
+$ git tag v0.2.0
+
+#Sobre el Commit HEAD, el último de mi repositorio, queda indicado el Tag creado
+Renegade@MiPC MINGW64 /c/proyectos/GitGitHub2023 (main)
+$ git lodag
+*   5dfffc1 (HEAD -> main, tag: v0.2.0) Conflicto resuelto
+|\
+| * bb9f6b7 (mejora-descripcion-proyecto) Año actual 2023
+* | dcc7530 (fix-anio-vigente) Perído 2023/2024
+* | a385e3d Actualizado Año actual 2023
+|/
+* 02e0665 Mejora descripción proyecto
+* 38d25a1 Creación del proyecto
+
+#Creamos un nuevo Tag para un commit concreto, por ejemplo:
+$ git tag v0.1.0 02e0665
+
+#Sobre el Commit indicado 02e0665, queda indicado el Tag creado
+* 02e0665 (tag: v0.1.0) Mejora descripción proyecto
+* 38d25a1 Creación del proyecto
+
+#Ahora utilizamos el Tag creado para hacer un checkout, en lugar de indicar el hash del commit
+$ git tag v.0.1.0
+
+#Visualizar un listado de Tags
+$ git tag
+v0.1.0
+v0.2.0
+
+#Ayuda de las opciones del comando
+$ git tag -h
+
+#Tags/Etiquetas (LIGEROS) *************************************
+***************************************************************
+*************************************************************** .FIN
+
+#Tags/Etiquetas (ANOTADOS) ************************************
+***************************************************************
+*************************************************************** .INICIO
+
+Los Tags Anotados son punteros + información
+
+Filtros de tags:
+$ git tag -l
+v0.1.0
+v0.2.0
+
+$ git tag -l "v0.1.*"
+v0.1.0
+
+$ git tag -l "v0.*.0"
+v0.1.0
+v0.2.0
+
+#Borramos los tags ligeros que tenemos:
+$ git tag -d v0.1.0 >> Deleted tag 'v0.1.0' (was 02e0665)
+$ git tag -d v0.2.0 >> Deleted tag 'v0.2.0' (was 5dfffc1)
+
+#Creamos un tag anotado (-a)
+$ git tag -a v.1.0 >> Nos pedirá un mensaje para el Tag
+
+Ejemplo:
+Primera versión del sitio web.
+*Los cambios que introducen esta versión son: xxxxxxxxxxxxxxxxxx
+*Los bugs que arreglan esta versión son: xxxxxxxxxxxxxxx
+
+$ git log...
+*   5dfffc1 (HEAD, tag: v0.1.0, main) Conflicto resuelto
+
+#Para ver los detalles de nuestro Tag anotada
+$ git show v0.1.0
+
+#También podemos utilizar el subcomando: show para ver detalles de main
+
+$ git show main
+
+commit 5dfffc11cc5b715b848b1d3f3ced968a98f611f6 (HEAD, tag: v0.1.0, main)
+Merge: dcc7530 bb9f6b7
+Author: XXXXXX <xxxxxx.xxxxxx@gmail.com>
+Date:   Thu Jan 19 00:33:54 2023 +0100
+... ...
+
+#También podemos utilizar el subcomando: show para ver detalles de commit
+
+$ git show 5dfffc11cc5b715b848b1d3f3ced968a98f611f6
+
+Commit 5dfffc11cc5b715b848b1d3f3ced968a98f611f6 (HEAD, tag: v0.1.0, main)
+Merge: dcc7530 bb9f6b7
+Author: XXXXXX <xxxxxx.xxxxxx@gmail.com>
+Date:   Thu Jan 19 00:33:54 2023 +0100
+
+
+################################################################
+
+#Stash ¿Cómo esconder cambios en Git?
+#Hemos hecho cambios en nuestro proyecto y los hemos añadido en el staging area
+#necesitamos cambiar de rama pero no queremos/podemos hacer un commit con los cambios
+#y al mismo tiempo no queremos perder los cambios.
+#utilizamos el stash para guardar los cambios en el repositorio pero que no se vean
+
+$ git status
+Changes to be committed:
+	modified:   README.txt
+
+#Utilizamos el stash para guardar los cambios
+$ git stash
+Saved working directory and index state WIP on (no branch): 5dfffc1 Conflicto resuelto
+
+#Ahora han dejado de visializarse los cambios pendientes
+$ git status
+nothing to commit, working tree clean
+
+#Para visualizar los elementos de la lista que tengo guardados en el stash:
+$ git stash list
+stash@{0}: WIP on (no branch): 5dfffc1 Conflicto resuelto
+
+#Para recuperar y aplicar los últimos cambios 
+#que tengo guardados en el stash en mi directorio de trabajo
+$ git stash apply
+Changes not staged for commit:
+	modified:   README.txt
+	
+#Para visualizar los elementos de la lista que tengo guardados en el stash:
+$ git stash list
+stash@{0}: WIP on (no branch): 5dfffc1 Conflicto resuelto
+
+#Para eliminar el primer elemento de la lista que tengo guardado en el stash:
+$ git stash drop
+Dropped refs/stash@{0} (5b22790c1a517969c99d54620ee29ea7e48f3dfb)
+
+#Otro comando para guardar en el stash, personalizando con un comentario
+$ git stash save "He modificado el archivo README.txt"
+Saved working directory and index state On (no branch): He modificado el archivo README.txt
+
+#Ahora se visializa con el comentario
+$ git stash list
+stash@{0}: On (no branch): He modificado el archivo README.txt
+
+#Se puede obtener más información de un stash con
+$ git stash show stash@{0}
+ README.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+#Para aplicar al mismo tiempo el apply y el drop
+#es decir, aplicar y sacar de la pila utilizamos
+$ git stash pop
+Changes not staged for commit:
+	modified:   README.txt
+
+Dropped refs/stash@{0} (404389dcf984bf79dc9d6d146f24aae82fca283c)
+
+
+################################################################
+
+#Remotos 2023
+
+#Actualmente para utilizar un remoto ya no se utiliza usuario/contraseña para iniciar una sesión
+#sino que se utiliza un token. Esto es así desde el 13 de agosto de 2021.
+
+#1º Vamos a generar un Token desde mi cuenta de GitHub
+#2º Ir a: Settings -> Developer Settings -> Personal Access Tokens
+#3º Generate new token > Introducir un nombre para el Token
+#4º Seleccionar un Expiration para el Token
+#5º En la sección de Select scopes seleccionar el check 'repo' si corresponde
+#6º Hacer clic en el botón 'Generate token'
+#7º Guardar el token generado porque no podrá ser visualizado nunca más.
+
+#Según la documentación de GitHub
+Using a token on the command line
+Once you have a token, you can enter it instead of your password when performing Git operations over HTTPS.
+For example, on the command line you would enter the following:
+
+$ git clone https://github.com/USERNAME/REPO.git
+Username: YOUR_USERNAME
+Password: YOUR_TOKEN
+
+#8º Añadiremos y configuramos un nuevo remoto:
+$ git remote set-url origin https://<Username>:<Token>@github.com/<user>/<repo>.git
+
+$ git remote set-url remote-git-github-2023 https://RenegadeAsturias:<Token>@github.com/RenegadeAsturias/Git-GitHub-2023.git
+
+#9º Ahora ya puedo actualizar mi repositorio remoto de GitHub
+$ git push remote-git-github-2023 main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 372 bytes | 372.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/RenegadeAsturias/Git-GitHub-2023.git
+   f783001..a6df762  main -> main
+ 
+
+.......Continuamos.........
+
+#Para ver nuestra lista de remotos
+$ git remote
+remote-git-github-2023
+
+#Para subir nuestro repositorio a la nube escribimos
+#origin=nombre del remoto y main=nombre de la rama que queremos subir
+#en mi ejemplo origin=remote-git-github-2023
+
+$ git push <origin> main
+
+#Y si queremos subir todas las ramas de golpe si tenemos más de una
+$ git push <origin> --all
+
+#Para descargar un proyecto de GitHub a nuestro ordenador
+$ git clone https://github.com/RenegadeAsturias/Git-GitHub-2023.git
+
+#Hacemos un cambio sobre el repositorio, hacemos un commit y subimos el cambio a GitHub
+#utilizando el remoto creado y la rama que queremos subir
+$ git push remote-git-github-2023 main
+
+#Para descargarnos los cambios del proyecto de GitHub utlizamos
+$ git pull remote-git-github-2023 main
+
+################################################################ Marca añadida desde el editor de GitHub para la prueba de git pull
+
+$ git pull remote-git-github-2023 main
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 736 bytes | 7.00 KiB/s, done.
+From https://github.com/RenegadeAsturias/Git-GitHub-2023
+ * branch            main       -> FETCH_HEAD
+   19b7a7e..f76cc4c  main       -> remote-git-github-2023/main
+Updating 19b7a7e..f76cc4c
+Fast-forward
+ Git-GitHub-2023.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+
+################################################################
+
+#A partir de los remotos tenemos más ramas:
+$ git branch --all
+* main
+  remotes/remote-git-github-2023/main
+
+#Así, cuando creamos el remoto, se nos creó también la rama:
+  remotes/remote-git-github-2023/main
+  
+#Eso es así, porque los remotos no son más que ramas
+#De hecho, podemos hacer esto, para cambiarnos de rama:
+
+$ git checkout remote-git-github-2023/main
+
+
+################################################################
+
+#El comando pull
+$ git pull remote-git-github-2023 main
+
+#es la combinación de dos comandos:
+
+#1º *** El primer comando es 'fetch'
+#que se conecta al remoto, comprueba si tiene cambios y se los descarga
+$ git fetch remote-git-github-2023
+
+#Ojo! que se los descarga sobre la rama remota: remote-git-github-2023
+#porque como vimos en el apartado anterior, el remoto también es una rama
+
+#2º *** El segundo comando es 'merge'
+#porque en realidad lo que se hace es una fusión entre los cambios de la rama remota
+#que se ha descargado con el comando fetch
+#con el contenido de la rama local de nuestro repositorio: main
+git merge remote-git-github-2023/main
+
+#Nota: Si a partir del comando fetch no se descargaron cambios porque no los encuentra
+#entonces no se fusionará nada a la rama del repositorio local.
+
+
+################################################################
+
+#Nos podemos encontrar en la siguiente situación que deberíamos tener en cuenta
+
+#Tenemos nuevos cambios sobre el repositorio remoto
+#quizás algún compañero haya estado subiendo nuevo código 
+#yo he estado desarrollando cambios nuevos y he hecho un commit en el repositorio local
+#por tanto tenemos cambios en ambas ramas: remota y local
+
+#Ahora cuando yo haga un:
+$ git pull remote-git-github-2023 main
+
+#Git utilizará la técnica recursiva para resolver esta incidencia
+#en lugar de la técnica de Fast-forward que se utilizaría si no hubiese cambios en la rama remota
+#esto nos exigirá crear un Commit temporal para resolver la fusión.
+
+#¿Cómo lo evitamos?
+
+#1º Forma de evitarlo, ejecutando un 'fetch' antes de hacer un commit
+#que se conecta al remoto, comprueba si tiene cambios y se los descarga:
+$ git fetch remote-git-github-2023
+
+
+#2º Forma de evitarlo, utlizar el parámetro a la hora de llamar a pull qu se llama 'rebase'
+$ git pull --rebase remote-git-github-2023 main
+
+#Utilizando esta estrategia de utilizar el parámetro --rebase
+#Git se encuentra en la misma situación que anteriormente
+#es decir, cambio en la rama local y cambio en la rama remota
+#pero ahora en lugar de utilizar una estrategia recursiva para solucionar el problema
+#tratará de reordenar por tiempo los commits de ambas ramas
+#y será capaz de solucionar el problema realizando una fusión sin necesidad un commit temporal.
+
+
+################################################################
+
+#Utilizando el comando rebase
+#Este comando reescribe el historial, es un comando destructivo y va alterar el historial
+#No hay que tocar el historial de cosas que hayan sido pusheadas
+#porque otros usuarios también tiene acceso a commits que dejarían de existir
+#Utilizarlo para cambios no pusheados
+
+#Contexto, partimos de nuestra rama main en la que tenemos nuestro trabajo:
+$ git log --oneline --decorate --all --graph
+* 5d8a4ec (HEAD -> main) Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#Creamos una nueva rama y añadiremos nuevos cambios
+$ git checkout -b nueva-caracteristica
+Switched to a new branch 'nueva-caracteristica'
+
+#Añadimos nuevos cambios sobre la nueva rama: cambioA y cambioB
+$ git log --oneline --decorate --all --graph
+* efe5f58 (HEAD -> nueva-caracteristica) Cambio B
+* 0dc4ec1 Cambio A
+* 5d8a4ec (main) Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#Ahora necesitamos cambiarnos otra vez a la rama main y añadimos un cambioC
+$ git log --oneline --decorate --all --graph
+* 165e0ee (HEAD -> main) Cambio C
+| * efe5f58 (nueva-caracteristica) Cambio B
+| * 0dc4ec1 Cambio A
+|/
+* 5d8a4ec Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#Volvemos de nuevo a la rama nueva-caracteristica y añadimos un cambioD
+$ git log --oneline --decorate --all --graph
+* 80e4e35 (HEAD -> nueva-caracteristica) Cambio D
+* efe5f58 Cambio B
+* 0dc4ec1 Cambio A
+| * 165e0ee (main) Cambio C
+|/
+* 5d8a4ec Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#Si ahora hiciésemos una fusión con un merge de ramas main y nueva-caracteristica
+#se resolvería con una estrategia recursiva
+#y tendríamos que solucionar la fusión con un commit temporal que no aporta nada
+
+#Recordatorio: Este comando reescribe el historial, es un comando destructivo y va alterar el historial
+#No hay que tocar el historial de cosas que hayan sido pusheadas
+#porque otros usuarios también tiene acceso a commits que dejarían de existir
+#Utilizarlo para cambios no pusheados
+
+#Queremos pedirle a Git que nos aplique los cambios de alguna otra forma
+#para que los cambios queden más ordenados
+#y la fusión se pueda resolver por la estrategia de FAST-FORWARD
+
+#1º En la rama que quiero integrar más adelante: nueva-caracteristica
+#ejecutamos:
+
+$ git rebase main
+Successfully rebased and updated refs/heads/nueva-caracteristica.
+
+#Todos los cambios han sido aplanados!!
+#Git modifica los punteros de anterior y siguiente de forma que quede plano
+#Esta es la parte destructiva del 'rebase' porque creado nuevos hashes para ello
+$ git log --oneline --decorate --all --graph
+* cdc2d18 (HEAD -> nueva-caracteristica) Cambio D
+* 2da8405 Cambio B
+* 5a38829 Cambio A
+* 165e0ee (main) Cambio C
+* 5d8a4ec Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#Esto tiene la ventaja de que ahora vamos a la rama main
+$ git checkout main
+Switched to branch 'main'
+
+#Y fusionamos la rama main con la rama nueva-caracteristica
+#Y se resuelve con la estrategia de Fast-forward
+$ git merge nueva-caracteristica
+Updating 165e0ee..cdc2d18
+Fast-forward
+ cambioA | 0
+ cambioB | 0
+ cambioD | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 cambioA
+ create mode 100644 cambioB
+ create mode 100644 cambioD
+
+ 
+$ git log --oneline --decorate --all --graph
+* cdc2d18 (HEAD -> main, nueva-caracteristica) Cambio D
+* 2da8405 Cambio B
+* 5a38829 Cambio A
+* 165e0ee Cambio C
+* 5d8a4ec Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+
+################################################################
+
+#Rebase interactivo: reescribir el historial
+
+#Podemos cambiar el orden de los commits
+#Podemos modificar el mensaje de un commit previo
+#Podemos aplastar commits en un único commit
+
+#Recordar, que si cambiamos el historial también cambiamos sus hashes
+
+#¿Cómo hacer un rebase interactivo?
+
+#Vamos a intentar aplastar los commits
+#y que los commits: cambioA, cambioB, cambioC, cambioD, se queden en un único commit:
+$ git log --oneline --decorate --all --graph
+* cdc2d18 (HEAD -> main, nueva-caracteristica) Cambio D
+* 2da8405 Cambio B
+* 5a38829 Cambio A
+* 165e0ee Cambio C
+* 5d8a4ec Cambio tres
+* 5933cfb Cambio dos
+* a70e7b8 Cambio uno
+
+#1º Identificamos los commits sobre los que queremos aplicar, en este caso
+#estos cuatro:
+* cdc2d18 (HEAD -> main, nueva-caracteristica) Cambio D
+* 2da8405 Cambio B
+* 5a38829 Cambio A
+* 165e0ee Cambio C
+
+#2º Ejecutamos:
+$ git rebase -i HEAD~4
+
+#Se nos muestra en el editor, las siguientes opciones:
+
+pick 165e0ee Cambio C
+pick 5a38829 Cambio A
+pick 2da8405 Cambio B
+pick cdc2d18 Cambio D
+
+# Rebase 5d8a4ec..cdc2d18 onto 5d8a4ec (4 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+#         create a merge commit using the original merge commit's
+#         message (or the oneline, if no original merge commit was
+#         specified); use -c <commit> to reword the commit message
+# u, update-ref <ref> = track a placeholder for the <ref> to be updated
+#                       to this position in the new commits. The <ref> is
+#                       updated at the end of the rebase
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+
+#3º Por ejemplo, vamos a cambiar el orden de los commits para que queden en orden
+#cambiamos las líneas pick del fichero del editor y guardamos
+
+Successfully rebased and updated refs/heads/main.
+
+#Y ahora se muestran ordenados pero ojo, que han cambiado los hashes
+* 31bc950 (HEAD -> main) Cambio D
+* 99e4f76 Cambio C
+* ccc4f80 Cambio B
+* 1220ef6 Cambio A
+
+#4º Por ejemplo, vamos a aplastar commits
+#supongamos que queremos cargarnos 3 de los commits
+#y que todos lo cambios queden en un único commit
+#Cambiamos las líneas del fichero, cambio los pick que quiero descartar por un squash
+#después de guardar, se nos pedirá un nuevo texto para el commit resultante
+#Ejecutamos:
+$ git rebase -i HEAD~4
+
+pick 1220ef6 Cambio A
+squash ccc4f80 Cambio B
+squash 99e4f76 Cambio C
+squash 31bc950 Cambio D
+
+#5º Después de guardar y cerrar el comando nos pedirá un nuevo texto para el commit resultante
+#Nos sugiere
+
+# This is a combination of 4 commits.
+# This is the 1st commit message:
+
+Cambio A
+
+# This is the commit message #2:
+
+Cambio B
+
+# This is the commit message #3:
+
+Cambio C
+
+# This is the commit message #4:
+
+Cambio D
+
+
+#6º Y dejamos como mensaje del commit global un mensaje genérico
+#Ejemplo:
+
+Cambios para la funcionalidad requerida
+
+$ git rebase -i HEAD~4
+[detached HEAD 151522f] Cambios para la funcionalidad requerida
+ Date: Sun Jan 22 20:48:02 2023 +0100
+ 4 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 cambioA
+ create mode 100644 cambioB
+ create mode 100644 cambioC
+ create mode 100644 cambioD
+Successfully rebased and updated refs/heads/main.
+
+#7º Se queda así:
+$ git log --oneline --all
+151522f (HEAD -> main) Cambios para la funcionalidad requerida
+cdc2d18 (nueva-caracteristica) Cambio D
+2da8405 Cambio B
+5a38829 Cambio A
+165e0ee Cambio C
+5d8a4ec Cambio tres
+5933cfb Cambio dos
+a70e7b8 Cambio uno
+
+
+
