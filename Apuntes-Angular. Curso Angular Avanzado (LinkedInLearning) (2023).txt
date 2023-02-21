@@ -168,7 +168,7 @@ src > app > con-estado > con-estado.component.html
 #Vamos a mostrar también el array con la lista de items comprados
 #Así desplegamos un componente de tipo statefull
 <section>
-	<li *ngFor="let itemComprado of itemsComprados">{{itemComprado.titulo}}
+	<li *ngFor="let itemComprado of itemsComprados">{{itemComprado.titulo}}</li>
 </section>
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -407,7 +407,7 @@ isItemDisabled() {
 #Estamos realizando cálculos, realizando procesos dentro de nuestro componente
 #pero en ningún caso afectan a los valores... no estamos cambiando los precios,
 #no estamos cambiando ningún estado...
-#Cada uno de los componentes stalelessse mantiene completamente encapsulado 
+#Cada uno de los componentes staleless se mantiene completamente encapsulado 
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -452,14 +452,14 @@ export class SinEstadoComponent implements OnInit {
 #y todo lo que ocurra dentro del componente con estado debe estar encapsulado.
 
 #1 En la clase del componente sin-estado
-Añadir al import: EvenEmitter y asegurarse que apunta al '@angular/core'
+Añadir al import: EventEmitter y asegurarse que apunta al '@angular/core'
 
-import { Component, OnInit, Input, Output, EvenEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Input producto: Producto;
 
 #Esto es un emisor de eventos que nos permite enviar información al padre
-@Output productoSeleccionado: EventEmitter<Producto> = new EvenEmitter()
+@Output productoSeleccionado: EventEmitter<Producto> = new EventEmitter()
 
 #2 Vamos a reutilizar el evento que tenemos definido en los componentes stateless
 
@@ -547,7 +547,7 @@ getPrecioTotal(){
 }
 
 #6 Un cambio más. Para que no se vea el contenido de la sección vacía
-#si aún no hemos comprado compoenentes hacemos la siguiente modificación
+#si aún no hemos comprado componentes hacemos la siguiente modificación
 
 <section>
 	<div *ngIf="itemsComprados.length > 0">
@@ -565,8 +565,149 @@ getPrecioTotal(){
 +Control de componentes anidados con @viewChild
 -------------------------------------------------------------
 
+#Debajo del listado de items comprados vamos a tener un botón 'Buy now!'
+#y queremos que cuando haga clic me aparezca una ventana de confirmación
+
+#Creamos un nuevo componente:
+$ ng generate component alerta-confirmacion
+
+#En la clase del nuevo componente añadimos:
+export class AlertaConfirmacionComponent {
+	public active:Boolean;
+	constructor(){
+		this.active = true;
+	}
+	ocultar() {
+		this.active = false;
+	}
+}
+
+#Vamos a añadir este componente al componente padre: 
+#con-estado.component.html
+
+<app-alerta-confirmacion></app-alerta-confirmacion>
+
+#Ahora vamos a generar una ventana modal
+#Inicialmente en el proyecto incluimos Bulma:
+
+#1 Incluir un framework de trabajo para css
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"/>
+
+#Esto nos ayuda a crear un plantilla que es una ventana modal:
+
+<div class="modal" [ngClass]="{'is-active':active}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Modal title</p>
+            <button class="delete" aria-label="close" (click)="ocultar()"></button>
+        </header>
+        <section class="modal-card-body">
+            Content ...
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success">Save changes</button>
+            <button class="button" (click)="ocultar()">Cancel</button>
+        </footer>
+    </div>
+</div>
+
+#Y en la clase del componente de la ventana modal: alerta-confirmacion.component.ts
+#De momento tenemos:
+
+export class AlertaConfirmacionComponent {
+	public active:Boolean;
+	constructor(){
+		this.active = false; // Por defecto el componente no se muestra
+	}
+	ocultar() { // Se oculta con los botones de cerrar y cancelar de la ventana modal
+		this.active = false;
+	}
+	mostrar() { // Y aún está pendiente llamar para mostrar
+		this.active = true;
+	}
+}
+
+#Explicación:
+
+#En la plantilla del componente padre, con-estado.component.html
+#tenemos la implementación del botón de comprar:
+#Y el componente anidado o componente hijo:
+<button class="button" 
+	(click)="realizarPago()"
+	[disabled]="noHayItemsComprados()">BUY NOW!
+</button>
+<app-alerta-confirmacion></app-alerta-confirmacion>
+
+#Y en la clase del componente padre, con-estado.component.ts
+#tenemos la implementación del método: realizarPago()
+
+#Este método va a tratar de controlar el componente anidado
+#o el componente hijo:
+<app-alerta-confirmacion></app-alerta-confirmacion>
+
+#Lo hacemos a través de una propiedad @ViewChild
+#ViewChild básicamente expone los componentes que se encuentran
+#dentro de un componente hijo
+
+#Añadimos a la clase del componente padre, con-estado.component.ts
+
+@ViewChild(AlertaConfirmacionComponent, {static:false})
+
+#Y ahora importamos los componentes:
+import { AlertaConfirmacionComponent } from "./../alerta-confirmacion/alerta-confirmacion-component";
+import { Component, OnInit, ViewChild } from "@angular/core";
+
+#Y ahora creamos una instancia del componente:
+@ViewChild(AlertaConfirmacionComponent, {static:false})
+alertChild:AlertaConfirmacionComponent;
+
+#Ya tenemos las bases para controlar el componente hijo
+#sin acceder directamente a él
+
+#Retomamos la implementación del método:
+getPrecioTotal(){
+	// this.alertChild. -->Esto nos da acceso a todo el componente y a todos sus métdos.
+	this.alertChild.mostrar(); // Para mostrar el componente
+}
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Interacción entre componentes
++Estrategias de detección de cambios
+-------------------------------------------------------------
 
+#En esta lección aprenderemos que son y cómo podemos administrar 
+#los controles de cambios dentro de Angular
+#En nuestra aplicación actual tenemos tres diferentes niveles de anidado.
 
+#Control de cambios
+#Vamos al componente que gestiona los productos: sin-estado.component.ts
+#Lo que vamos a hacer es que le vamos a declarar
+#una política o una estrategia de control de cambios.
+
+#Añadimos en el decorador:
+import { ..., EventEmitter, ChangeDetectionStrategy } from "@angular/core"
+
+@Component({ ...
+	#Tenemos dos diferentes políticas: Default, que es la que tenemos por defecto
+	#changeDetection: ChangeDetectionStrategy.Default
+	#Con esta estrategia: la aplicación estaba invocando los métodos 
+	#de todos los componentes y de los hijos de esos componentes a su vez
+	
+	#Tenemos dos diferentes políticas: OnPush
+	#changeDetection: ChangeDetectionStrategy.OnPush
+	#Cambiamos la estrategia y seleccionamos: OnPush
+	#Y comprobamos que ahora cuando hacemos clic en un componente hijo de nivel 3
+	#solo se está llamado a esa imagen específica.
+	
+#Vemos que solamente los cambios relacionados con ese componente
+#afectan a los hijos del mismo
+#Esta estrategia es particularmente útil si estamos trabajando 
+#con una gran cantidad de componentes que a su vez tienen hijos,
+#y puedan hacer que nuestra aplicación se vuelva ineficiente.
+#En la medida de lo posible, si realizas algún timpo de lista
+#que incluya componentes, te recomiendo que al menos evalúes la opción
+#de incluir un control de cambios.
 
