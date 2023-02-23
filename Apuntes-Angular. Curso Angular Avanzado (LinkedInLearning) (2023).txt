@@ -711,3 +711,226 @@ import { ..., EventEmitter, ChangeDetectionStrategy } from "@angular/core"
 #que incluya componentes, te recomiendo que al menos evalúes la opción
 #de incluir un control de cambios.
 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Inicialización de datos con @OnInit
+-------------------------------------------------------------
+
+#¿Qué diferencia hay entre un constructor y el evento ngOnInit?
+constructor(){ }
+ngOnInit(){ }
+
+#En Angular ambos se ejecutan al inicio de un componente
+
+#Pero vamos a ver un ejemplo de un caso concreto:
+#En la clase del componente tenemos algo parecido a:
+
+export class SinEstadoComponent implements OnInit {
+
+// Sobre este componente se está inyectando un componente:
+@Input() producto: Producto;
+
+#Ahora en el constructor añadimos la siguiente línea
+constructor() {
+	this.accionCompra=`BUY FOR ${this.producto.precio}`;
+}
+
+#En la consola del navegador podemos ver el siguiente error:
+#ERROR TypeError: Cannot read property 'precio' of undefined
+
+#El constructor se va a ejecutar cuando se inicializa nuestra aplicación
+#Y el objeto si nos ha sido inyectado pero 'precio' una de sus partes no está.
+
+#¿Por qué puede estar pasando?
+#El componente se crea en el momento en que se crea toda la apliación
+#y en ese momento se ejecuta el constructor
+#pero en ese momento aún no hemos desplagado la lista donde se están
+#inyectando los valores propios de este objeto.
+
+#Nosotros tenemos que esperar a que los componentes que van a gestionar
+#este componente estén disponibles
+#esto puede ocurrir rápidamente... o en un minuto... o en diez minutos
+#no sabemos en qué momento va a ocurrir
+
+#ngOnInit() y todos los eventos de Angular
+#están relacionados con el ciclo de vida de un componente
+
+#En el caso de ngOnInit() es lo primero que va a ocurrir
+#en cuanto se inicialice el componente
+#Un componente se inicializa en el momento en que nosotros lo llamamos
+#o lo desplegamos dentro del DOM
+#para que esto ocurra ya tenemos disponibles los valores del objeto
+
+#Esto funcionará correctamente
+ngOnInit() {
+	this.accionCompra=`BUY FOR ${this.producto.precio}`;
+}
+
+#En general si necesitas inicializar valores que vengan de una fuente externa
+#o que tengas que procesarlos a través de un proceso externo del componente
+#casi siempre la mejor idea es utilizar el evento ngOnInit.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Limpieza de datos con @OnDestroy
+-------------------------------------------------------------
+
+#Hablemos del evento OnDestroy:
+
+#En nuestra aplicación en el evento: ngOnInit tenemos:
+ngOnInit() {
+	this.tiendaSubscripcion = this.http
+			.get("http://localhost:4200/assets/data/data.json")
+			.subscribe((resultados:Array<Object>) => {
+				this.modeloTienda = resultados;
+			}
+	});
+}
+
+#Básicamente en el momento en que se inicializa mi componente
+#me pongo a consumir datos y con eso voy a desplegar la información
+#se muestran el listado de productos que vienen del fichero json
+
+#Hasta aquí todo está perfecto
+#sin embargo, donde comienzan a aparcer los problemas
+#y es muy importante tener en cuenta que todo componente tiene un ciclo de vida
+#Así como nosotros estamos inicializando la conexión a internet 
+#dentro de este componente con el evento ngOnInit
+#si por alguna razón nosotros sacamos este componente de la aplicación
+#al mantener una subscripción y por la naturaleza de las suscripciones
+#que pueden ser muchísimas otras cosas, no necesariamente las suscripciones,
+#cualquier elemento que nosotros creemos y se mantenga vivo,
+#que se mantenga activo dentro de ngOnInit
+#tenemos que destruirlo en su opuesto que es el evento ngOnDestroy
+
+#Para implementar el evento que no viene por defecto hay que:
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+
+export class ConEstadoComponent implements OnInit, OnDestroy {
+
+#El evento ngOnDestroy se va a ejecutar siempre que cerremos un componente:
++Cuando cerremos la navegación
++Cuando ejectamos algún tipo de lógia que destruya el componente
++Algo que haga que salga del DOM
+
+#Hay muchas situaciones dentro de Angular que puede invocar un componente
+#a ser destruído.
+#Si tenemos cualquier elemento que permanezca activo en el ngOnInit
+#vamos a destruirlo en el evento ngOnDestroy.
+
+#De esta forma no solo vamos a remover nuestro componente
+#sino todas las llamadas y todos los punteros de memoria que esté ocupando.
+ngOnDestroy() {
+	this.tiendaSubscripcion.unsubscribe(); // Detiene la escucha de la subscripción a ese enlace web
+}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Detección de cambios con @OnChanges
+-------------------------------------------------------------
+
+#Veremos cómo tener un control aún mayor sobre los cambios
+#que realizamos dentro de los valores de nuestra apliación
+#En la aplicación de ejemplo, donde estamos mostrando nuestros tres productos
+#ha implementado un shopping cart
+#donde puede añadir los elementos al carrito de compra con un botón de añadir
+#y donde puede sacarlos del carrito de compra con un botón de quitar
+
+#Para la implementación del Shopping cart ha añadido un nuevo componente:
+ng generate component shopping-cart-status
+
+#1 En la clase del componente ha añadido:
+export class ShoppingCartStatusComponent implements OnInit {
+
+	@Input() precio:number;
+	@Input() modeloDeTienda:Array<Producto>;
+
+	@Output() pagar:EventEmitter<null> = new EventEmitter();
+
+	constructor() { }
+
+	ngOnInit() { }
+
+	realizarPago() {
+		this.pagar.emit();
+	}
+
+}
+
+#2 En la plantilla del componente: con-estado, añadimos el componente:
+
+<app-shopping-cart-status></app-shopping-cart-status>
+<app-alerta-confirmacion [cantidad]="precioTotal"></app-alerta-confirmacion>
+
+#3 Añadimos los inputs en la etiqueta del componente,
+con los objetos que nos inyectará en nuestro componente: shopping-cart-status
+el componente padre con-estado:
+
+<app-shopping-cart-status 	
+							#Nos inyecta el precio total de los productos añadidos al carrito
+							[precio]="precioTotal" 
+							#Nos inyecta un array con los productos añadadidos al carrito
+							[modeloDeTienda]="modeloTienda.tiendaItems"
+							#Añadimos un evento que nos va a permitir hacer el pago:
+							(pagar)="onPagar()">
+</app-shopping-cart-status>
+
+#Podemos detectar los cambios pero nos vamos a proponer la siguiente implementación
+#por una funcionalidad que nos ha pedido el cliente, podremos añadir productos
+#al carrito pero cuando el usuario quite algún producto del carrito tendremos
+#que mostrarle un aviso.
+#Así que tenemos que rastrear que el usuario no saque productos del shopping cart
+
+#Vamos a añadir un nuevo evento de Angular que se llama: onChanges()
+
+#Este evento detecta cuando hay cambios 
+#Un punto muy importante sobre la implementación del evento onChanges()
+#es que solo funciona dentro de componentes hijos.
+
+#¿Por qué? Porque lo que vamos a rastrear son los cambios, changes,
+#que se realicen dentro de los elementos en este caso, los inputs
+#O sea, si precio o modelo tienen un cambio nosotros lo vamos a detectar
+#y vamos a poder reaccionar acorde a estos cambios
+
+#Para implementar el evento onChanges(), añdimos:
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from "@angular/core";
+
+export class ShoppingCartStatusComponent implements OnInit, OnChanges {
+
+#Recibimos como parámetro un tipo específico porque recibimos valores específicos
+ngOnChanges(cambios:SimpleChanges) {
+	#De momento para ver lo que recibimos:
+	console.log(cambios);
+}
+
+#Al añadir un producto al carrito en la consola se muestra:
+{precio:SimpleChange}
+precio: SimpleChange
+	currentValue:20
+	firstChange:false
+	previousValue:undefined
+	
+#Añadimos otro producto al carrito en la consola se muestra:
+{precio:SimpleChange}
+precio: SimpleChange
+	currentValue:53
+	firstChange:false
+	previousValue:20
+	
+#Con este evento podemos llevar un control de los diferentes cambios
+#Terminamos la implementación del evento con la petición funcional:
+
+#Si el precio actual es menor que el precio anterior, es porque ha sacado
+#un producto del carrito y le mostramos un mensaje al usuario:
+
+ngOnChanges(cambios:SimpleChanges){
+	if(cambios.precio.currentValue < cambios.precio.previousValue) {
+		alert("¿Seguro que deseas sacar items?");
+	}
+}
+
+
+
