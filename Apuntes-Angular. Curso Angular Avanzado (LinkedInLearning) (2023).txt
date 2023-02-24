@@ -933,4 +933,127 @@ ngOnChanges(cambios:SimpleChanges){
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Detección de cambios con @DoCheck
+-------------------------------------------------------------
+
+#En esta lección vamos a ver un tipo de evento que se activa
+#cuando hacemos cambios dentro del DOM.
+
+#En la clase del componente ShoppingCartStatusComponent
+#vamos a añadir un nuevo evento @DoCheck
+
+import { Component, ..., Input, Output, ..., OnInit, DoCheck } from "@angular/core";
+
+export class ShoppingCartStatusComponent implements OnInit, DoCheck {
+... ... ...
+
+ngDoCheck() { 
+	console.log("DoCheck activado!");
+}
+
+#DoCheck es un evento que es parte del ciclo de vida de un componente 
+#y en este caso se activa cada vez que realizamos un cambio en el DOM.
+
+#En el caso de DoCheck lo que hace es que realizamos un chequeo
+#una revisión, cada vez que se modifica el DOM.
+#Esto incluye añadir un elemento al shopping-cart
+#y que se muestre en el listado de productos comprados
+#o también en el caso de que hagamos clic
+#sobre el botón de comprar BUY NOW y se muestra la ventana emergente
+#y como se muestra dentro del DOM, lo afecta, ngDoCheck se activa.
+
+#Este tipo de evento es particularmente útil cuando necesitamos
+#estar rastreando todo lo que ocurre en pantala.
+#Un problema a tener en cuenta si decidimos utilizar este evento
+#es que este evento se va activar muchas veces 
+#y tendremos un coste de rendimiento
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Capturar el evento clic del mouse
+-------------------------------------------------------------
+
+#En esta lección vamos a ver cómo interactuar con el ratón.
+#Vamos a la plantilla del componente sin-estado.component.html
+
+#Queremos añadir un menú contextual con información extra para
+#uno de los productos mostrados, añadimos:
+<div class="contextual" [ngClass]="{ invisible: menuVisible }" >
+	{{ producto.titulo }}
+	{{ producto.precio | currency }}	
+</div>
+
+#Por defecto, se visualiza el título y el precio
+#pero queremos que cuando se haga clic sobre el producto se oculte
+#utilizando el class invisible, a través de la variable menuVisible
+
+#Hablando un poco sobre cuál es la sintaxis general
+#de todos los eventos en Angular, que es bastante consistente.
+#Siempre va a ser, dentro de una etiqueta por ejemplo un div
+#vamos a poner entre paréntesis el nombre del evento que queremos capturar.
+#y luego vamos a poner que es igual a el método que queremos que se ejecute
+#y que sea llamado en el momento en que ese evento se active.
+
+#Para el ejemplo que estamos realizando, en el div del producto mostrado, tendremos:
+<div class="is-one-quarter" 
+	(contextmenu)="onRightClick()"
+	(click)="onRegularClick()" >
+
+#En la clase del componente sin-estado.component.ts, también añadimos:
+private menuVisible: boolean;
+
+onRegularClick() {
+	this.menuVisible = true; // Esto activa la condicional y se oculta el div
+}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Capturar el clic derecho del mouse
+-------------------------------------------------------------
+
+#Ahora vamos a cambiar el comportamiento de nuestra aplicación de ejemplo
+#para que se muestre el div con el título y el precio
+#cuando haga clic con el botón derecho del ratón
+
+#Cambiamos en el css, el estilo de .contextual a:
+display:none; // Para que no se muestre
+
+#Y en la plantilla cambiamos la clase invisible por visible:
+<div class="contextual" [ngClass]="{ visible: menuVisible }" >
+	{{ producto.titulo }}
+	{{ producto.precio | currency }}	
+</div>
+
+#Ahora vamos a capturar el evento del clic derecho, 
+#el evento que lo hace es: contextmenu:
+<div class="is-one-quarter" 
+	(contextmenu)="onRightClick()"
+
+#En la clase del componente sin-estado.component.ts dejamos:
+onRegularClick() { this.menuVisible = false; }
+onRightClick() 	 { this.menuVisible = true;  }
+
+#Ahora por defecto cuando entramos el div contextual no aparece
+#Y al hacer clic con el botón derecho del ratón se muestra el div contextual, 
+#pero también se muestra el menú contextual del navegador y no queda bien
+#para solucionarlo, 
+#debemos evitar que se activen las reacciones por defecto del sistema
+#Añadimos: return false;
+onRightClick() { 
+	this.menuVisible = true;
+	// Esto detiene la ejecución regular de este evento
+	// que sería finalmente mostrar el menú contextual
+	return false; 
+}
+
+#Con el clic regular, se cambia el estado de la variable
+#y el valor de la clase y por tanto se oculta el div contextual
+#con el título y el precio.
+
+
+
 
