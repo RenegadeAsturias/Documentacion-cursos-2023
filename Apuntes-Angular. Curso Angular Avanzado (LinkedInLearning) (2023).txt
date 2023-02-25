@@ -1111,4 +1111,82 @@ onTeclado(_evento) {
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Captura global de eventos de teclado
+-------------------------------------------------------------
+
+#En el ejemplo anterior nuestra escucha del evento de que el usuario
+#pulse la tecla Enter estaba limitada al input de texto.
+
+#Ahora nos gustaría tener un control global para que cuando el usuario
+#quiera realizar la compra y se le muestre la ventana de pago
+#no tenga necesariamente el cursor en el input
+#sino que sea una escucha global en todo el formulario.
+
+#Para nuestro ejemplo, empezamos borramos el input anterior
+#de la plantilla de nuestro componente shopping-cart-status.component.html
+<input type="text" (keydown)="onTeclado($event)" />
+
+#Lo que vamos a hacer es que vamos a escuchar los eventos del teclado
+#a través de Javascript.
+#Vamos a la clase del componente shopping-cart-status.component.ts
+#En el evento ngOnInit
+#este evento se va activar en el momento en que mi componente,
+#específicamente, en este caso, el shopping cart se inicialice;
+#Así que dentro de este evento voy a incluir una implementación
+#que va a ser activarEventoTeclado:
+
+Vamos a escuchar un evento, keypress 
+#Así que cada vez que el usuario presione una tecla, lo vamos a escuchar
+#es una escucha global
+#Le pasamos el evento como parámetro a nuestra anterior método
+#por tanto ahora funciona igual que antes pero la escucha es global
+
+ngOnInit() {
+	this.activarEventoTeclado();
+}
+
+activarEventoTeclado(){
+	document.addEventListener("keypress", (evento)=>{
+		this.onTeclado(evento);
+	})
+}
+
+onTeclado(_evento) {
+	if(_evento.code==="Enter") {
+		this.realizarPago();
+	}
+}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Prevenir fugas de memoria por eventos globales
+-------------------------------------------------------------
+
+#En esta lección vamos a ver como prevenir posibles fugas de memoria
+#y efectos indeseados en la escucha de eventos globales
+
+#Con el ejemplo anterior tenemos los siguientes problemas identificados
+#al utilizar document. estamos escuchando en los eventos del todo el navegador
+#esta escucha va más allá del ciclo de vida de la aplicación
+#y más allá del ciclo de vida del componente
+#por tanto aunque cierre la pestaña la escucha de eventos keypress persiste
+
+#Para evitar este problema, buscamos el evento ngOnDestroy
+#este evento se activa cuando cerramos o destruimos un componente
+
+import { Component, ..., OnDestroy } from "@angular/core";
+
+export class ShoppingCartStatusComponent implements OnInit, OnChanges, OnDestroy {
+
+#Es absolútamente crítico que lo incluyamos
+#cada vez que hagamos este tipo de llamadas globales
+ngOnDestroy(){
+	document.removeEventListener("keypress",this.onTeclado);
+}
+
+
+
 
