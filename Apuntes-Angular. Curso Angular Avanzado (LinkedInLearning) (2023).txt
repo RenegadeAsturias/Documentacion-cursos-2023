@@ -1012,7 +1012,7 @@ onRegularClick() {
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 4. Eventos y ciclo de vida en Angular
-+Capturar el clic derecho del mouse
++Capturar el clic derecho del ratón
 -------------------------------------------------------------
 
 #Ahora vamos a cambiar el comportamiento de nuestra aplicación de ejemplo
@@ -1054,6 +1054,61 @@ onRightClick() {
 #y el valor de la clase y por tanto se oculta el div contextual
 #con el título y el precio.
 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. Eventos y ciclo de vida en Angular
++Captura de eventos del teclado con Angular
+-------------------------------------------------------------
+
+#Vamos a modificar nuestro componente de shopping-cart-status
+#para escuchar eventos de teclado:
+
+#Vamos a la plantilla del componente shopping-cart-status.component.html
+#Y añadimos un 
+<input type="text"
+
+#Ahora vamos a enlazar este input type="text"
+#con un listener o un evento de Angular
+#para poder escucharlo dentro de nuestro código
+#y para eso vamos a utilizar la sintaxis general que tiene Angular
+#que es entre paréntesis poner el evento que queremos escuchar
+#Específicamente, vamos a escuchar un evento llamado (keydown)
+#y vamos a relacionarlo con un método, en este caso, se va a llamar onTeclado()
+#También vamos a necesitar inyectar información 
+#que es la información que nos está llegando del evento de teclado
+#hay varios datos que nos van a llegar desde allí.
+#Así que vamos a utilizar un objeto especial llamado (Event)
+#que nos muestra toda la información que llega desde este evento
+#que en este caso es keydown. Tendremos:
+<input type="text" (keydown)="onTeclado($event)" />
+
+#Vamos a la clase del componente shopping-cart-status.component.ts
+#donde implementamos el método: onTeclado
+
+onTeclado(_evento) {
+	console.log(_evento);
+}
+
+#Ahora cada vez que escribimos en el input type"text"
+#y pulsamos una letra se muestra el evento en la consola
+#Algo así:
+> KeyboardEvent {....
+	code: "KeyA"
+	... ... ... ..
+
+#Entonces, por ejemplo si nosotros queremos detectar la tecla Enter
+#Al pulsar Enter dentro del input de texto se muestra:
+> KeyboardEvent {....
+	code: "Enter"
+	keyCode: 13
+	... ... ... ..
+
+#Entonces lo implementamos en el método:
+onTeclado(_evento) {
+	if(_evento.code==="Enter") {
+		this.realizarPago();
+	}
+}
 
 
 
