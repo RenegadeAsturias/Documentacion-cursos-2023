@@ -1188,5 +1188,186 @@ ngOnDestroy(){
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Preparación de un formulario
+-------------------------------------------------------------
+
+#Angular, por definición, tiene una serie de librerías incluídas dentro de su core,
+#pero para funcionalidades adicionales, tenemos que importar estos elementos
+
+#Hemos creado un proyecto nuevo: ng new formularios
+#Y abrimos el fichero: app.module.ts
+#que es donde se encuentra la configuración básica de mi proyecto
+#así que dentro de este archivo, vamos a importar las librerías
+#relacionadas con los formularios.
+
+#La librería que vamos a necesitar se llama, específicamente FormsModule,
+#Importamos el módulo FormsModule
+import { FormsModule } from "@angular/forms"
+
+#Ahora que está listo y que está importado dentro de nuestra aplicación
+#tenemos que importarlo dentro del tiempo de ejecución:
+@NgModule({
+	declarations: [...],
+	imports: [BrowserModule, AppRoutingModule, FormsModule ],
+... ... ... ...
+
+#Ahora ya podemos trabajar con los elementos relacionados
+#con formularios que ya vienen incluídos dentro de Angular
+
+#Creamos un nuevo componente
+ng generate component formulario-basico
+
+#En la plantilla del componente: formulario-basico.component.html
+#Añadimos el siguiente código:
+
+<div class="container">
+	<section class="section">
+		<h1 class="title">Contact</h1>
+		<div class="column is-full">
+			<form></form>
+		</div>
+	</section>
+	<section></section>
+</div>
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Elementos básicos de un formulario NgFor y NgModel
+-------------------------------------------------------------
+
+#En esta lección vamos a mostrar los pasos básicos para conectar 
+#un formulario con los datos de Angular.
+
+#Utilizando el componente que creamos en el punto anterior
+#vamos a crear un formuario básico para conectarlo
+#y generar los primeros pasos de implementación de Angular
+#dentro de un formulario
+
+#Con la sintaxis: 
+<form #formulario="ngForm">
+
+#siendo 'formulario' el nombre/identificador de mi formuario en el sistema
+#Y ahora, este formulario está conectado con Angular
+#y vamos a tener algunas propiedades especiales
+
+<div class="container">
+	<section class="section">
+		<h1 class="title">Contact</h1>
+		<div class="column is-full">
+			<form #formulario="ngForm">
+				<div class="control">
+					<label class="label">Username</label>
+					<input type="text" name="user" required ngModel #user="ngModel" />
+				</div>
+			</form>
+		</div>
+	</section>
+	<section></section>
+</div>
+
+#Con esta sintaxis tenemos conectada nuestra primera casilla conectada con Angular
+<input type="text" name="user" required ngModel #user="ngModel" />
+
+#El siguiente paso es leer la información,
+#y esto es una de las partes más interesantes que tiene Angular
+#porque podemos leer la información en tiempo real 
+#Añado:
+
+<p>{{formulario.value | json}}</p>
+			-- Donde voy a conectarme a los datos que están en este formulario
+			-- ahora formulario, se comporta como una variable local
+			-- con formulario.value -nos va a dar los valores que hay dentro de este formulario
+			-- y también le vamos a indicar que nos lo muestre en formato JSON 
+			-- a traves de este pipe '| json', esto va darle formato JSON a la información.
+
+#Vemos nuestro ejemplo en el navegador
+#Y tenemos un label que dice Username y tenemos nuestra caja de texto
+#La caja de texto, en este caso, está haciendo algo 
+#que en Angular se llama conexión en dos vías
+#o sea, nosotros tenemos un objeto de datos que en este caso es user
+#y ese objeto de datos puede ser modificado 
+#por lo que hagamos dentro de esta casilla de texto
+#y esa sería la conexió en una vía
+#La otra vía sería que si nosotros modificamos el objeto,
+#el objeto modifica también la entrada de texto.
+#Así que uno modifica al otro y viceversa.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Envío de Datos con NgSubmit
+-------------------------------------------------------------
+
+#Completamos nuestro ejemplo anterior
+#con los elementos típicos de un formulario normal de html para su envío:
+#añadimos las propiedades 'action', 'method' y un botón submit:
+<form #formulario="ngForm" action="proceso.php" method="POST">
+	<div class="control">
+		<label class="label">Username</label>
+		<input type="text" name="user" required ngModel #user="ngModel" />
+	</div>
+	<input type="submit" />
+</form>
+
+#Pero aunque vemos el formulario en le navegador
+#y hacemos clic en el botón de submit añadido al formulario este no se envía.
+
+#El problema es que estamos tratando de mezclar dos elementos diferentes
+
+#1º En un formulario de Angular no vamos a tener que llamar elementos externos
+#de momento eliminamos: action="proceso.php" method="POST"
+
+#2º Otra cosa que vamos a hacer es que necesitamos capturar 
+#el evento en el momento en que el usuario hace clic en el botón Submit
+#Así que vamos a capturar ese evento a través de la sintaxis general
+#que tiene Angular para capturar eventos, que es entre paréntesis
+#y en este caso es un evento especial llamado: ngSubmit
+
+<form #formulario="ngForm" (ngSubmit)="onSubmit()" >
+
+#Ahora tenemos que capturar los datos
+#para ello vamos utilizar el nombre de la instancia: #formulario
+#y enviarla como parámetro dentro del método: onSubmit(formuario)
+
+<form #formulario="ngForm" (ngSubmit)="onSubmit(formuario)" >
+
+#Y ahora implementamos el método en la clase del componente formulario-basico.component.ts
+#y recogemos el parámetro con los datos
+#vamos a capturar la información cada vez que se haga submit
+
+onSubmit(_datos) {
+	console.log(_datos);
+}
+
+#Ahora vemos en la consola la información de nuestro NgForm
+
+NgForm {submitted:true, ..., ngSubmit:EventEmitter, form: FormGroup)
+> form: FormGroup
+> ngSubmit
+> _directives: [NgModel]
+
+#Con la sintaxis:
+console.log(_datos.value); // Para ver los valores
+
+#Modificamos nuestro formulario y añadimos un nuevo campo más 'email':
+
+<div class="control">
+	<label class="label">Username</label>
+	<input type="text" name="user" required ngModel #user="ngModel" />
+</div>
+<div class="control">
+	<label class="label">Email</label>
+	<input type="text" name="email" required ngModel #email="ngModel" />
+</div>
+
+#Y ahora con: console.log(_datos.value);
+#Vemos en la consola el resultado enviado después de hacer submit:
+{user: "usuario", email: "correo"}
+email: "correo"
+user: "usuario"
+
 
 
