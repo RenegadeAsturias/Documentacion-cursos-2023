@@ -1370,4 +1370,236 @@ email: "correo"
 user: "usuario"
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Validación básica de datos en NgModel
+-------------------------------------------------------------
+
+#Vamos a ver como hacer una validación básica en un formulario Angular
+
+#1º Buscamos la etiqueta form y activamos una propiedad llamada novalidate:
+<form #formulario="ngForm" (ngSubmit)="onSubmit()" novalidate >
+
+#Esta propiedad novalidate lo que hace es que va a eliminar
+#las validaciones nativas del navegador, o sea, las validaciones de HTML5
+#Lo hacemos para evitar conflictos entre la validación de HTML5
+#Y la validación de Angular
+#Entonces lo que vamos a hacer es utilizar esta etiqueta: novalidate
+#para que no ocurran este tipo de incompatibilidades.
+
+#2º Ahora añadimos la etiqueta: required de HTML5
+#para que esos valores sean requeridos:
+
+<form #formulario="ngForm" (ngSubmit)="onSubmit()" novalidate >
+	<div class="control">
+		<label class="label">Username</label>
+		<input type="text" name="user" required ngModel #user="ngModel" required />
+	</div>
+	<div class="control">
+		<label class="label">Email</label>
+		<input type="text" name="email" required ngModel #email="ngModel" required />
+	</div>
+	<input type="submit" />
+</form>
+
+#3º También queremos que el botón submit no esté activo
+#hasta que la información tenga el formato adecuado
+#Para eso vemos el valor de una propiedad:
+{{formulario.valid}}
+
+#En pantalla vemos que el valor de la propiedad es false
+#hasta que rellenamos algún caracter en cada caja de texto
+#Vamos a aprovechar este valor binario
+#para hacer que nuestro botón de submit se active y se desactive
+
+#Dentro de Angular siempre vamos a tener acceso a las propiedades de una etiqueta
+#a través de los corchetes
+#En este caso, vamos a modificar una etiqueta de HTML llamada disabled
+
+<input type="submit" [disabled]="!formulario.valid" />
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Implementar formularios reactivos en Angular
+-------------------------------------------------------------
+
+#En esta lección se mostrará cómo convertir un formulario utilizando ngModule
+#a un formulario reactivo de Angular.
+
+#Vamos a hacer algunos cambios sobre el ejemplo del formulario ngModule
+#para que el formulario se convierta en un formulario reactivo
+
+#1º Buscamos app.module.ts
+#En él tenemos la importación de módulos, como FormsModule
+#que nos permite mostrar el formulario actual
+import { FormsModule } from "@angular/forms"
+
+#Y ahora añadimos: ReactiveFormsModule
+
+import { FormsModule, ReactiveFormsModule } from "@angular/forms"
+
+#Esto es básicamente otro módulo que nos va a permitir
+#utilizar la opción reactiva de los formularios de Angular.
+
+#2º En la sección de 'imports' añadimos también el módulo
+#Ahora que está listo y que está importado dentro de nuestra aplicación
+#tenemos que importarlo dentro del tiempo de ejecución:
+
+@NgModule({
+	declarations: [...],
+	imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+... ... ... ...
+
+#3º Creamos un nuevo componente: formularioreactivo
+
+$ ng generate component formularioreactivo
+
+#4º Hemos copiado en la plantilla el mismo código de nuestro formulario NgModel anterior
+#Y en la clase de momento solo hemos copiado la implementación del método:
+
+onSubmit(_datos) {
+	console.log(_datos);
+}
+
+#5º Empezamos con los cambios para convertir el formulario NgModel en un formulario Reactivo
+#El primer cambio que vamos a notar, es que en los formularios reactivos
+#vamos a necesitar realizar algunos pasos adicionales al inicio de nuestro código
+#así que vamos a comenzar primero importando algunos elementos
+
+#Dentro de la clase del componente que vamos a utilizar añadimos:
+import { FormGroup, FormBuilder } from "@angular/forms";
+
+#6º Ahora dentro del constructor vamos a añadir un nuevo elemento
+
+constructor( private fb: FormBuilder ) { }
+
+#Este parámetro que es un FormBuilder nos va permitir
+#construir nuestro formulario y toda la estructura de él.
+#Una de las principales diferencias que tienen los formularios reactivos
+#es que nos permiten crear una estructura de datos
+#que después vamos a aplicar dentro del formulario, 
+#a diferencia de los formularios que utilizan ngModule
+#que lo que vamos a hacer es generar una estructura de datos
+#a partir de los elementos que ya están dentro del formulario.
+#En otras palabras, la dirección es a la inversa, 
+#el código controla la plantilla y no la plantilla al código.
+
+#7º Incluimos en la clase el evento ngOnInit
+import { Component, OnInit } from "@angular/core";
+
+export class FormularioReactivoComponent implements OnInit {
+
+#8º inicializamos el formulario antes del ngOnInit
+formulario:FormGroup;
+
+#9º Y ahora dentro del ngOnInit vamos a iniciarlizar los valores
+#que deberían estar dentro de nuestro formulario
+
+ngOnInit() {
+	#Lo igulamos a una instancia de un FormBuilder
+	#Vamos a crear un FormBuilder
+	this.formulario = this.fb.group... 
+
+	#Vamos a definir qué es lo que va a tener este FormGroup.
+	#En este caso, vamos a incluir, dentro de las llaves
+	#un objeto de Javascript donde van a estar los diferentes elementos
+	#que van a componer nuestro formulario.
+	#Empezamos por incluir los dos componentes 'user' e 'email'
+	#que teníamos en la plantilla del formulario ngModel
+	this.formulario = this.fb.group({
+		name: "", // Si quisiesemos podríamos inicialiar con un valor. Ej. name: "René"
+		email: ""
+	});
+
+}
+
+#10º Ahora vamos a modificar la plantilla del formulario ngModel
+#Cambiamos #formulario="ngForm" que está declarando como una variable local
+#Y lo voy a crear como un FormGroup: --> [formGroup]="formulario"
+#tal cual como está definido en el controlador:
+#formulario:FormGroup;
+
+#11º Cambiamos los items:
+#Cambio esto:
+<input type="text" name="user" required ngModel #user="ngModel" required />
+#por esto:
+<input formControlName="name" />
+
+#Cambio esto:
+<input type="text" name="email" required ngModel #email="ngModel" required />
+#por esto:
+<input formControlName="email" />
+
+#12º Y ahora tenemos nuestro formulario reactivo básico funcionando.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Generar validación de datos
+-------------------------------------------------------------
+
+#Vamos a realizar operaciones de validaciones
+#en un formulario reactivo de Angular
+
+#1º Vamos a incluir una validación.
+#Las validaciones están incluídas dentro del módulo de Forms
+
+#Incluimos en el import: Validators
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+
+#y esto nos va a dar acceso a una serie de elementos 
+#que van a aplicar validaciones. Por ejemplo:
+
+ngOnInit() {
+	this.formulario = this.fb.group({
+		name:  ["René", Validators.required],
+		email: ["", Validators.required]
+	});
+}
+
+#Si en vez de tener una sola validación tenemos más
+#será un array de validaciones:
+
+ngOnInit() {
+	this.formulario = this.fb.group({
+		name:[
+				"René", 
+				[Validators.required, Validators.minLength(3), Validators.maxLength(8)]
+			],
+		email: ["", [Validators.email, Validators.required]]
+	});
+}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Formularios reactivos en Angular
++Despliegue de mensajes de error
+-------------------------------------------------------------
+
+#Vamos a ver cómo incluir mensajes de error dentro de un formulario
+#a través de las herramientas que nos ofrecen los formulario reactivos de Angular
+
+#Un detalle interesante que tienen los formularios reactivos es que,
+#por definición, son más eficientes que los formularios normales de Angular.
+#En el caso de los formularios de Angular tenemos una conexión en dos vías.
+#En este caso, tenemos un conexión en una vía que es reactiva
+#a cualquier acción que tenga el usuario.
+#Es muchísimo más eficiente esta forma.
+
+
+#Añadimos:
+<input formControlName="name" />
+<div class="error"
+	 *ngIf="formulario.get('name').hasError('required')">
+	 Campo obligatorio
+</div>
+
+#Para acceder a la información sobre errores en formularios reactivos
+#Revisar este detalle, que nos da información sobre las validaciones
+#que se aplican, las que se cumplen y las que no se cumplen:
+<section>{{ formulario.controls.name.errors | json }}</section>
+
+
+
 
