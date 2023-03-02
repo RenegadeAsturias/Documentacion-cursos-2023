@@ -1601,5 +1601,62 @@ ngOnInit() {
 <section>{{ formulario.controls.name.errors | json }}</section>
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Conociendo las pruebas unitarias
++Cómo funcionan las pruebas unitarias de Angular
+-------------------------------------------------------------
+
+#Visualizamos el contenido del fichero: app.component.spec.ts
+#Y vemos una descripción general de su contenido:
+
+describe('AppComponent',() => { // Vamos a probar AppComponent
+
+#1. Función beforeEach que podemos ejecutar antes de cada una de las pruebas:
+berforeEach(async(() => { ...
+
+#Esta función es importante porque nos va a permitir reiniciar el componente
+#para tenerlo listo, sin ningún tipo de variable, sin ningún tipo de valor adicional
+#ni manipulación, antes de cada prueba.
+
+#2. Tenemos:
+it('should create the app', () => { ...
+});
+#Donde mencionamos qué es lo que esperamos que realice la prueba:
+#con: 'should create the app' -Debería crear la aplicación
+#Y en el cuerpo se decribe la prueba
+const fixture = TestBed.createComponent(AppComponent);
+const app = fixture.debugElement.componentInstance;
+expect(app).toBeTruthy();
+
+#3. Podemos tener todas las pruebas que necesitemos
+#para el componente.
+
+#4. Para ejecutar las pruebas
+#En el fichero: package.json tenemos
+
+"scripts": {
+	... ... ...
+	"test": "ng test", // Para ejecutar las pruebas de Angular
+	... ... ...
+
+#5. En la consola ejecutamos:
+$ npm test 
+#Y esto va a abrir una instancia del navegador
+#Es importante mencionar que es una instancia del navegador
+#porque no es el navegador normal.
+#Este navegador que se va a abrir donde se están ejecutando las pruebas
+#no tiene ningún plugging, no tiene ninguna conexión,
+#por ejemplo, con tus datos de usuario.
+#Esto nos ayuda a que sea, número uno, más efeciente 
+#y número dos, que no nos afecte por ningún tipo de plugging
+#o algún comportamiento especial del navegador.
+
+#6. En el navegador, se muestra la página
+#con un listado de las descripciones "it"
+#donde mencionamos qué es lo que esperamos que realice la prueba.
+#Y la evaluación de los resultados de las pruebas.
+
+
+
 
 
