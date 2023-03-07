@@ -1657,6 +1657,108 @@ $ npm test
 #Y la evaluación de los resultados de las pruebas.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Conociendo las pruebas unitarias
++Ejecución de pruebas unitarias
+-------------------------------------------------------------
 
+#Vamos a mostrar cómo crear una prueba unitaria
+#desde un componente de Angular
 
+#1º Creamos un proyecto nuevo:
+$ ng new pruebas-unitarias
+
+#Y también creamos un componente nuevo:
+$ ng generate component mi-componente
+
+#Vamos a trabajar con el archivo: 
+#mi-componente.component.spec.ts
+
+#2º Vamos a añadir una serie de tareas en la clase de nuestro componente: 
+mi-componente.component.ts
+
+export class MiComponenteComponent implements OnInit {
+
+	usuario:boolean;
+	
+	constructor() {}
+	
+	ngOnInit() {
+	}
+
+	activarUsuario() {
+		this.usuario = true;
+	}
+	
+	desactivarUsuario() {
+		this.usuario = false;
+	}
+
+	verificarUsuario() {
+		return this.usuario ? "usuario activo" : "usuario desactivado";
+	}
+	
+}
+
+#3º Vamos a añadir una prueba
+#Empezamos cambiando un poco el texto para que sea
+#más fácil de identificar
+
+describe('Probando Mi Componente', ()=>{
+
+#Ahora añadimos otra nueva prueba debajo de la prueba:
+it('should create', ()=>{
+	expect(component).toBeTruthy();
+}
+
+#4º Implementamos una de nuestras pruebas:
+#Verificar si puede activar un usuario:
+it('Debe activar el usuario', () => {
+	#Cualquier cosa que se encuentre dentro de nuestro componente
+	#se encuentra dentro de la prueba unitaria
+	#como una instancia de component. 
+	#Entonces, para activar el usuario:
+	component.activarUsuario();
+	#Y ahora comprobamos si usuario está activo:
+	expect(component.usuario).toBeTruthy();
+});
+
+#5º Lo probamos y funciona correctamente con:
+$ npm test -o
+> Probando Mi Componente
+> should create
+> Debe activar el usuario
+
+#6º Para hacer un ejemplo fácil de ver qué pasaría si funciona mal
+#y cambiamos el valor de lo esperado usando: toBeFalsy();
+it('Debe activar el usuario', () => {
+	component.activarUsuario();
+	expect(component.usuario).toBeFalsy();
+});
+
+#7º Lo probamos y nos muestra un error:
+$ npm test -o
+> Probando Mi Componente > Debe activar el usuario
+> Expected true to be falsy.
+
+#8º Ahora añadimos una nueva prueba
+#Basada en el método:
+#verificarUsuario() {
+#	return this.usuario ? "usuario activo" : "usuario desactivado";
+#}
+
+#Esta parte de la prueba unitaria: .toContain("usuario activo");
+#valida que el resultado contiene en su respuesta la cadena "usuario activo".
+
+it('debe mostrar el mensaje si el usuario es válido', ()=>{
+	component.activarUsuario();
+	expect(component.verificarUsuario()).toContain("usuario activo");
+});
+
+#9º Lo probamos y funciona correctamente con:
+$ npm test -o
+> Probando Mi Componente
+> Debe activar el usuario
+> debe mostrar el mensaje si el usuario es válido
+> should create
 
