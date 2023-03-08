@@ -1,0 +1,155 @@
+
+Apuntes-Angular. Curso Angular Trucos (LinkedIn Learning) (03/2023)
+
+0.Introducción
+1.Configuración y personalización del entorno de trabajo
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Depuración de aplicaciones
++La depuración con herramientas de Chrome
+-------------------------------------------------------------
+
+#Asegurarse de que en fichero: tsconfig.json tenemos:
+
+"compilerOptions": {
+ ... ... ...,
+ "sourceMap": true,
+
+#Esto va a generar mapas dentro de nuestro código Javascript
+#que nos van a permitir relacionar el TypeScript con el JavaScript
+#Con nuestra aplicación levantada y funcionando
+#y utilizando las herramientas de Chrome vamos a la pestaña Sources
+#Buscar: webpack://
+#Y todo lo que aparece dentro de la carpeta 'webpack'
+#son los mapas relacionados con nuestro código en TypeScript
+#Buscamos el componente: sin-estado.component.tsconfig
+#dentro del fichero buscamos la función 'seleccionarItem()'
+#que es la función que queremos depurar 
+#en el código fuente añadimos breakpoints para hacer debug.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Depuración de aplicaciones
++La depuración con Visual Studio
+-------------------------------------------------------------
+
+#Visual Studio Code nos ofrece toda una batería de herramientas
+#para hacer depuración avanzada en nuestras aplicaciones Angular.
+#Para activar esa depuración dentro de Visual Studio Code:
+
+#1º Vamos a buscar en la sección de extensiones 
+#una extesión llamada Debugger for Chrome
+#Esta extesión nos va a permitir activar una sesión
+#de depuración dentro de Chrome 
+
+#2º También vamos a buscar dentro de los archivos e la aplicación
+#el archivo 'tsconfig.json' y asegurarse que tenemos:
+"compilerOptions": {
+ ... ... ...,
+ "sourceMap": true, #Debe estar a true
+
+#Es importante porque esto nos va a permitir conectar
+#el código que está en TypeScript
+#que es el código que está en nuestra aplicación
+#en nuestro entorno de trabajo
+#con el código que está en JavaScript
+#que es el que va a estar compilado dentro del navegador
+
+#3º Inicializamos la sesión de depuración
+#Al lado izquierdo de la aplicación buscamos la sección
+#de "debug" y vamos a presionar el botón de "play"
+#que dice 'Start Debugging'
+#Nos aparecen dos diferentes entornos de desarrollo
+
+#El primero: 'Chrome' es el que se activa
+#a partir de la extensión que acabamos de instalar
+#Y seleccionamos ese.
+#Esto nos va a generar un archivo llamado 'launch.json'
+#que se va a almacenar dentro de una carpeta: '.vscode'
+#Aquí se va a guardar la configuración que se va a definir para depurar.
+#En el código vamos modificando:
+... ... ... ...
+"configurations": [{
+	"type":"chrome",
+	"request":"launch",
+	"name":"Angular", .................#configuramos un nombre, por ejemplo: Angular
+	"url":"http://localhost:4200", ....#Configuramos el puerto : 4200
+	"webRoot":"${workspaceFolder}"
+}]
+
+#4º Pasos para depurar:
+#4.1 Arrancar la aplicación de Angular
+#4.2 Ir a la sección "Debug"
+#4.3 Hacer clic en el botón de play que ahora se llama 'Angular'
+#4.4 Esto abre una ventana de Chrome que va a estar en modo depuración
+
+#5º Ahora vamos a depurar un elemento de código:
+#Buscamos el componente: sin-estado.component.tsconfig
+#dentro del fichero buscamos la función 'seleccionarItem()'
+#que es la función que queremos depurar 
+#en el código fuente añadimos breakpoints para hacer debug.
+
+#6º En la sección de Debug, en el panel de la izquierda
+#Vemos en recuadro de VARIABLES
+#cómo van cambiando los valores de las variables
+#y de los objetos según avanzamos en el debug.
+
+#7º En la zona inferior también tenemos:
+#DEBUG CONSOLE
+#Desde donde podemos ejecutar comandos
+#Por ejemplo, yo puedo llamar a:
+$ this.disabled
+> true
+#O, también llamar a:
+$ this.seleccionarItem()
+> nos devulve la respuesta del método.
+
+#Así podemos realizar depuración avanzada
+#con nuestras aplicaciones utilizando Visual Studio
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Depuración de aplicaciones
++La depuración con Augury
+-------------------------------------------------------------
+
+#Augury es un plugin de Chrome que nos permite
+#realizar depuración de nuestras aplicaciones
+#Podemos examinar valores e incluso inspeccionar 
+#diferentes cambios dentro de nuestras aplicaciones.
+
+#Vamos a ver cómo utilizarlo:
+#Primero hay que descargalo desde: https://augury.rangle.io/
+#[Install on Chrome | Install on Firefox]
+#Lo instalamos en Chrome
+#Arrancamos nuestra aplicación con ng serve
+#Y mientras vemos nuestra aplicación desplegada en el navegador
+#Utilizamos las herramientas de Chrome y hacemos inspeccionar
+#Ahora buscamos una nueva pestaña que tenemos: Augury
+
+#Se muestra un mensaje que dice que la aplicación está funcionando
+#en modo producción y por tanto no puede ser inspeccionada por Augury
+
+#Cuando nosotros queremos ejecutar una aplicación en Augury
+#tiene obligatoriamente que estar en modo de desarrollo.
+#¿Cómo ponemos el modo de desarrollo?
+
+#Vamos a la aplicación y abrimos el fichero: environment.tsconfig
+export const environment = {
+	production: true
+};
+
+#Generalmente cuando estás trabajando en una aplicación 
+#el modo de producción por defecto va a tener el valor de 'false'
+
+#Cambiamos el valor y lo ponemos en modo 'desarrollo'
+export const environment = {
+	production: false
+};
+
+#Ahora volvemos al navegador y a la pestaña Augury
+#donde podemos ver un árbol con nuestros componentes,
+#accesos a los valores, etc
+
+
