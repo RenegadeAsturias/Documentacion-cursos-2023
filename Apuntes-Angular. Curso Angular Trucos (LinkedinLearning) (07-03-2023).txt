@@ -153,3 +153,125 @@ export const environment = {
 #accesos a los valores, etc
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Depuración de aplicaciones
++La depuración con NgProbe
+-------------------------------------------------------------
+
+#Vamos a ver un método muy sencillo para depurar 
+#tus aplicaciones Angular desde la consola del navegador.
+#Hemos creado una aplicación nueva de ejemplo y
+#la desplegamos en el navegador
+#tiene dos componentes y cada uno de ellos tiene un botón
+#Abrimos las herramientas del Chrome y vamos a la pestaña Console
+
+#En este punto podemos llamar a algunos comandos especiales de Angular.
+
+#Por ejemplo, tenemos acceso a un objeto expuesto que se llama 'ng'.
+#Lo escribimos en la consola y vemos que está presente
+#y tiene una serie de diferentes elementos
+#Pero aún no lo podemos utilizar, tenemos que realizar
+#un proceso un poco común.
+
+#En las herramientas de Chrome abrimos la pestaña 'Elementos' y vemos:
+<app-mi-componente ...></app-mi-componente>
+<app-segundo-componente ...></app-segundo-componente>
+
+#Seleccionamos el primer componente:
+<app-mi-componente ...></app-mi-componente>
+#y al seleccionarlo aparece un texto que dice: ==$0
+#Esto acaba de generar una instancia para conectar Angular con ese valor
+#Anotamos ese valor y dejamos seleccionado el elemento en la pestaña Elementos
+
+#Ahora volvemos a la consola y escribimos:
+$ ng.probe($0)
+
+#Esto nos conecta con el elemento que está activo y
+#al presionar Enter, podemos ver las propiedades del primer componente
+
+#Para ejecutar un debug más profundo, ejecutamos:
+$ ng.probe($0).componentInstance
+
+#Y nos muestra el valor de una variable que habíamos
+#definido y utilizado dentro de nuestro componente
+> MiComponenteComponent {valorA: "prueba"}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2. Depuración de aplicaciones
++Auditoría de dependencias con Bundle Analyzer
+-------------------------------------------------------------
+
+#Las dependencias permiten expandir el uso de nuestra aplicación
+#Simplemente tenemos que inyectar una librería externa
+#y podemos incorporar nuevas funcionalidades complejas.
+#Sin embargo esto, tiene un coste porque puede hacer
+#que nuestra aplicación extienda demasiado su tamaño.
+
+#Vamos a ver una herramienta para monitorear 
+#el tamaño y el impacto de las dependencias que estamos importando.
+
+#Si abrimos el archivo: package.json
+#Vamos a encontrar una sección llamada dependencias
+#y es donde están todas las librerías que estamos utilizando
+#dentro de nuestra aplicación
+
+"dependecies": {
+	"@angular/animations": "8.2.0",
+	"@angular/common": "8.2.0",
+	"@angular/compiler": "8.2.0",
+	"@angular/core": "8.2.0",
+... ... ... ... ... ...
+
+#Vamos a instalar un módulo que nos va a permitir analizar
+#el peso de estas dependencias a través del comando
+$ npm install webpack-bundle-analyzer -D 
+
+#Con el parámetro -D se instala en -modo desarrollador
+#y se incluye en la sección: "devDependencies" { ...
+
+#Vamos a seguir modificando el fichero: package.json
+#nos vamos a la sección de scripts
+#para incluir dos nuevas tareas
+
+#La 1ª tarea que va compilar mi aplicación en modo de producción
+#y de paso, va a incorporar las estadísticas que vamos a necesitar
+#para evaluar todos los paquetes que están instalados
+"scripts": {
+	"buildstats": "ng build --stats-json",
+
+
+#La 2ª tarea va a analizar los archivos
+#que generamos en la primera tarea.
+#LLamaremos a "webpack-bundle-analyzer" que es la herramienta
+#que previamente instalamos y vamos a llamar a un archivo
+#dist/<<nombreProyecto>>/stats-es5.json
+"scripts": {
+	"analizar": "webpack-bundle-analyzer dist/<<nombreProyecto>>/stats-es5.json",
+
+#Ejecutamos la pimera tarea:
+$ npm run buildstats
+
+#Esto va a generar las estadísticas, las analíticas,
+#del peso que tienen todoas las dependencias ("dependencies")
+#y el impacto que tienen dentro de nuestra aplicación
+
+#Una vez ejecutada la tarea se habrá creado una nueva carpeta
+#/dist/componentesAvanzado/
+#y dentro de ella vamos a encontrar un archivo: stats-es5.json
+
+#Ahora que ya tenemos listo el archivo donde vamos a analizar
+#vamos a ejecutar la segunta tarea con el nombre 'analizar'
+$ npm run analizar
+
+#Esto va a activar un servidor en la ruta 127.0.0.1
+#en el puerto 888
+#Vamos a examinar qué es lo que está desplegándose en ese puerto
+#Abrimos esa ruta en el navegador: http://127.0.0.1:888
+#Y vamos a encontrar el resultado del análisis del archivo que tenemos
+#Nos vamos a encontrar todos los paquetes
+#que están instalados dentro de nuestra aplicación
+
+
+
+
