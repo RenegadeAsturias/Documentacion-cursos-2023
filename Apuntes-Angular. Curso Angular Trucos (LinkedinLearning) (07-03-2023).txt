@@ -273,5 +273,108 @@ $ npm run analizar
 #que están instalados dentro de nuestra aplicación
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Enrutado por defecto de Angular
+-------------------------------------------------------------
+
+#El "lazy loading" o "carga perezosa" o mejor dicho carga dinámica
+#es una técnica que tenemos dentro de Angular para hacer una carga progresiva
+#en nuestras aplicaciones vamos a mostrar como crear una aplicación
+#utilizando el enrutado para luego poder configurarla
+#como una aplicación con "lazy loading"
+
+#Para crear una aplicación con soporte con enrutado
+#vamos a la terminal y ejecutamos
+$ ng new lazy
+
+#Y seleccionamos: Would you like to add Angular routing? y (yes)
+
+#El lazy loading nos permite ir creando una aplicación que va a 
+#cargar los contenidos únicamente cuando el usuario lo necesita
+#Pensemos por ejemplo en una aplicación con cinco secciones diferentes
+#En la arquitectura tradicional de Angular vamos a cargar
+#inmediatamente la cinco secciones.
+#Mientras que utilizando lazy loading y así si el usuario
+#solo visita una sección solo cargamos esa sección.
+
+#En la aplicación que hemos creado tenemos el siguiente archivo:
+> src > app > app-routing.module.ts
+
+#1º Tenemos la importación del módulo de enrutado de Angular
+
+import {Routes, RouterModule } from '@angular/router';
+
+#2º También estamos definiendo una variable 
+#donde podemos almacenar nuestras diferentes rutas
+
+const routes: Routes = [];
+
+#Esto está exportando una clase llamada 'AppRoutingModule'
+
+@NgModule({
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+#y esta clase se importa dentro del Módulo principal de nuestra aplicación:
+> src > app > app.module.ts
+
+@NgModule({
+	declarations [ AppComponent ],
+	imports: [ 
+		BrowserModule,
+		AppRoutingModule
+	],
+... ... ... ...
+
+#Y así se están inyectando las diferentes rutas de nuestra aplicación
+
+#¿Cómo se muestran las rutas en una aplicación?
+> src > index.html
+
+#Tenemos una etiqueta llamada:
+<app-root></app-root>
+
+#Esto significa que lo primero que va a hacer nuestra aplicación
+#es cargar una aplicación raíz
+#Entonces, examinamos esa aplicación raíz que va a ser:
+> src > app > app.component.ts
+
+#Y en en el fichero:
+> src > app > app.component.html
+#Tenemos el código de la página que viene con el código por defecto.
+#Justo al final de todo el código html tenemos las siguientes etiquetas:
+<router-outlet></router-outlet>
+
+#Y aquí se está cargando nuestro enrutado entonces podríamos
+#tener un encabezado común para toda la aplicación parecido a:
+<h1>ENCABEZADO</h1>
+
+#Y dentro de esta etiqueta es donde se van cargando los diferentes elementos
+<router-outlet></router-outlet>
+
+#Así que los contenidos que aparezcan debajo del encabezado
+#van a depender de acuerdo a la ruta 
+
+#LA DESCRIPCIÓN DE LA ARQUITECTURA SERÍA ENTONCES:
+
+#1º Entramos en el index.html que carga la aplicación principal
+<body>
+	<app-root></app-root>
+</body>
+
+#2º Y la aplicación pricipal en app.component.html
+#muestra cualquier contenido que nosotros definamos
+#y una sección donde se van a ir cargando los diferentes contenedores.
+<h1>ENCABEZADO</h1>
+<router-outlet></router-outlet>
+
+#3º Lo que podemos hace con 'lazy loading'
+#es utilizar un método dinámico para ir cargando progresivamente 
+#los diferentes componentes que vamos necesitando
+#justamente en esta etiqueta.
+
 
 
