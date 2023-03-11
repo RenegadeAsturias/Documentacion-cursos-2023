@@ -377,4 +377,76 @@ export class AppRoutingModule { }
 #justamente en esta etiqueta.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Agregar rutas a un proyecto Angular
+-------------------------------------------------------------
+
+#Vamos a aprender cómo incluir enrutado dentro de una aplicación Angular
+#Nuestra aplicación tiene habilitado por defecto el soporte 
+#para el enrutado en Angular (add Angular routing? y)
+
+#Vamos a ir al fichero:
+> src > app > app-routing.module.ts
+
+#Donde se encuentra un array el cuál nos a permitir incluir diferentes rutas.
+#Vamos a crear tres rutas diferentes.
+
+#Previamente creamos un primer componente: 
+$ ng generate component primero
+
+#Creamos un segundo componente utilizando una sintaxis simplificada:
+$ ng g c segundo
+
+#Creamos un tercer componente
+$ ng g c tercero
+
+#De momento tenemos en nuestra aplicación tres componentes
+#diferentes pero ninguno de ellos se está desplegando
+#Vamos a relacionar estos componentes para que se conviertan
+#más que en parte de la aplicación, se conviertan en pantallas 
+#que se van a desplegar dependiendo de la ruta
+#en la que se encuentre el usuario.
+
+#Dentro del fichero: app-routing.module.ts
+#vamos a crear en el array 'routes' un objeto
+#que vamos a configurar para que tenga los valores
+de una vista y específicamente nos muestre una ruta
+
+#Para definir la ruta por defecto ponemos:
+const routes: Routes = [
+	{app:'', component: PrimeroComponent }  // Se importa automáticamente el componente
+];
+
+#Vamos a crear una segunda y tercera ruta, con rutas específicas:
+const routes: Routes = [
+	{app:'', component: PrimeroComponent },
+	{app:'segundo', component: SegundoComponent },
+	{app:'tercero', component: TerceroComponent },
+];
+
+#Dependiendo de en la ruta en la que estemos vamos a inyectar
+#en la etiqueta <router-outlet></router-outlet>
+#el componente que hemos definido en el array.
+
+#Probamos que cuando entramos por primera vez a:
+> http://localhost:4200
+#Se muestra el texto del primer componente:
+> primero works!
+#Esto significa que estamos cargando el primer componente
+
+#Ahora en la url del navegador ponemos:
+> http://localhost:4200/segundo
+#Se muestra el texto del segundo componente:
+> segundo works!
+#Esto significa que estamos cargando el segundo componente
+
+#Ahora en la url del navegador ponemos:
+> http://localhost:4200/tercero
+#Se muestra el texto del tercer componente:
+> tercero works!
+#Esto significa que estamos cargando el tercer componente
+
+#Así estamos realizando una carga dinámica de componentes
+#de acuerdo a la ruta en la que nos encontramos.
 
