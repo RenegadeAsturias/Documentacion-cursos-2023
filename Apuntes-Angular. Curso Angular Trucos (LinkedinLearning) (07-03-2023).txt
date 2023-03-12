@@ -450,3 +450,117 @@ const routes: Routes = [
 #Así estamos realizando una carga dinámica de componentes
 #de acuerdo a la ruta en la que nos encontramos.
 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Habilitar enlaces de enrutado para Angular
+-------------------------------------------------------------
+
+#Vamos a aprender ahora como incluir dentro de una plantilla
+#los enlaces cuando estamos trabajando en una aplicación Angular.
+#En la sección anterior vimos cómo incluir rutas al array 'routes'
+#y navegávamos modificando la url del navegador
+#Sin embargo, así no estamos utilizando realmente el enrutado.
+
+#El enrutado de Angular necesita que lo llamemos desde la parte
+#interna de nuestra aplicación para que se desplieguen 
+#los contenidos correctamente.
+#Porque cuando entramos dentro de las diferentes rutas utilizando
+#únicamente la url lo que estamos haciendo realmente
+#es actualizar la aplicación
+
+#Para ver esto, vamos a las herramientas de Chrome
+#a la pestaña de Network y en la url vamos a la página por defecto:
+#http://localhost:4200
+#y vemos que nos estamos descargando todos los archivos de la aplicación
+#y si ahora vamos a una de las rutas: 
+#http://localhost:4200/segundo
+#vemos que se realiza de nuevo la descarga completa de los archivos.
+#Realmente aquí no estamos utilizando Angular
+#simplemente estamos aprovechando la capacidad que tiene 
+#de desplegar contenidos cuando invocamos una ruta.
+#Pero lo que necesitamos hacer es incluir el enrutado por enlaces.
+
+#Vamos a la plantilla de nuestro componente principal
+> src > app > app.component.html
+#Y vamos a incluir un enrutado a través de enlaces
+
+<nav>
+	<a routerLink="/primero">Primero</a>
+	<a routerLink="/segundo">Segundo</a>
+	<a routerLink="/tercero">Tercero</a>
+</nav>
+<h1>LAZY LOADING</h1>
+<router-outlet></router-outlet>
+
+#Con estos cambios vamos a tener una barra de navegación
+#bastante simple, donde tenemos Primero, Segundo y Tercero.
+
+#Con este cambio ahora cuando navegamos por las opciones
+#y vemos en la pestaña Network
+#al navegar la primera vez a la ruta inicial se cargan todos los archivos
+#pero cuando navegamos por las rutas utilizando los routerLinks
+#solo se cargan los datos necesarios de cada sección para desplegar los datos.
+#Como en el caso de los tres enlaces estamos utilizando la arquitectura
+#regular de Angular, o sea, toda la aplicación ya está cargada
+#entonces realmente no estamos cargando nada.
+
+#Estamos repasando los enlaces y vemos que enlace 'primero'
+#no funciona correctamente porque la definición de las rutas
+#no está muy fina, vamos de nuevo al fichero donde se definen:
+> scrc > app > app-routing.module.ts
+#Y las modificamos así:
+
+const routes: Routes = [
+	{app:'primero', component: PrimeroComponent },
+	{app:'segundo', component: SegundoComponent },
+	{app:'tercero', component: TerceroComponent },
+	
+	#Con esta definición cuando el usuario solicite una ruta
+	#no definida en las rutas definidas se le redirigirá
+	#a la ruta definida 'primero':
+	{app:'', redirectTo: 'primero', pathMatch: "full"},
+];
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Configuración de módulos para lazy loading
+-------------------------------------------------------------
+
+#Vamos a crear un módulo nuevo que nos va a servir para poder
+#habilitar las rutas dinámicas o sea el 'lazy loading'.
+#La intención es crear una sección que, a su vez, 
+#va a tener una serie de rutas.
+#Pero esta rutas van a tener una carga dinámica o 'lazy loading'.
+
+$ ng generate module productos
+> src > app > productos > productos.module.ts
+
+#Ahora vamos a crear tres componentes diferentes 
+#Y estos componentes se van a encontrar dentro del módulo.
+#Vamos a ver la sintaxis para crear subcomponentes
+#En este caso vamos a crear diferentes productos, así que voy a crear,
+#por ejemplo, dentro de la carpeta 'productos':
+
+$ ng generate component productos/producto-uno
+$ ng generate component productos/producto-dos
+$ ng generate component productos/producto-tres
+
+#Ahora tenemos:
+> src > app > productos > productos.module.ts
+> src > app > productos > producto-uno > producto-uno.component.css
+> src > app > productos > producto-uno > producto-uno.component.html
+> src > app > productos > producto-uno > producto-uno.component.ts
+> src > app > productos > producto-dos > producto-dos.component.css
+> src > app > productos > producto-dos > producto-dos.component.html
+> src > app > productos > producto-dos > producto-dos.component.ts
+> src > app > productos > producto-tres > producto-tres.component.css
+> src > app > productos > producto-tres > producto-tres.component.html
+> src > app > productos > producto-tres > producto-tres.component.ts
+
+#Y ahora tenemos una aplicación que tiene un submódulo instalado
+#y dentro de él tiene tres diferentes componentes
+#que están relacionados específicamente a este módulo.
+
+
