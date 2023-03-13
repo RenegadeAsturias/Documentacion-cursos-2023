@@ -564,3 +564,94 @@ $ ng generate component productos/producto-tres
 #que están relacionados específicamente a este módulo.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Creación de child routes para cargas dinámicas
+-------------------------------------------------------------
+
+#Vamos a ver cómo incorporar un módulo dentro de el enrutado de angular.
+#Tenemos una aplicación que tiene un módulo llamado 'productos'
+#y este módulo tiene a su vez tres diferentes componentes anidados.
+#Estos componentes van a servir para generar 'lazy loading' o rutas dinámicas
+#Vamos a incorporar este módulo dentro del enrutado general de la aplicación.
+
+#Buscamos el archivo: 'app-routing.module.ts'
+#Específicamente este módulo está pensado para desplegar productos,
+#así que vamos a incluir una ruta adicional que va a ir acorde con este objetivo.
+
+#Sobre: 'loadChildren': nos va a permitir instalar diferentes children o hijos
+#que en este caso van a ser componentes del módulo en el que estamos trabajando.
+#Así que para eso tenemos que instalar el componente padre
+
+const routes: Routes = [
+... ... ... ... ... ...
+{ path:'productos',
+  loadChildren: () => import('./productos/productos.module').then(m => m.ProductosModule) 
+},
+
+#En 'loadChildren' ejecutamos una promesa
+#que estamos utilizando para importar el módulo 'productos'
+#y específicamente el archivo que lo gestiona que es 'productos.module.ts'
+#Una vez que hemos terminado de realizar este import como es una promesa
+#vamos a ejecutar de manera asíncrona este módulo 'ProductosModule'.
+#Así vamos a poder cargar dentro de esta ruta el módulo en el que estamos trabajando.
+
+#En la carpeta:
+> src > app > productos 
+#Creamos un nuevo archivo: 'productos-routing.ts'
+#Ahora tenemos:
+> src > app > productos > productos.module.ts
+> src > app > productos > productos-routing.ts
+
+#Dentro de este archivo nosotros vamos a definir las rutas 
+#que van a estar dentro del módulo
+#Recordemos que hemos definido en la aplicación que 'productos'
+#va a ser la ruta de nuestro módulo:
+const routes: Routes = [
+{ path:'productos',
+  loadChildren: () => import('./productos/productos.module').then(m => m.ProductosModule) 
+},
+
+#Lo que vamos a producir ahora son las rutas que van a estar
+#dentro de cualquier cosa donde aparezca 'productos'.
+#Eso lo vamos a controlar desde el módulo 
+
+#En el fichero: 'productos-routing.ts' tendremos:
+
+import { ProductoUnoComponent }  from "./producto-uno/producto-uno.component";
+import { ProductoDosComponent }  from "./producto-dos/producto-dos.component";
+import { ProductoTresComponent } from "./producto-tres/producto-tres.component";
+
+import { Routes } from "@angular/router";
+
+#Estamos haciendo más rutas, pero estas rutas son rutas secundarias.
+export const routes: Routes = [
+	#De esta forma cuando el usuario entre a la raíz de 'productos' cargue 'ProductoUno'.
+	{app:"", component: ProductoUnoComponent },
+	
+	#Cuando entre a 'producto-dos', o sea 'productos/producto-dos' cargue 'ProductoDos'.
+	{app:"producto-dos",  component: ProductoDosComponent },
+	
+	#Cuando entre a 'producto-tres', o sea 'productos/producto-tres' cargue 'ProductoTres'.
+	{app:"producto-tres", component: ProductoTresComponent },
+];
+
+#Nos falta un paso más. Vamos a 'productos.module'
+#y tenemos que incluir en la sección de imports: 
+
+import { RouterModule } from '@angular/router';
+import { routes } from './productos.routing';
+
+@NgModule({
+	declarations: [ProductoUnoComponent, ProductoDosComponent, ProductoTresComponent],
+	imports: [ 
+		CommonModule,
+		RouterModule.forChild(routes) -----> Ruta hija, anidada!!
+	]
+
+#Ya tenemos configuradas las rutas secundarias dentro de nuestra aplicación
+#Y con esto tenemos habilitado en su forma más básica el 'lazy loading'.
+
+
+
+
