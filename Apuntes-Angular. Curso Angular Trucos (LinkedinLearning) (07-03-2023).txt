@@ -653,5 +653,59 @@ import { routes } from './productos.routing';
 #Y con esto tenemos habilitado en su forma más básica el 'lazy loading'.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+3. Angular y lazy loading
++Implementar lazy loading en una plantilla
+-------------------------------------------------------------
+
+#Vamos a ver cómo implementar la carga dinámica o 'lazy loading'
+#dentro de una aplicación Angular.
+#Nuestra aplicación anterior ya está utilizando 'lazy loading'.
+
+#A nuestra lista implementada de rutas regulares
+#dentro del enrutador de Angular en la plantilla:
+<nav>
+	<a routerLink="/primero">Primero</a>
+	<a routerLink="/segundo">Segundo</a>
+	<a routerLink="/tercero">Tercero</a>
+
+#Ahora vamos a poner tres rutas más que están relacionadas
+#directamente con los productos que tengo dentro del módulo dinámico:
+	<a routerLink="/productos">Producto #1</a>
+	<a routerLink="/productos/producto-dos">Producto #2</a>
+	<a routerLink="/productos/producto-tres">Producto #3</a>
+
+#Resolvemos la direncia entre los enrutados regulares
+#y los enrutados con 'lazy loading'
+
+#Volvemos a las herramientas de Chrome y vamos a la pestaña de Network
+#para recordar que cuando se carga la aplicación por primera vez
+#desde la ruta por defecto: http://localhost:4200
+#se cargan todos los archivos de al aplicación
+#y cuando navegamos por los componentes a los que apuntan
+#las rutas regulares no se carga ya ningún componente
+#porque todos estaban incluídos dentro de los componentes
+#que se cargaron en la carga inicial.
+
+#Sin embargo Produto #1, #2 y #3 están utilizando 'lazy loading'
+#lo que significa que no se han cargado, 
+#no existen dentro de mi aplicación y sólamente los vamos a cargar
+#en el momento en que yo abra alguno de estos elementos 
+
+#Por eso, cuando entra por primera vez en uno de los elementos,
+#por ejemplo: Producto #2
+#se carga el módulo correspondiente con toda la información:
+> productos-productos-module.js
+#Así es como nosotros estamos cargando los productos de forma dinámica.
+#Nuestro módulo se activa solamente si lo necesitamos.
+#Mientras que en el caso del primer formato se van a cargar
+#siempre que el usuario entre en la aplicación.
+#Ninguno de los dos es mejor que otro, 
+#simplemente tienes que tenerlos en cuenta a la hora de desarrollar
+#la arquitectura de tu aplicación según tus necesidades específicas.
+
+
+
+
 
 
