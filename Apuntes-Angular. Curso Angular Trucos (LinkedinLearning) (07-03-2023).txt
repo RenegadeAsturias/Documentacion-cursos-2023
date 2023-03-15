@@ -705,6 +705,50 @@ import { routes } from './productos.routing';
 #la arquitectura de tu aplicación según tus necesidades específicas.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. El formato PWA en Angular
++Auditoría e instalación de soporte PWA en Angular
+-------------------------------------------------------------
+
+#Una app PWA o 'Progressive Web App' es un tipo de aplicación pensado para trabajar
+dentro de la web y ofrecernos la mejor experiencia posible.
+#Es una aplicación que va a tener capacidades como ser progresiva, responsive y además
+#adaptarse a las mejores condiciones como, por ejemplo, tener o no acceso a internet.
+#Vamos a ver el soporte que tiene Angular para las 'progressive web apps'.
+#Partimos de una aplicación Angular básica 
+#Una ventaja que nos ofrece Chrome es que tiene una herramienta que nos permite
+#verificar que tan acorde y qué tan adaptada está nuestra página para ser una PWA.
+#En las herramientas de Chrome vamos a la pestaña Audits
+#-Vamos a seleccionar la opción Device: Desktop
+#-Vamos a marcar la opción Audits: Progressive Web App
+#-Vamos a dejar la opción Throttling: Simulated Slow 4G, 4x CPU Slowdown
+#-También vamos a dejar la opción: Clear storage
+#Ejecutamos esta auditoría haciendo clic en el botón: Run audits
+#y así ver el soporte que tiene de manera nativa
+#una aplicación Angular para ser PWA
+
+#Vemos entonces no tiene soporte y que realmente tenemos algunos problemas
+#para poder desplegar las capacidades y las reglas básicas de este formato
+#de aplicaciones web. Vamos a adaptar entonces nuestro proyecto.
+#Vamos a ejecutar un par de comandos:
+
+#1º Vamos a incluir el soporte para PWA
+#Y esto va a instalar una serie de herramientas y también va a cambiar
+#algunos formatos dentro de nuestros proyectos.
+$ ng add @angular/pwa
+
+#Ahora nuestro proyecto va a estar actualizado para tener soporte para ser
+#una 'progressive web application'.
+#Y ahora vamos a compilar nuestra aplicación en modo de producción
+$ ng build --prod
+
+#Esto va a producir nuestra aplicación ya compilada
+#en el formato de producción y la vamos a encontrar en:
+> dist > mi-aplicacion
+
+#Aquí encontraremos una aplicación en formato HTML lita para ejecutarse
+#con todos los elementos básicos y el formato necesario para funcionar
+#como una 'progresiva web app'
 
 
 
