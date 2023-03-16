@@ -831,6 +831,87 @@ $ http-server -e-1 dist/mi-aplicacion
 #tráfico HTTPS porque el servidor en el que estamos no tiene soporte.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Angular elements
++Preparación de un proyecto para Angular elements
+-------------------------------------------------------------
+
+#Los 'Angular elements' o elementos de angular son un elemento nuevo
+#que puede cambiar completamente todo el concepto de cómo utilizamos Angular.
+#Estos elementos nos permiten tomar una aplicación de angular 
+#y empaquetarla en un solo componente y distribuirla en cualquier parte.
+
+Los 'Angular elements' están basados en los 'Web components'
+#que son elementos estándar de JavaScript.
+#Dentro de los 'Web components' el concepto es que nosotros podemos utilizar pequeños bloques
+#que son micro aplicaciones y que pueden ser incorporados dentro de cualquier sitio web.
+
+#Esto quiere decir que si nosotros hacemos un 'Angular elements' podemos exportarlo
+#para poder trabajar dentro, por ejemplo, una página htm estática 
+#o dentro de una aplicación en WordPress o incluso dentro de React o dentro de Vue
+#porque nuestro código va a estar completamente encapsulado 
+#y solamente tenemos que llamar en unas cuantas líneas de código e incorporarlo 
+#dentro de una aplicación sin necesidad de integrar el resto de elementos de Angular.
+
+#Creamos una nueva aplicación de Angular para trabajar con 'Angular elements':
+$ ng new elements
+
+#Ejecutamos: $ ng serve y vamos a examinar la aplicación
+#Y obtenemos la aplicación por defecto de Angular.
+
+#Buscamos el archivo: app.component.html 
+#borramos todo su contenido por defecto y lo sustituimos por el siguiente:
+
+<div>
+	<input  type="range" min="1" max="360" value="0" #miSlider
+			(input)="onChange(miSlider.value)" />
+	<div id="square" [ngStyle]="{ transform: miRotacion }"></div>
+</div>
+
+#Buscamos el archivo: app.component.css y añadimos los siguientes estilos:
+
+height: 100px;
+background: rgb(98, 8, 112);
+background: linear-gradiente(0deg, rgba(98, 8, 112, 1) 0%, rgba(255, 0, 255, 1) 100%);
+
+position: relative;
+top:  34px
+left: 72px
+
+
+#Buscamos el archivo: app.component.ts 
+#y agregamos los componentes que va a controlar mi aplicación:
+
+export class AppComponent {
+	constructor() {}
+	miRotacion: string;
+	ngOnInit() {
+		this.miRotacion = `rotateZ(0deg)`;
+	}
+	onChange(valorSlider) {
+		this.miRotacion = `rotateZ(${valorSlider}deg`;
+	}
+}
+
+#En otras palabras, vamos a estar escuchando los valores del input Slider:
+<input  type="range" min="1" max="360" value="0" #miSlider
+	(input)="onChange(miSlider.value)" />
+
+#Y cada vez que tengamos algún cambio vamos a enviar la información
+#a nuestro método 'onChange' y este método va a modificar
+#la posición en la que se encuentra este elemento.
+
+#Mostramos la aplicación con los cambios y tenemos el 'Slider'
+#El 'Slider' está escuchand un evento, 
+#así que cada vez que lo modifiquemos va a afectar 
+#a un elemento cuadrado y le va a modificar la propiedad rotación
+#lo que significa que se va a mover. Efectivamente rota.
+
+#Este es un componente muy simple pero lo que queremos demostrar
+#es como este tipo de componentes lo podemos encapsular por completo
+#y enviarlo a una aplicación que no tiene Angular del todo.
+#Ahora que ya tenemos listo este proyecto podemose comenzar
+#a transformarlo en un 'Angular component'
 
 
 
