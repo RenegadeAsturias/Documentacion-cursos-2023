@@ -751,5 +751,87 @@ $ ng build --prod
 #como una 'progresiva web app'
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+4. El formato PWA en Angular
++Pruebas y solución de problemas comunes en PWA's de Angular
+-------------------------------------------------------------
+
+#Vamos a ver cómo ejecutar una aplicación PWA dentro de Angular.
+#Partimos del ejemplo anterior y quisiera probarla dentro
+#de mi sistema pero desgraciadamente no puedo abrir directamente el archivo: 
+#'index.html' a menos que se encuentre en un formato de servidor
+#Para probar ese formato de servidor, o sea, que mi aplicación
+#se muestre como HTTP y no com File, vamos a incluir un servidor localhost
+#Para eso vamos a ejecujutar el comando:
+
+$ npm install -g http-server
+
+#Esto nos permite acceder al comando global 'http-server'
+#que nos va a permitir crear un servidor local en cualquier
+#ubicación que nosotros definamos.
+#Vamos entonces a utilizar este comando para crear 
+#un servidor local ubicado y apuntando directamente a la carpeta
+#donde hemos generado nuestro código compilado:
+
+$ http-server -e-1 dist/mi-aplicacion
+
+#Ahora tenemos disponible un servidor dentro de esta dirección:
+> Available on:
+> http://127.0.0.1:8080
+
+#En la url del navegador ponemos:
+> http://127.0.0.1:8080/index.html
+
+#Esta es nuestra aplicación Angular en su formato de distribución final.
+#Y ahora le hacemos la prueba para el soporte de PWA
+
+#En las herramientas de Chrome vamos a la pestaña Audits
+#-Vamos a seleccionar la opción Device: Desktop
+#-Vamos a marcar la opción Audits: Progressive Web App
+#-Vamos a dejar la opción Throttling: Simulated Slow 4G, 4x CPU Slowdown
+#-También vamos a dejar la opción: Clear storage
+#Ejecutamos esta auditoría haciendo clic en el botón: Run audits
+
+#Y vemos la diferencia entre la aplicación antes de ejecutar el soporte,
+#antes teníamos varios errores y ahora vemos que tenemos ya
+#varios elementos funcionales. Sin embargo nos faltan dos: 
+
+#Error#1: PWA Optimized: Does not direct HTTP traffic to HTTPS
+#El primero no lo podemos arreglar porque no podemos enviar
+#a tráfico HTTPS por el formato en que está nuestro servidor
+
+#Error#2: Does not provide a valid apple-touch-icon
+#El segundo dice que tenemos que mostrar soporte para apple-touch-icon 
+#así que vamos a modificar ligeramente nuestra aplicación. Buscamos:
+> dist > mi-aplicacion > index.html
+
+#Dentro de este archivo vamos a incluir el soporte
+#para los iconos de dispositivos 'touch'.
+#Simplemente agregamos esta línea:
+<link rel="apple-touch-icon" href="/assets/icons/icon-512x512.png" />
+
+#Ya tenemos soporte para los dispositivos 'touch' de Apple.
+#Reiniciamos y ejecutamos de nuevo la auditoría, borrando caché.
+#Y ahora nos marca otro error:
+
+#Error#3: Start_url does not respond with a 200 when offline
+#Nos dice que deberíamos mostrar soporte para 'start_url'
+#El asunto es que este servidor específicamente debería
+#estar apuntando al index.html cuando entramos en la página inicial
+#Para solucionarlo, buscamos el archivo:
+> dist > mi-aplicacion > manifest.webmanifest
+
+#Donde tenemos un parámetro: "start_url":"/",
+#Lo modificamos por:
+"start_url":"/index.html"
+
+#Reiniciamos y ejecutamos de nuevo la auditoría, borrando caché.
+#Y ya tenemos nuestra 'progressive wep app' funcionando correctamente.
+#A excepción de la única prueba que no estamos aprobando es el 
+#tráfico HTTPS porque el servidor en el que estamos no tiene soporte.
+
+
+
+
 
 
