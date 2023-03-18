@@ -914,5 +914,78 @@ export class AppComponent {
 #a transformarlo en un 'Angular component'
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Angular elements
++Estrategias de compilación y encapsulado
+-------------------------------------------------------------
+
+#Vamos a modificar un componente para que se adapte 
+#al formato de un 'Angular Element'
+
+#Actualmente tenemos un elemento Slide que modifica la posición
+#de un elemento en pantalla
+#y lo vamos a exportar con un 'Angular component'
+#Por ahora, lo que tenemos es un componente regular de Angular
+
+export class AppComponent {
+	constructor() {}
+	miRotacion: string;
+	ngOnInit() {
+		this.miRotacion = `rotateZ(0deg)`;
+	}
+	onChange(valorSlider) {
+		this.miRotacion = `rotateZ(${valorSlider}deg`;
+	}
+}
+
+#Vamos a modificar algunos elementos del formato
+#para que esté preparado para convertirse en un 'Angular component'
+
+#1º El primer paso es instalar la librería de 'Angular elements'
+#desde la consola ejecutamos
+#(siendo 'elementos' el nombre de nuestro proyecto)
+
+$ ng add @angular/elements --project=elementos
+
+#Y esto va a modificar en algunos casos y configurar en otros
+#los diferentes valores y elementos que se encuentran en nuestra aplicación
+#para que esta aplicación tenga la capacidad de compilar un 'Angular Element'
+#Sin embargo nuestro componente aún no está listo
+#para ser compilado en el ser formato
+
+#2º El primer elemento que tenemos que modificar es dentro
+#del 'app.component.ts' que en este caso es el componente
+#que quiero exportar.
+#Hay que cambiar la estrategia de encapsulación
+#La encapsulación es la forma en que nuestro código va a
+#compilar las diferentes partes de una aplicación.
+#En este caso vamos a definir cuál va a ser la estrategia
+#para compilar nuestra vista.
+#En este caso vamos a utilizar una propiedad llamada 'encapsulation'
+#y a la encapsulación le vamos a dar un valor
+
+> elementos > src > app > app.component.ts
+import { Component, ViewEncapsulation } from "@angular/core";
+
+@Component({
+	selector: "app-root",
+	... ... ... ...
+	encapsulation: ViewEncapsulation.Native
+
+#Emulated: Es la opción por defecto en la que se exportan
+#todos los componentes de Angular:
+encapsulation: ViewEncapsulation.Emulated
+
+#Native: Es la opción que nos permite compilar
+#junto con nuestro componente, el CSS, el JavaScript
+#y el HTML en un apartado separado para poderlo 
+#reutilizar dentro de otra aplicación. 
+
+#Con este cambio: encapsulation: ViewEncapsulation.Native
+#nuestro componente tiene la capacidad de exportarse
+#de forma encapsulada.
+
+
+
 
 
