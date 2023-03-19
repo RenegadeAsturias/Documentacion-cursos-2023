@@ -986,6 +986,95 @@ encapsulation: ViewEncapsulation.Emulated
 #de forma encapsulada.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Angular elements
++Adaptación del módulo central de Angular
+-------------------------------------------------------------
+
+#Vamos a convertir ahora una aplicación y sus componentes al formato correcto
+#para exportarlo en la modalidad de 'Angular Element'.
+
+#1º Vamos a: > elementos > src > app > app.component.ts
+#Y nos aseguramos que tenemos configurado:
+
+@Component({
+	encapsulation: ViewEncapsulation.Native
+
+#Esto significa que el código de este componente se va a encapsular
+#en el mismo archivo, específicamente dentro del archivo JavaScript.
+
+#2º Cambiamos el selector del elemento: 
+@Component({ selector: "app-root",
+
+por: 
+@Component({ selector: "app-elemento",
+
+#3º Vamos a módulo de la aplicación en:
+> elementos > src > app > app.module.ts
+
+#Vamos a realizar algunos cambios necesarios para poder exportar
+#nuestro componente en la modalidad de 'Angular Element'
+#Partimos de:
+
+@NgModule({
+	declarations: [AppComponent],
+	imports: [BrowserModule],
+	providers: [],
+	bootstrap: [AppComponent]
+})
+export class AppModule {
+}
+
+#4º Cambiamos: bootstrap: [AppComponent] por:
+
+#Vamos a hacer que entonces el componente principal, 
+#el componente de entrada, #sea nuestro 'AppComponent'.
+entryComponents: [AppComponent]
+
+#5º Sin embargo, todavía necesitamos implementar el 'bootstrap',
+#así que vamos a inicializar o darle el 'bootstrap' 
+#a nuestra aplicación a través del comando 'ngDoBootstrap'
+#con esta línea es suficiente para ejecutar 'bootstrap':
+
+export class AppModule {
+	ngDoBootstrap() { }
+}
+
+#6ª Tenemos que definir cuales son las condiciones en las que se inyecta
+#mi componente y cómo vamos a desplegarlo como un 'Angular Element'
+#para eso vamos a crear un constructor e incluimos un 'Injector':
+
+import { NgModule, Injector } from "./app.component";
+import { createCustomElement } from "@angular/elements";
+
+export class AppModule {
+	constructor(private injector:Injector) {
+		const elementoPersonalizado = createCustomElement(AppComponent,{injector});
+		customElements.define('mi-elemento', elementoPersonalizado);
+	}
+	ngDoBootstrap() { }
+}
+
+#Ahora ya tenemos definido nuestro elemento personalizado que va a ser
+#la base con la cual vamos a desplegar nuestro 'Angular Element'.
+
+#7º Nos falta agregar un elemento adicional dentro del:
+> src > index.html donde tenemos:
+
+<body>
+	<app-root></app-root>
+</body>	
+	
+#Lo sustituimos por:
+<body>
+	<app-mi-elemento></app-mi-elemento>
+</body>	
+	
+#Ahora ya tenemos el proyecto listo para exportar en
+#el formato de 'Angular Element'
+
+
+
 
 
 
