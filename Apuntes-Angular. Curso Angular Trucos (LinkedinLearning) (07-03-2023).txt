@@ -1074,6 +1074,106 @@ export class AppModule {
 #el formato de 'Angular Element'
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Angular elements
++Ajustes y compilación de un Angular element
+-------------------------------------------------------------
+
+#Generalmente cuando tenemos una aplicación de Angular lista,
+#lo que queremos que hacer es ejecutar:
+
+$ ng build --prod
+
+#Este comando lo que va a hacer es que tomará todos los archivos y todos los comandos
+#de nuestra aplicación y los va a exportar a una carpeta separada en el modo de producción
+#lo que significa que vamos a tener la menor cantidad de tamaño posible
+#y la mayor eficiencia que podamos alcanzar.
+#En esta carpeta vamos a tener todo el código fuente en nuestra aplicación:
+
+> src > dist > elementos > index.html 
+
+#Donde estamos invocando nuestra aplicación y estamos incluyendo
+#diferentes archivos de CSS y JavaScript.
+#Estos archivos son los que nos van a permitir desplegar la aplicación.
+
+#En este caso nuestra aplicación está en el formato de Angular Elements
+#vamos a tomar esa aplicación compilada y voy a utilizar algunos 'scripts'
+#para convertirla en una aplicación lista para inyectarse en cualquier lugar
+#fuera del entorno de Angular.
+
+#Primero necesitamos instalar un par de librerías adicionales con '--save-dev'
+#esto significa que vamos a instalarlas como unas dependencias de desarrollo
+#y no van a ser parte del proyecto final que vamos a exportar.
+
+$ npm install --save-dev concat fs-extra
+
+#Vamos a crear un fichero en la raíz de nuestra aplicación
+#que puede tener el nombre que tú quieras:
+
+$ elementos-build.js
+
+***************************************************************************
+
+const fs = require("fs-extra");
+const concat = require("concat");
+
+(async function build(){
+	const files = [
+		".dist/elementos/runtime-es2015.js",
+		".dist/elementos/polyfills-es2015.js",
+		".dist/elementos/scripts.js",
+		".dist/elementos/main-es2015.js"
+	];
+	
+	await fs.ensureDir("elementos");
+	await concat(files, "elementos/elementos.js");
+	await fs.copyFile("./dist/elementos/styles.css", "elementos/styles.css");
+
+})();
+
+***************************************************************************
+
+#Ahora dentro de este archivo vamos a incluir algunos comandos
+#utilizando las librerías que acabamos de instalar.
+
+#Voy a utilizarlas para acceder a los archivos que se encuentran en la carpeta
+#de distribucióne y además de eso, voy a copiarlos dentro de otra carpeta
+#y voy a generar los archivos necesarios para poder trabajar mi aplicación
+#en el formato Angular Elements.
+#También voy a conectar estos comandos con una tarea directamente
+#desde el 'package.json' de la aplicación.
+
+#En 'package.json' añadimos a la sección de scripts.
+#Con esto vamos a compilar la aplicación y luego vamos a ejecutar archivo generado
+#que va a preparnos el formato que nosotros necesitamos 
+"scripts": {
+	"build:elementos": "ng build --prod --output-hashing none && node elementos.build.js"
+}
+
+#Y ahora ejecutamos la tarea:
+$ npm run build:elementos
+
+#Al ejecutar esto, vamos a tomar archivos de la carpeta 'dist'
+#una vez que termine la compilación y estos archivos los vamos a ccnvertir
+#al formato que necesitamos dentro de una carpeta llamada 'elementos'
+#en esta carpeta 'elementos' vamos a tener varios archivos
+#y básicamente lo que vamos a crear es un arvhivo CSS en este caso vacío
+#y un archivo JavaScript que en este caso va a tener toda la información
+#relacionada con nuestro componente, inclusive los elementos de CSS
+#Y a partir de eso nosotros vamos a poder inyectar nuestro componente.
+#Simplemente necesitamos crear un archivo 'index.html'
+
+#En nuestro fichero index.html básico, añadimos:
+<body>
+	<mi-elemento></mi-elemento> .............#Invocación a nuestro elemento en Angular
+	<script src="./elementos.js"></script>
+</body>
+
+#Y con esto tenemos preparado en nuestro documento HTML
+#nuestro Angular Element
+
+
+
 
 
 
