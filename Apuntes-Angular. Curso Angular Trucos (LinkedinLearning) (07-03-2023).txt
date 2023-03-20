@@ -1173,6 +1173,79 @@ $ npm run build:elementos
 #nuestro Angular Element
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+5. Angular elements
++Probar y renderizar un Angular element
+-------------------------------------------------------------
+
+#Vamos a probar un "Angular element" después de compilarlo.
+#En la sección anterior dejamos un componente que está listo
+#y empaquetado para encapsular todos los elementos dentro
+#de un archivo JavaScript y compilar nuestro componente completamente 
+#aislado y encapsulado para distribuir en cualquier parte.
+
+#En el archivo que añadimos: elementos.build.js
+#básicamente tomamos los archivos de la compilación:
+
+	const files = [
+		".dist/elementos/runtime-es2015.js",
+		".dist/elementos/polyfills-es2015.js",
+		".dist/elementos/scripts.js",
+		".dist/elementos/main-es2015.js"
+
+#Y los concateno en un formato mucho más sencillo de exportar
+por ejemplo, en este caso en un solo archivo de JavaScript:
+
+	await concat(files, "elementos/elementos.js");
+
+#Ahora en el ejemplo tenemos en la carpeta 'elementos':
+> elementos > elementos
+[index.html]+[elementos.js]+[style.css]
+
+#En este elementos.js JavaScript estamos sacando Angular
+#del 'framework' y podemos exportarlo a cuaquier parte.
+
+#Para probar nuestro elemento solamente podemos hacerlo 
+#a través de un servidor así que vamos a ejecutar uno.
+#Necesitamos tener un server dentro de nuestro sistema.
+#Podríamos instalar:
+
+$ npm install -g static-server
+
+#Esto genera un servidor estático que instado de forma global
+#puedes llamar desde cualquier parte.
+#Una vez completada la instalación desde la carpeta 'elementos' ejecutamos:
+
+> elementos >elementos > static-server
+
+#Esto nos permite crear un servidor estático a partir de la carpeta
+#en la que nos encontramos.
+#Es decir tenemos un servidor mostrando los archivos que generamos:
+#en el ejemplo tenemos en la carpeta 'elementos':
+
+> elementos > elementos
+[index.html]+[elementos.js]+[style.css]
+
+#Podemos ver nuestra aplicación desplegada en el servidor desde la url:
+> http://localhost:9080
+
+#Básicamente está pasando lo siguiente
+#Tenemos un archivo donde no estamos utilizando Angular del todo.
+#Estamos invocando solamente un JavaScript y ese JavaScript tiene
+#todo lo necesario para que ese componente se ejecute 
+#una vez que tenemos ese archivo JavaScript llamamos a una etiqueta
+#que genera nuestro componente y ahora tenemos toda la funcionalidad 
+#y toda la lógica por más compleja que nosotros quereamos hacerla,
+#completamente encapsulada y disponible en cuaquier parte.
+#Este mismo componente lo puedes exportar por ejemplo,
+#a WordPress, a Joomla, a Drupal, a Vue, a React
+#puedes pasarlo a cualquier parte y no te va a dar ningún conflicto
+#aunque sea en Angular. 
+#Este es el gran poder que tienen los 'Angular elements'
+
+
+
+
 
 
 
