@@ -1244,10 +1244,78 @@ $ npm install -g static-server
 #Este es el gran poder que tienen los 'Angular elements'
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Internacionalización en Angular
++Incluir internacionalización i18n en un proyecto Angular
+-------------------------------------------------------------
 
+#Vamos a ver la forma más básica para implementar en Angular
+#la internacionalización dentro de una aplicación.
+#Hemos creado una aplicación nueva:
 
+$ ng new traducciones
 
+#1º Añadirmos en el fichero el siguiente código: 
+> traducciones > src > app > app.component.html 
 
+<section>
+	<article>
+		<h1>Buenos días</h1>
+		<p>Yo hablo español.</p>
+	</article>
+</section>
+
+#2º Añadirmos unos estilos en:
+> traducciones > src > styles.css
+
+body {
+	background: yellowgreen;
+}
+
+article {
+	border: 1px solid;
+	padding: 20px;
+	font-family: monospace;
+	width: 28%;
+	margin: 49px auto;
+	font-size: 23px;
+	border-radius: 11px;
+	background: #fff;
+}
+
+#3º Editamos: 
+> traducciones > src > index.html
+
+#Y nos aseguramos de que incluya la etiqueta
+<meta charset="utf-8">
+
+#para dar soporte a la mayoría de los caracteres
+#en la mayoría de los lenguajes, por lo menos,
+#los que utilizan el alfabeto occidental.
+#Significa que vamos a soportar caracteres especiales
+#en español, alemán, francés, portugués.
+
+#4º Lo único que tenemos que hacer para darle un soporte básico
+#al protocolo i18n es incluir una directiva en los elementos
+#que vamos a querer traducir.
+
+#Modificamos en: 
+> traducciones > src > app > app.component.html 
+
+<section>
+	<article>
+		<h1 i18n >Buenos días</h1>
+		<p i18n >Yo hablo español.</p>
+	</article>
+</section>
+
+#5º Desplegamos la aplicación:
+$ ng serve -o
+
+#Examinamos la etiqueta con ver código fuente pero no vemos nada especial.
+#Cuando nosotros añadimos la directiva i18n vamos a poder generar
+#diferentes versiones de nuestra aplicación, pero esto 
+#no va a tener ningún impacto directo sobre el códig final.
 
 
 
