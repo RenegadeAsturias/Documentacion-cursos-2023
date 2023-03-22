@@ -1318,4 +1318,75 @@ $ ng serve -o
 #no va a tener ningún impacto directo sobre el códig final.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Internacionalización en Angular
++Extraer cadenas de texto y crear un documento base
+-------------------------------------------------------------
+
+#Vamos a ver como procesar los diferentes elementos que van a ser desplegados
+#en múltiples idiomas. Solamente los elementos que tienen la directiva i18n
+#van a tener soporte para diferentes idiomas.
+
+<h1 i18n >Buenos días</h1>
+<p i18n >Yo hablo español.</p>
+
+#Vamos a ver las tareas para implementar la internacionalización.
+
+#1º Editar: > traducciones > package.json, 
+#En la sección "scripts" añdimos una nueva tarea:
+
+"scripts" : { 
+	... ... ... ...
+	"extraer": "ng xi18n"
+
+#Esta tarea va a extraer los elementos que están marcados
+#con la etiqueta 'i18n'
+
+#2º Ejecutamos la nueva tarea:
+$ npm run extraer
+
+#Va a ejecutarse un proceso donde vamos a examinar todas las plantillas
+#y vamos a extraer todos los elementos que tengan i18n.
+
+#3º En nuestra aplicación se ha creado un nuevo fichero:
+> traducciones > messages.xlf 
+
+#En el se encuentran los detalles donde hemos utilizado la
+#directiva i18n y aparece por defecto el lenguaje en inglés:
+
+<file source-language="en" datatype="plaintext" original="ng2.template">
+
+#Lo cambimos por español:
+<file source-language="es" datatype="plaintext" original="ng2.template">
+
+#La lectura por defecto de este fichero y sus traducciones
+#van a ser complejas de seguir y de mantener visto el fichero generado.
+
+#4º Así que vamos a incluir unos metadatos a las etiquetas i18n
+#para que sea más fácil de entender:
+
+<h1 i18n="Inicio encabezado">Buenos días</h1>
+<p i18n="Detalles">Yo hablo español.</p>
+
+#Y ejecutamos de nuevo la tarea extraer.
+#Y ahora en el fichero messages.xlf generado
+#se mostrará una nota que contiene la descripción que hemos
+#incluído en la etiqueta que contiene la directiva i18n
+#y que nos facilita reconocer a qué hace referencia el texto.
+
+#5º Vamos a incluir algunos elementos extra a las etiquetas i18n
+
+<h1 i18n="Inicio encabezado|Encabezado de saludo@@constructionHeader">Buenos días</h1>
+
+<p i18n="Detalles|El idioma que se habla en la app.@@constructionDescription">Yo hablo español.</p>
+
+#El primer contenido es una descripción: "Inicio encabezado"
+#El segundo contenido es un detalle: "Encabezado de saludo"
+#Y el '@@' le define un ID o una identificación a cada uno de los elementos.
+
+#Y ahora en nuestro nuevo fichero generado messages.xlf tenemos más detalles
+#que nos permitirán identificar el texto más fácilmente.
+
+
+
 
