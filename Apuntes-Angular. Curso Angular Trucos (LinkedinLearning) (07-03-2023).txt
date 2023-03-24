@@ -1388,5 +1388,53 @@ $ npm run extraer
 #que nos permitirán identificar el texto más fácilmente.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Internacionalización en Angular
++Crear versiones en múltiples lenguajes
+-------------------------------------------------------------
+
+#Siguiendo la aplicación anterior si nosotros necesitamos extraer
+#en varios idiomas:
+
+#1º Editar: > traducciones > package.json, 
+#En la sección "scripts" editamos la tarea anterior:
+
+"scripts" : { 
+	... ... ... ...
+	"extraer": "ng xi18n --output-path src/locale"
+
+#Esta tarea va a extraer los elementos que están marcados
+#con la etiqueta 'i18n' en la carpeta: src/locale
+
+#2º Ejecutamos la nueva tarea:
+$ npm run extraer
+
+#Estaría en > traducciones > src > locale > messages.xlf
+#Donde están las traducciones en el lenguaje por defecto.
+
+#3º Ahora vamos a incluir las traducciones para otros idiomas.
+#Para ello, por cada idioma que queremos incluir
+#hacemos copy&paste del fichero: messages.xlf
+#y lo renombramos así:
+
+messages.<ISO del idioma>.xlf
+messages.xlf	#Idioma por defecto
+messages.fr.xlf #Internacionalización Francés
+messages.de.xlf #Internacionalización Alemán
+
+#Ahora aplicamos la traducción en el fichero en francés.
+
+#4º Cambiamos el ISO del idioma en la etiqueta 'file':
+<file source-language="fr" datatype="plaintext" original="ng2.template">
+
+#5º Buscamos la etiqueta:
+<source>Buenos días</source>
+#Y añadimos justo debajo:
+<target>Bonjour</target>
+
+#6º Buscamos la etiqueta:
+<source>Yo hablo español</source>
+#Y añadimos justo debajo:
+<target>Je parle Francais</target>
 
 
