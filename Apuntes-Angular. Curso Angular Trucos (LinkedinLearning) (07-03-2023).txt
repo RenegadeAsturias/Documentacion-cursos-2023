@@ -1438,3 +1438,56 @@ messages.de.xlf #Internacionalización Alemán
 <target>Je parle Francais</target>
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+6. Internacionalización en Angular
++Compilación y uso paralelo de versiones
+-------------------------------------------------------------
+
+#En esta lección vamos a aprender cómo compilar nuestra aplicación utilizando
+#los recursos de idiomas que nos ofrece i18n
+#partiendo de la aplicación de ejemplo anterior.
+
+#Vamos a configurar Angular para que pueda traducir en las diferentes versiones
+#que hemos incluído en nuestra aplicación.
+
+#Editamos el fichero: 'angular.json'
+#y buscamos la sección:
+
+{
+... ... ... ...
+"projects" : {
+	"traducciones" : { ....<NombreDelProyecto>
+		"architect": {
+			"build:" {
+				... ... ... ...
+				"configurations": {
+					"production": { ...
+					},
+					"fr": { ....Agregamos la versión en Francés
+						"aot": true,
+						"outputPath: "dist/saludo-fr",
+						"i18nFile": "src/locale/messages.fr.xlf",
+						"i18nFormat": "xlf",
+						"i18nLocale": "fr",
+						"i18nMissingTranslation": "error"
+					}
+
+#Esta es la configuración básica que vamos a mostrar incluir
+#dentro del fichero de configuración: 'angular.json'
+
+#Vamos a necesitar incluir otra opción vamos a buscar la opción: "serve"
+#y añadimos la opción para francés: "fr":
+
+"projects" : {
+	"traducciones" : {
+		... ... ... ... ...
+		"serve": {
+			... ... ... ... ...
+			"configurations": {
+				"browserTarget": "traducciones:build:production"
+			},
+			"fr": {
+				"browserTarget": "traducciones:build:fr"
+			}
+
+
