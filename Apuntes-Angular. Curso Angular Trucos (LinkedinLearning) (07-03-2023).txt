@@ -1491,3 +1491,37 @@ messages.de.xlf #Internacionalización Alemán
 			}
 
 
+#Ahora le vamos a dar soporte a Angular para compilar nuestra aplicación
+#utilizando los archivos que hemos definido.
+#Teniendo esta configuración base ahora vamos al fichero: 'package.json'
+#y definimos una nueva tarea para compilar y la ejecutamos:
+
+"scripts" : { 
+	... ... ... ...
+	"extraer": "ng xi18n"
+	"start:fr": "ng serve --configuration=fr"
+
+$ npm run start:fr
+
+#Ahora vamos a ver la aplicación desplegada en el navegador
+#y los textos se visualizan en francés
+
+#Ahora queremos ejecutar nuestra aplicación en francés
+#y en español:
+
+$ npm run start:fr -- --port=4201
+
+#Y ahora abrimos una nueva terminal en Visual Studio y ejecutamos:
+
+$ npm run start
+
+#Esto va a compilar mi aplicación con las opciones por defecto,
+#lo que significa que vamos a compilarla en el puerto 4200
+
+#Asi que vamos a tener entonces dos versiones de nuestra aplicación
+#Y solamente tenemos que repetir el proceso de configuración
+#acorde a los demás idiomas y podemos darle soporte ilimitado
+#para cualquier idioma que necesite tu aplicación.
+
+
+
