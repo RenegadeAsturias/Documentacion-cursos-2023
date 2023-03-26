@@ -1,0 +1,54 @@
+
+Curso Angular de cero a experto (Udemy - Fernado Herrera) (27-03-2023)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 1: Introducción al curso
+-------------------------------------------------------------
+
+1.Introducción
+2.¿Cómo funciona el curso?
+3.¿Cómo hacer preguntas?
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 1: Introducción al curso
+4.Instalaciones necesarias y recomendadas
+-------------------------------------------------------------
+
++[Google Chrome]+[Visual Studio Code]+[Postman]+[Mongo Compass]
++[Git]+[Crear cuenta en GitHub]+[Node]
+$ git config --global user.name "Tu nombre"
+$ git config --global user.email "Tu correo"
+
+-Extensiones de VSCode
++Activitus Bar
++Bracket Pair Colorizer 2
+
+-Tema que estoy utilizando en VSCode
++Monokai Night
++Material Icon Theme (Philipp Kief)
+
+Instalaciones recomendadas sobre Angular
++Angular Snipets (Angular 10 Snippets) (Mikael Morlund)
++Angular Languge Service (Angular) 
++Angular Inline (angular2-inline) (Nate Wallace)
++Auto Close Tag (Auto Close Tag) (Jun Han)
++TypeScript importer (pmneo)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 1: Introducción al curso
+5.Nota de actualización - Versión node recomendada
+-------------------------------------------------------------
+
+Actualmente para Angular CLI 14 se recomienda la versión de node 16.10.0.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 1: Introducción al curso
+6.Instalar AngularCLI
+-------------------------------------------------------------
+
+$ npm install -g @angular/cli (Run as administrator)
+
+
