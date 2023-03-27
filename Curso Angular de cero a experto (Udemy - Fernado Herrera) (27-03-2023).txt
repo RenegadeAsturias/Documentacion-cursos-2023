@@ -52,3 +52,38 @@ Sección 1: Introducción al curso
 $ npm install -g @angular/cli (Run as administrator)
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 2: Conceptos generales para empezar con Angular y TypeScript
+7.Introducción a la sección
+-------------------------------------------------------------
+
+Angular libera una versión nueva cada 6 meses.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 2: Conceptos generales para empezar con Angular y TypeScript
+8.Temas puntuales de la sección
+-------------------------------------------------------------
+
+Este es un breve listado de los temas fundamentales:
+
+1.- Generalidades de TypeScript
+2.- ¿Por qué Angular usa TypeScript?
+3.- Mitos y realidades de Angular
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 2: Conceptos generales para empezar con Angular y TypeScript
+9.¿Qué es TypeScript? y ¿Por qué Angular usa TypeScript?
+-------------------------------------------------------------
+
+TypeScript viene a ser un súper set de JavaScript, ese estándar que nosotros conocemos
+pero se conoce como un súper set porque es básicamente el mismo JavaScript
+pero le extiende características pero también tiene otras cosas que son propias
+de TypeScript que no existen en JavaScript, mejorando o expandiendo aún más
+ese lenguaje de programación.
+
+... ... ... ...
+
+
+
