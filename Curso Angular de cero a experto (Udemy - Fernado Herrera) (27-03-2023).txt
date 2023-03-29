@@ -83,7 +83,44 @@ pero le extiende características pero también tiene otras cosas que son propia
 de TypeScript que no existen en JavaScript, mejorando o expandiendo aún más
 ese lenguaje de programación.
 
-... ... ... ...
++TypeScript es un super set de JavaScript
+
++Ofrece tipado esctricto y flexible
+que nos ayuda a saber cómo funcionan las cosas.
+
++Mejora enormemente la legibilidad del código.
+
++Nos permite usar características más modernas.
+
+Código de ejemplo de una función en JavaScript:
+
+function calculaISV (productos) {
+	let total = 0;
+	productos.forEach( ({precio}) => {
+		total+=precio;
+	});
+	return [total, total*0.15];
+}
+
+Vista en TypeScript:
+
+function calculaISV (productos: Producto[]): [number,number] {
+	let total = 0;
+	productos.forEach( ({precio}) => {
+		total+=precio;
+	});
+	return [total, total*0.15];
+}
+
+Definimos Producto como:
+
+interface Producto {
+	desc: string;
+	precio: number;
+}
+
+
+
 
 
 
