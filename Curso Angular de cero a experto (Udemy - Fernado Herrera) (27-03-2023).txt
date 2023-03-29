@@ -1,7 +1,7 @@
 
 Curso Angular de cero a experto (Udemy - Fernado Herrera) (27-03-2023)
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 -------------------------------------------------------------
 
@@ -10,7 +10,7 @@ Sección 1: Introducción al curso
 3.¿Cómo hacer preguntas?
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 4.Instalaciones necesarias y recomendadas
 -------------------------------------------------------------
@@ -36,7 +36,7 @@ Instalaciones recomendadas sobre Angular
 +TypeScript importer (pmneo)
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 5.Nota de actualización - Versión node recomendada
 -------------------------------------------------------------
@@ -44,7 +44,7 @@ Sección 1: Introducción al curso
 Actualmente para Angular CLI 14 se recomienda la versión de node 16.10.0.
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 6.Instalar AngularCLI
 -------------------------------------------------------------
@@ -52,7 +52,7 @@ Sección 1: Introducción al curso
 $ npm install -g @angular/cli (Run as administrator)
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
 7.Introducción a la sección
 -------------------------------------------------------------
@@ -60,7 +60,7 @@ Sección 2: Conceptos generales para empezar con Angular y TypeScript
 Angular libera una versión nueva cada 6 meses.
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
 8.Temas puntuales de la sección
 -------------------------------------------------------------
@@ -72,7 +72,7 @@ Este es un breve listado de los temas fundamentales:
 3.- Mitos y realidades de Angular
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
 9.¿Qué es TypeScript? y ¿Por qué Angular usa TypeScript?
 -------------------------------------------------------------
@@ -120,7 +120,58 @@ interface Producto {
 }
 
 
+¿Por qué Angular utiliza TypeScript?
+
++(1) La primera razón es para tener todos los beneficios de TypeScript.
+
+Otras tecnologías como React, Deno, Node, Vue... entre otro
+montón de tecnologías también tienen sus versiones basadas en TypeScript.
+Básicamente porque todo lo que hacemos en JavaScript lo puedes hacer
+en TypeScript para tener todos sus beneficios.
+
+A partir de una clase en TypeScript como por ejemplo:
+
+class Persona {
+	nombre: string;
+	edad: number;
+	constructor() { }
+}
+
+A partir de las clases podremos construir también:
+
+class ProductosComponent {}
+class ProductosService	 {}
+class ProductosDirective {}
+class ProductosPipe	{}
+
+Donde todo es literalmente la misma clase.
+
+Y todo esto es algo que TypeScript le habilitó a Angular
+gracias a los decoradores.
+
+Los decoradores es un concepto propio y exclusivo de TypeScript por ahora.
+
+Pero los decoradores te van a permitir o le permiten a Angular
+poder diferenciar cada una de esas clases para que sea de algún tipo especial.
+
+No es algo complicado, pero al principio los decoradores tienden a asustar
+porque son un poco raros, 
+
++(2) Tenemos la ayuda y un intellisense fuerte.
+
++(3) Tenemos tipado estricto y menos errores en momento de escritura.
+
++(4) Nos permite la inyección de depedencias.
+Que nos permitirá acceder a ciertos objetos rápidamente en cualquier clase,
+sin tener que irte a un árbol de componentes, 
+sin tener que irte a buscar en un montón de archivos dónde se encuentra.
+lo que tú necesitas. Simplemente dices 'lo necesito' y lo utilizas.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 2: Conceptos generales para empezar con Angular y TypeScript
+10. 10 Mitos y realidades de Angular
+-------------------------------------------------------------
 
+... ... ... ... 
 
