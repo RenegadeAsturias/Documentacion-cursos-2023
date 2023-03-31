@@ -9,7 +9,6 @@ Sección 1: Introducción al curso
 2.¿Cómo funciona el curso?
 3.¿Cómo hacer preguntas?
 
-
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 4.Instalaciones necesarias y recomendadas
@@ -35,14 +34,12 @@ Instalaciones recomendadas sobre Angular
 +Auto Close Tag (Auto Close Tag) (Jun Han)
 +TypeScript importer (pmneo)
 
-
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
 5.Nota de actualización - Versión node recomendada
 -------------------------------------------------------------
 
 Actualmente para Angular CLI 14 se recomienda la versión de node 16.10.0.
-
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 1: Introducción al curso
@@ -51,14 +48,12 @@ Sección 1: Introducción al curso
 
 $ npm install -g @angular/cli (Run as administrator)
 
-
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
 7.Introducción a la sección
 -------------------------------------------------------------
 
 Angular libera una versión nueva cada 6 meses.
-
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
@@ -70,7 +65,6 @@ Este es un breve listado de los temas fundamentales:
 1.- Generalidades de TypeScript
 2.- ¿Por qué Angular usa TypeScript?
 3.- Mitos y realidades de Angular
-
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
@@ -167,11 +161,75 @@ sin tener que irte a un árbol de componentes,
 sin tener que irte a buscar en un montón de archivos dónde se encuentra.
 lo que tú necesitas. Simplemente dices 'lo necesito' y lo utilizas.
 
-
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 Sección 2: Conceptos generales para empezar con Angular y TypeScript
 10. 10 Mitos y realidades de Angular
 -------------------------------------------------------------
 
-... ... ... ... 
+01. Angular es mejor que React, Vue y Svelte. (Mito)
+02. Angular es más ordenado que React, Vue y Svelte. (Mito)
+03. Angular es complicado de aprender. (Mito)
+04. Angular libera nuevas versiones a cada rato. (Verdad)
+05. Las aplicaciones de Angular son muy pesadas. (Mito)
+06. Angular no es SEO Friendly. (Mito)
+07. Angular no soporta diferentes patrones com Redux. (Mito)
+08. Angular 2,4,5,6,7,8,9,10,11,12... es el mismo Angular. (Verdad)
+09. Solo puedo correr código de TypeScript en mis aplicaciones de Angular. (Mito)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+11. Introducción a la sección
+-------------------------------------------------------------
+
++Bases de TypeScript que veremos en la sección:
+Decoradores, clases, funciones, tipado estricto...
+Reconocer las características propias de TypeScript vs Angular.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+12. Temas puntuales de la sección
+-------------------------------------------------------------
+
+1. Introducción a TypeScript
+1.1 Tipos básicos
+1.2 Objetos, arreglos e interfaces
+1.3 Funciones y sus argumentos
+1.4 Desestructuración de arreglos y objetos
+1.5 Importaciones y exportaciones
+1.6 Clases, constructores
+1.7 Tipos genéricos
+1.8 Decoradores
+1.9 Encadenamiento opcional
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+13. Notas antes de empezar
+-------------------------------------------------------------
+
+Una alternativa para la introducción de TypeScript, 
+es que sigan los videos con este editor de TypeScript en la web, 
+y así no instalamos nada en nuestra computadora.
+Introducción TypeScript - Web
+https://stackblitz.com/edit/typescript-vxnz8z?file=index.ts
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+14. Inicio de proyecto - Introducción a TypeScript
+-------------------------------------------------------------
+
+Nos descargamos una aplicación inicial de partida que viene adjunta en los recursos.
+La abrimos con VSCode e iniciamos con:
+$ nmp install 
+para descargarnos todas las librerías del proyecto.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+15. Tipos básicos y conceptos generales
+-------------------------------------------------------------
+
+... continuar...
+
+
+
+
 
