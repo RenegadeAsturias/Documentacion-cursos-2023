@@ -1,0 +1,141 @@
+
+Curso de NPM: Gestión de Paquetes y Dependencias en JavaScript (Platzi) (01-04-2023)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Iniciamos el proyecto inicializando inicializando el repositorio de Git:
+$ git init
+
+Inicializar el proyecto:
+$ npm init
+
+Al final de proceso nos mostrará un resumen del 'package.json'
+que se generará a partir de las instrucciones indicadas en el proceso:
+
+"name": "npm-init" —> Podemos ponerle un nombre sin embargo toma por defecto el de la carpeta.
+"version": "1.0.0" —> Podemos cambiar segun el caso, dependiendo un cambio mayor o uno menor
+"description":"" —> Podemos hacer una breve descripcion del proyecto.
+"entry point": "(index.js)" —> Punto de entrada del proyecto.
+"test command": —> Podemos incluir los comandos para validar nuestro codigo.
+"git repository": —> Podemos incluir el repositorio para mantenerlo en la nube
+"keywords": ["javascript", "angular", "node"] —> Que va a utilizar nuestro proyecto.
+"author": "René Pañeda <renepañeda@gmail.com> —> Persona que crea el proyecto
+"license": "MIT" —> Licencias, la mas utilizada es MIT, permite distribuir nuestro codigo.
+
+
+About to write to C:\Proyectos2023\0008-npm-init\package.json:
+{
+  "name": "0008-npm-init",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "angular",
+    "node",
+    "npm"
+  ],
+  "author": "René Pañeda",
+  "license": "MIT"
+}
+Is this OK? (yes)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Instalación de dependencias:
+
+$ npm install moment
+added 1 package, and audited 2 packages in 5s
+
+Esto lo que va a realizar es conectarse a este recurso que tiene NPM
+para poder traer estos paquetes y agregarlos dentro de nuestro proyecto
+
+Añadimos otra dependencia con --save-dev 
+que la va a guardar como una dependencia que solamente va a ser utilizada en el entorno de desarrollo.
+
+$ npm install eslint --save-dev
+
+O también así:
+$ npm install eslint -D
+added 97 packages, and audited 99 packages in 27s
+
+Esto se conecta al servicio traer los recursos y los agrega al proyecto
+y con esto también nos muestra cuántos paquetes fueron agregados
+
+Para asegurarnos que el recurso estará disponible en el entorno de producción
+podemos utilizar los siguientes flags:
+
+$ npm install react -S
+$ npm install react --save
+
+Con la instalación de los paquetes se han añadido modificaciones en nuestro fichero 'package.json':
+
+... ... ... ... ... ...
+"dependencies": {
+	"moment": "^2.29.4",
+    "react": "^18.2.0"
+},
+"devDependencies": {
+    "eslint": "^8.37.0"
+}
+
+Nos movemos a la terminar para aprender a instalar paquetes globales
+estos no están ligados directamente a proyectos sino a nuestro sistema operativo 
+con lo cual vamos a poder ejecutar diferentes tareas que sean independientes al proyecto que estemos trabajando
+Por ejemplo:
+
+$ npm install -g cowsay
+
+una vez que se instala no se agrega ni modifica nada en nuestro proyecto
+pero si podemos utilizar ahora el comando: cowsay
+
+$ cowsay javascript
+
+Para ver la lista de los paquetes que tengo instalados podemos ejecutar:
+$ npm list
+
+para ver los paquetes que se han agregado a este proyecto:
+
+$ npm list
+0008-npm-init@1.0.0 C:\Proyectos2023\0008-npm-init
+├── eslint@8.37.0
+├── moment@2.29.4
+└── react@18.2.0
+
+para ver un listado de los paquetes que tengo instalados de forma global:
+
+$ npm list -g
+ C:\Users\RenePañeda\AppData\Roaming\npm
+├── ...
+├── cowsay@1.5.0
+└── npm@9.4.2
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Instalación de dependencias de versiones específicas.
+Posibilidades:
+
+#Instalar una dependencia opcional
+$ npm install package-name -o 
+Se pueden generar conflictos cuando se tienen paquetes que usan la misma dependencia pero en versiones diferentes.
+
+Para evitar esto se puede simular una instalación con: 
+$ npm install package-name —dry-run. 
+Con esto se simula la instalación pero sin agregar ningún paquete, 
+si no hay ningún conflicto se procede a instalar de la manera convencional.
+
+Instalar la versión especifica de un paquete:
+$ npm install package-name@0.15.0 
+
+Si luego se quiere instalar la versión más reciente se usa:
+$ npm install package-name@latest.
+
+Instala solo las dependencias que estén dentro de un package.json
+se utiliza cuando te descargas proyectos de repositorios en los que no se suben:
+$ npm install
+
+
