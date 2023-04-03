@@ -139,3 +139,158 @@ se utiliza cuando te descargas proyectos de repositorios en los que no se suben:
 $ npm install
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Comandos NPM (Scrits)
+
+Sobre nuestro proyecto, creamos una carpeta: src
+$ mkdir src
+
+Y añadimos un nuevo fichero: index.js
+Y le añadimos por ejemplo:
+console.log('Hola mundo!');
+
+En nuestro 'package.json' tenemos la sección de 'scripts', actualmente con:
+
+... ... ... ... ... ...
+"scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1"
+},
+
+Para nuestro ejemplo crearíamos un nuevo script para ejecutar el código
+de ejemplo de nuestra aplicación:
+... ... ... ... ... ...
+"scripts": {
+	"start": "node src/index.js"
+},
+
+Y ahora nos movemos a la terminal, exáctamente en la carpeta de nuestro proyecto
+y ejecutamos el script que hemos creado en el paso anterior:
+
+$ npm run start
+
+> 0008-npm-init@1.0.0 start
+> node src/index.js
+
+Hola mundo!
+
+También podemos hacer uso de los alias que trae node por defecto
+y esto también nos funcionaría igual que la ejecución anterior:
+
+$ npm start
+
+Podemos añadir nuevos scripts al 'package.json'
+y dentro de la ejcución concatenar tareas utilizando '&&'
+Por ejemplo:
+
+... ... ... ... ... ...
+"scripts": {
+	"start": "node src/index.js",
+	"node": "node src/index.js && node src/index.js"
+},
+
+Si ahora ejecutamos:
+
+$ npm run node
+
+se ejecutará dos veces el mismo script
+y el segundo se ejecutará en el momento en el que el primero haya terminado.
+Y si falla la ejcución del primero no se ejcutará el segundo.
+
+$ npm run node
+
+> 0008-npm-init@1.0.0 node
+> node src/index.js && node src/index.js
+
+Hola mundo!
+Hola mundo!
+
+Ahora vemos también que:
+
++ NPM (M=Management)
++ NPX (X=Execute)
+
+Vamos a entender un comando más interesante que es npx.
+npx de las siglas node package execute nos va a permitir a nosotros ejecutar acciones particulares
+sin tener que pasar por la instalación dentro de nuestro PC
+
+Comandos con NPX
+Node Package Execute, nos permite ejecutar acciones particulares sin instalarlos. 
+Lo ejecutamos y realizamos una tarea en particular. 
+Ejemplo:
+
+npx create-react-app my-app
+
+
+Para continuar con el curso, nos salimos de la carpeta de nuestro proyecto que abandonamos.
+
+
+***************************************************************************************
+Nota: Para subirlo a GitHub, creo el proyecto en GitHub
++Copio la ruta del proyecto y añado el remoto:
+$ git remote add remote-0008-npm-init https://github.com/RenegadeAsturias/0008-npm-init.git
+***************************************************************************************
+
+Ahora ejecutamos desde la consola el código de ejemplo de npx
+para crear una aplicación React base.
+Cuando termine la ejecución nos sugiere seguir unas instrucciones
+para inicializar la aplicación:
+
+$ npx create-react-app 0009-react-npm
+$ cd 0009-react-npm
+$ npm start
+
+$ git remote add remote-0009-react-npm https://github.com/RenegadeAsturias/0009-react-npm.git
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Actualización de dependencias
+
+Partimos de un proyecto de otro desarrollador ya existente que está subido en GitHub
+Proyecto: GitHub - gndx/react-base: Minimal project in React + Babel + Webpack
+copiamos la ruta y desde la consola lo clonamos:
+$ git clone https://github.com/gndx/react-base 0010-react-base
+
+Ahora para descargarnos todas las dependencias de este proyecto ejecutamos:
+$ npm install
+
+En el resumen muestra:
+23 vulnerabilities (2 low, 1 moderate, 16 high, 4 critical)
+
+Pra visualizar las dependencias de nuestro proyecto, ejecutamos:
+$ mpm list 
+
+Para visualizar las dependencias que tienen mejoras, ejecutamos:
+$ npm outdate
+
+Package                          Current  Wanted  Latest  Location                                      Depended by
+... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... 
+react                             17.0.2  17.0.2  18.2.0  node_modules/react                            0010-react-base
+react-dom                         17.0.2  17.0.2  18.2.0  node_modules/react-dom                        0010-react-base
+
+
+Como vimos anteriormente, para actualizar una librería a la versión más reciente, ejecutamos:
+$ npm install react@latest
+
+npm WARN Could not resolve dependency:
+npm WARN peer react@"17.0.2" from react-dom@17.0.2
+npm WARN node_modules/react-dom
+npm WARN 	react-dom@"17.0.2" from the root project
+
+Ahora vamos a tener mensajes de error
+esto significa que es muy probable que haya otras dependencias que también requieren
+ser actualizadas antes de actualizar ésta porque están teniendo un conflicto con las dependencias 
+que se requieren a sí misma y esto es algo muy común que vamos a poder ver aquí
+como también podemos ver que react-dom debe ser actualizada a esta misma versión
+en este caso comparten el mismo versionado
+
+Para solucionarlo, de momento, ejecutamos:
+$ npm install react-dom@latest
+
+Se solucionó el problema, pero aún no hemos resuelto las vulnerabilidades:
+changed 2 packages, and audited 992 packages in 12s
+
+23 vulnerabilities (2 low, 1 moderate, 16 high, 4 critical)
+
+Ahora veremos como arreglar este problema y como instalar las dependencia a día de hoy
+
+
+
