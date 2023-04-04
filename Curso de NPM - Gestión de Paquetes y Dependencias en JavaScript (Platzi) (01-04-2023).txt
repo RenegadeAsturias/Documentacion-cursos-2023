@@ -293,4 +293,136 @@ changed 2 packages, and audited 992 packages in 12s
 Ahora veremos como arreglar este problema y como instalar las dependencia a día de hoy
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Seguridad y solución de problemas
+
+Para ver con más detalle los problemas que tenemos que solucionar podemos ejecutar:
+
+$ npm audit
+
+Por ejemplo para uno de los casos 'critical' que tenemos esta sería la descripción:
+
+url-parse  <=1.5.8
+Severity: critical
+Incorrect hostname / protocol due to unstripped leading control characters. - https://github.com/advisories/GHSA-jf5r-8hm2-f872
+Incorrect returned href via an '@' sign but no user info and hostname - https://github.com/advisories/GHSA-8v38-pw62-9cw2
+Authorization bypass in url-parse - https://github.com/advisories/GHSA-rqff-837h-mm52
+Authorization Bypass Through User-Controlled Key in url-parse - https://github.com/advisories/GHSA-hgjh-723h-mx2j
+fix available via `npm audit fix`
+node_modules/url-parse
+
+
+Para ver con más detalle aún la descripción de los problemas
+Y nos devolverá la información en formato JSON podemos ejecutar:
+
+$ npm audit --json
+
+Vamos a ejecutar la sugerencia de la ejecución anterior:
+
+$ npm audit fix
+
+Con la ejecución se han arreglado parte de los problemas de seguridad:
+> 7 vulnerabilities (1 low, 6 high)
+
+To address all issues, run:
+  npm audit fix --force
+
+Y ahora vamos a ejecutar la sugerencia de la ejecución anterior:
+
+$ npm audit fix --force
+
+Con la ejecución se han arreglado más problemas de seguridad:
+> 5 vulnerabilities (1 low, 4 high)
+
+Vemos que principalmente los errores vienen de la librería webpack
+primero listamos las librerías instaladas con:
+
+$ npm list
+
+├── webpack-cli@4.7.2
+├── webpack-dev-server@3.11.3
+└── webpack@5.77.0
+
+Vamos intentar actualizar esta librería a la última versión:
+
+$ npm install webpack@latest
+$ npm install webpack-cli@latest
+$ npm install webpack-dev-server@latest
+
+Parece que con esto se solucionaron todos los problemas:
+
+> found 0 vulnerabilities
+
+Y ahora repasamos de nuevo las librerías instaladas:
+
+$ npm list
+
+├── webpack-cli@5.0.1
+├── webpack-dev-server@4.13.2
+└── webpack@5.77.0
+
+Si ejecutamos de nuevo la auditoría confirmamos que todo quedó solucionado:
+
+$ npm audit
+> found 0 vulnerabilities
+
+
+npm audit --> Audita las dependencias que tenemos instaladas en busca de vulnerabilidades.
+npm audit fix --> Audita e intenta arreglar las vulnerabilidades de nuestras dependencias.
+npm audit --json --> Muestra los resultados de la auditoría de manera más profunda en formato json.
+npm audit fix --force --> Corrige los problemas encontrados en las librerías instalando otras dependencias por debajo si es necesario.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Eliminación de dependencias y Package lock
+
+Para desistalar una dependencia previamente instalada ejecutamos:
+
+$ npm uninstall webpack-dev-server
+
+removed 164 packages, and audited 626 packages in 13s
+100 packages are looking for funding
+  run `npm fund` for details
+found 0 vulnerabilities
+
+
+Otra forma disponible también es borrar en el listado de dependencias
+de nuestro fichero 'package.json'
+Y una vez borrada ejeucutamos lo siguiente:
+
+$ rm -rf node_modules -> Para borrar todas las librerías instaladas
+$ npm install -> Para instalar de nuevo todas las dependencias que necesitamos 
+
+
+Para compilar nuestro proyecto, debemos ejeuctar:
+
+$ npm run build -> Nos mostrará el resultado de la compilación
+$ npm run build --dd -> Nos mostrará el resultado de la compilación en modo verbose
+
+
+Otro comando interesante que podemos ejecutar para ver librerías deprecadas
+y la información de auditoría es:
+
+$ npm ci
+
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm WARN deprecated babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
+
+added 625 packages, and audited 626 packages in 2m
+
+100 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+El fichero 'package.lock'
+
+Se creará cuando instalemos algún paquete o con la instalación de nuestras dependencias
+y lo único que va a contener es la historia completa de todos los dependencias
+y las ramas de la misma que dependan así mismo y de esta forma podrás tener todo muy bien organizado.
+
+
+
 
