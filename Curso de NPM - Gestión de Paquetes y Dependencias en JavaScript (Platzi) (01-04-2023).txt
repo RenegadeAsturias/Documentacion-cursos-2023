@@ -424,5 +424,59 @@ y lo único que va a contener es la historia completa de todos los dependencias
 y las ramas de la misma que dependan así mismo y de esta forma podrás tener todo muy bien organizado.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Crear un paquete
+
+Vamos a crear un paquete que vamos a publicar en el listado de npm.
+
+Desde el buscador de npm nos permite ver cada uno de los paquetes que tiene.
+En este caso vamos a poder buscar por algún paquete popular como react y ver que encontraremos
+una gran cantidad de paquetes particularmente el que buscamos así como también algunos variantes
+o que también son mejoras sobre este mismo de esta forma
+lo que queremos lograr es crear un paquete el cual nosotros podamos publicar y mantener
+y de esta forma en traer este ecosistema de compartir paquetes con la gran comunidad
+que tiene NPN así que lo primero que tenemos que hacer es crear un proyecto
+el cual vamos a trabajar con una herramienta que nos va a permitir mostrar mensajes de forma aleatoria
+en la terminal así de esta forma instalaremos un paquete global
+por lo tanto lo primero que voy a hacer es venir a mi GitHub
+
+Cuando voy a crear un nuevo repositorio en GitHub 
+este nuevo repositorio tiene que coincidir el nombre con el paquete que yo voy a crear
+y también previamente debemos de hacer una búsqueda para no encontrar algún paquete existente
+que tenga este mismo nombre esto es muy importante ya que si no vamos a tener un conflicto
+a la hora de publicar nuestro paquete
+
+Por ejemplo, buscamos desde el buscador de npm un paquete que se llame:
+> random-str-msg
+y no aparece ninguno
+
+Y ahora creamos en GitHub un repositorio con ese mismo nombre: random-str-msg
+
+Y desde nuestra terminal, clonamos el proyecto creado:
+
+$ git clone https://github.com/gndx/random-str-msg.git
+
+Entramos en la carpeta del proyecto clonado: 
+$ cd random-str-msg
+
+Y ahora inicializamos nuestro proyecto npm con:
+$ npm init -y (con el flag -y utilizaremos la configuración por defeecto).
+
+Creamos un nuevo fichero donde irá el código del proyecto en:
+> src > index.js
+
+Y también creamos una nueva carpeta y un nuevo fichero desde donde llamaremos
+a la función que creamos en el 'index.js'
+> bin > global.js
+
+Además añadiremos en nuesto fichero: 'package.json'
+una nueva sección:
+	... ... ... ... ... ...
+	"homepage": "..................",
+	"bin": {
+		"random-str-msg": "./bin/global.js",
+	},
+	"preferGlobal": true
+}
 
 
