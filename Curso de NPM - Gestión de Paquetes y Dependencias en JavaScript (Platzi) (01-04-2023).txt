@@ -480,3 +480,85 @@ una nueva sección:
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Publicar un paquete
+
+Ahora vamos a probar que nuestro paquete cumple con las características y que funciona
+desde la terminal y en la carperta del proyecto ejecutamos:
+
+Ejecutamos:
+$ npm link
+
+up to date, audited 3 packages in 1s
+found 0 vulnerabilities
+
+lo cual crea un enlace simbólico para poder reconocer a este paquete
+dentro del listado de paquetes que tienen NPM sin publicarlo todavía.
+De esta forma podemos probarlo y garantizar que cumple con lo que deseamos
+o con lo que debe de hacer este paquete. Ejecutamos:
+
+Si no tiene vulnerabilidades y ya tenemos un nuevo paquete listo para ser integrado 
+a este listado de paquetes que tiene NPM
+
+Primeramente vamos a localizar el paquete en el entorno local, ejecutamos:
+
+$ pwd
+/c/Proyectos2023/mensaje-aleatorio-rene
+
+Aún no tenemos publicado este paquete y vamos a hacer una simulación de la instalación para poderlo probar.
+
+Y ahora instalamos de forma global nuestro paquete creado ejecutando:
+
+$ npm install g /c/Proyectos2023/mensaje-aleatorio-rene
+added 1 package, and audited 2 packages in 2s
+found 0 vulnerabilities
+
+Ahora para probar el nuevo paquete ejecutamos:
+$ mensaje-aleatorio-rene
+
+Y se nos mostrarán mensajes aleatorios cada vez que lo ejecutemos.
+
+Una vez que hemos comprobado que nuestro paquete funciona ya lo podemos publicar.
+Así que para ello necesitamos previamente crearnos una cuenta en NPM.
+E iniciamos la sesión en la consola para poder publicar el paquete.
+Introducimos usuario y contraseña para iniciar la sesión.
+
+Y ahora para publicar nuestro paquete, ejecutamos:
+$ npm publish
+
+
+$ npm publish
+npm notice
+npm notice 📦  mensaje-aleatorio-rene@1.0.0
+npm notice === Tarball Contents ===
+npm notice 87B  bin/global.js
+npm notice 354B package.json
+npm notice 673B src/index.js
+npm notice === Tarball Details ===
+npm notice name:          mensaje-aleatorio-rene
+npm notice version:       1.0.0
+npm notice filename:      mensaje-aleatorio-rene-1.0.0.tgz
+npm notice package size:  793 B
+npm notice unpacked size: 1.1 kB
+npm notice shasum:        668987a4594442c48aed08517bee918be9d342bf
+npm notice integrity:     sha512-3tSKYNQ8au1Dt[...]0F6QKHMe8GyEQ==
+npm notice total files:   3
+npm notice
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and default access
++ mensaje-aleatorio-rene@1.0.0
+
+
+Resumen publicar un paquete:
+(1) npm link crea un enlace para reconocer el paquete sin publicarlo. el paquete quedará listo para ser testeado.
+(2) pwd comando para obtener la ruta donde se ecuentra el paquete
+(3) npm install g /ruta/obtenidacon/pwd así instalaremos el paquete en nuestro sistema de forma global para utilizar nuestro comando
+(4) random-str-msg con este comando se ejecutará el algortimo de nuestro paquete.
+
+Crear cuenta en npm:
+(1) Creamos una cuenta en npm
+(2) ingresamos a nuestra cuenta en consola
+(2.1) npm adduser comando para iniciar sesión
+(2.2) npm publish publicará nuestro paquete
+(3) Ahora en npm podremos validar si ya está subido nuestro paquete.
+
+
