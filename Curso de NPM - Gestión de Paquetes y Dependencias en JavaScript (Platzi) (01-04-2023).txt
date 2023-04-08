@@ -562,3 +562,24 @@ Crear cuenta en npm:
 (3) Ahora en npm podremos validar si ya está subido nuestro paquete.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Versionado de paquetes y paquetes privados
+
+ya tenemos nuestro paquete publicado ahora lo que tenemos que hacer es actualizarlo 
+y cambiar la versión de una forma automática y volverlo a publicar.
+
+Añadimos al proyecto un README.txt con la descripción del proyecto.
+
+Y una vez terminado, subimos todos los cambios a GitHub.
+
+git add .
+git commit -m "Añadimos un README.txt con la descripción del proyecto"
+git remote add origin https://github.com/RenegadeAsturias/mensaje-aleatorio-rene.git
+git push origin master
+
+Ahora ya puedo hacer un cambio de versión que me permita decirle a NPM
+que tenemos una nueva versión públicada. Ejecutamos:
+
+$ npm version 1.1.0
+$ npm publish
+
