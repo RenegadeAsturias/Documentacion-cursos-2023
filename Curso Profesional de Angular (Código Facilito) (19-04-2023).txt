@@ -1,0 +1,57 @@
+
+Curso Profesional de Angular (Código Facilito) (19/04/2023)
+
+Temario:
+
+Módulo-01-Introducción-Clase-01-Presentación del curso
+Módulo-01-Introducción-Clase-02-Qué aprenderás y requisitos previos
+Módulo-01-Introducción-Clase-03-Qué es y qué podemos hacer con Angular
+
+Módulo-02-EntornoTrabajo-Clase-01-Instalando Angular
+Módulo-02-EntornoTrabajo-Clase-02-Instalando VSCode y Extensiones
+Módulo-02-EntornoTrabajo-Clase-03-Explorando el Angular CLI
+Módulo-02-EntornoTrabajo-Clase-04-Estructura proyecto Angular
+
+Módulo-03-Componentes-Clase-01-Qué es un componente
+Módulo-03-Componentes-Clase-02-Creando un componente
+
+Módulo-04-Directivas-Clase-01-Qué son las directivas
+Módulo-04-Directivas-Clase-02-Directivas de atributo
+Módulo-04-Directivas-Clase-03-Directivas estructurales
+
+Módulo-05-Pipes-Clase-01-Qué son los pipes 
+Módulo-05-Pipes-Clase-02-Creando nuestro Pipe -Pipe Vs Funciones
+
+Módulo-06-Rutas-Clase-01-Qué son los módulos
+Módulo-06-Rutas-Clase-02-Rutas
+Módulo-06-Rutas-Clase-03-Rutas con hijos
+Módulo-06-Rutas-Clase-04-Guards
+Módulo-06-Rutas-Clase-05-Aplicando lazy loading en rutas
+
+Módulo-07-Forms-Clase-01-Forms-FormControl
+Módulo-07-Forms-Clase-02-FormGroups
+
+Módulo-08-Forms-Clase-01-Arquitectura de servicios en Angular
+Módulo-08-Forms-Clase-02-Servicios en Angular (petición get)
+Módulo-08-Forms-Clase-03-HTTP-Petición GET con params
+Módulo-08-Forms-Clase-04-HTTP-Petición POST,PUT,DELETE
+Módulo-08-Forms-Clase-05-HTTP-Interceptores
+
+Módulo-09-RxJS-Clase-01-Introducción a RxJS
+Módulo-09-RxJS-Clase-02-RxJS-Casos prácticos
+Módulo-09-RxJS-Clase-03-RxJS-Operadores
+
+Módulo-10-ProyectoFinal-Clase-01-Demostración del proyecto final
+Módulo-10-ProyectoFinal-Clase-02-Estructura del proyecto
+Módulo-10-ProyectoFinal-Clase-03-Wireframes del proyecto
+Módulo-10-ProyectoFinal-Clase-04-Listado-Creando los componentes
+Módulo-10-ProyectoFinal-Clase-05-Listado-Funcionalidad del listado
+Módulo-10-ProyectoFinal-Clase-06-Listado-Agregando scroll infinito
+Módulo-10-ProyectoFinal-Clase-07-Listado-Agregando filtrado
+Módulo-10-ProyectoFinal-Clase-08-Detalle-Creando los componentes
+Módulo-10-ProyectoFinal-Clase-09-Detalle-Funcionalidad
+
+
+******************************************************************************
+******************************************************************************
+******************************************************************************
