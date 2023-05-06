@@ -287,7 +287,90 @@ src > app > app.component.html
 <button [routerLink]="['/pipes']" routerLinkActive="seccionActiva">Ir a Componente Estructural</button>
 <router-outlet></router-outlet>
 
+
 ------------------------------------------------------------
+
+Rutas con hijos:
+
+1.-En el módulo de compras tenemos declaradas los siguientes componentes:
+
+@NgModule({
+  declarations: [
+    ListadoComponent,
+    NuevaCompraComponent,
+    HistorialCompraComponent
+  ],
+
+Y vamos a seleccionar el: ListadoComponent 
+como el contenedor de todo el módulo de compras:
+
+Así que voy a añadir la ruta padre con: ListadoComponent
+y las rutas hijas con el resto de componentes.
+De momento tenemos solo estas rutas definidas:
+
+const routes: Routes = [
+  {path: 'pipes', component: PipesComponent},
+  {path: 'estructural', component: DirectivaEstructuralComponent}
+];
+
+Añadimos las rutas:
+const routes: Routes = [
+	... ... ... ... ..., 
+	{ path: 'compra', component: ListadoComponent, children: [
+		{ path: 'nueva', component: NuevaCompraComponent },
+		{ path: 'historial', component: HistorialCompraComponent },
+	]}
+];
+
+Para poder utilizar las Rutas en nuestro módulo de compras
+tenemos que añadir el 'RouterModule' al módulo:
+
+@NgModule({
+  declarations: [
+    ListadoComponent,
+    NuevaCompraComponent,
+    HistorialCompraComponent
+  ],
+  exports: [
+    ListadoComponent
+  ],
+  imports: [
+    CommonModule,
+	RouterModule ************** Para poder utilizar las rutas en el módulo de compras
+  ]
+})
+export class CompraModule { }
+
+Ahora vamos a configurar una navegación para nuestro módulo de compras:
+
+src > app > compra > listado.component.html
+
+<button [routerLink]="['/compra/nueva']" routerLinkActive="seccionActiva">Nueva compra</button>
+<button [routerLink]="['/compra/historial']" routerLinkActive="seccionActiva">Historial compra</button>
+<router-outlet></router-outlet>
+
+
+------------------------------------------------------------
+--------------- Ruta por defecto ---------------------------
+
+Configuramos la Ruta por defecto para cuando no haya una ruta
+por ejemplo, cuando entramos inicialmente en la aplicación
+
+http://localhost:4200
+
+Añadimos la ruta:
+const routes: Routes = [
+	... ... ... ... ..., 
+	{ path: '', redirectTo: 'pipes', pathMatch: 'full' }
+];
+
+De esta forma cuando introduccimos en la Url del navegador:
+http://localhost:4200
+
+Nos redirecciona a:
+http://localhost:4200/pipes
+
+
 
 
 
