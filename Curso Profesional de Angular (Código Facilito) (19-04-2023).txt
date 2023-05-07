@@ -371,6 +371,138 @@ Nos redirecciona a:
 http://localhost:4200/pipes
 
 
+------------------------------------------------------------
+--------------- Guards -------------------------------------
+
+Comenzamos a ver Guards
+que son filtros o funciones que podemos añadir a una ruta para que
+por ejemplo se valide algo antes de acceder a la ruta:
+
+$ ng g guard auth
+
+Y el menú de opciones nos solicita que tipo de Guard queremos crear:
+
+$ ng g guard auth
+? Which type of guard would you like to create? (Press <space> to select, <a> to toggle all, <i> to invert selection, and
+<enter> to proceed)
+>(*) CanActivate
+ ( ) CanActivateChild
+ ( ) CanDeactivate
+ ( ) CanLoad
+ ( ) CanMatch
+
+Selecciono el valor por defecto:
+>(*) CanActivate
+
+Y nos crea estos dos ficheros:
+CREATE src/app/auth.guard.spec.ts (331 bytes) ******* Para pruebas
+CREATE src/app/auth.guard.ts (457 bytes) ************ Para la lógica que verifica si puedo acceder
+
+que nos permite saber si podemos acceder a una ruta.
+
+Los guards no se actualizan dentro de ningún módulo
+ni necesitan estar dentro de ningún módulo.
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+	
+	// Debajo de los dos parámetros que recibe el método
+	// Introducimos la lógica de negocio que verifica si accedemos o no
+	// Como valor devuelto más típico, devolvemos un booleano.
+	
+    return true;
+  }
+  
+}
+
+Para un ejemplo, simulando una autenticación definimos en:
+
+src > app > app.component.ts
+
+export class AppComponent {
+
+	constructor() { // Simulamos el Id del usuario.
+		localStorage.setItem('id', '1234');
+	}
+
+Y ahora implementamos la comprobación en nuestro Guard auth:
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+	
+	const id = localStorage.getItem('id');
+    return id === '1234';
+  }
+  
+}
+
+De momento solo lo hemos definido pero no lo hemos utilizado.
+Vamos a nuestro módulo de rutas:
+
+src > app > app-routing.module.ts
+
+Y lo anexado a la ruta que deseamos proteger:
+
+La ruta que deseamos proteger en este caso es 'compra'
+Le añadimos un atributo nuevo: canActivate
+y como valores le asignamos un array con los Guards
+que quiero que anexar a la ruta.
+
+Añadimos los Guards a la ruta:
+
+import { AuthGuard } from './auth.guard';
+
+const routes: Routes = [
+	... ... ... ... ..., 
+	{ path: 'compra', 
+		component: ListadoComponent, 
+		canActivate: [AuthGuard], ****************** Guard anexado
+	{ path: 'compra', 
+		component: ListadoComponent, 
+		canActivate: [AuthGuard],
+		children: [
+			{ path: 'nueva', component: NuevaCompraComponent },
+			{ path: 'historial', component: HistorialCompraComponent },
+		]
+	}
+];
+
+Para probar que funciona añadimos un nuevo botón a nuestra cabecera de navegación:
+
+src > app > app.component.html
+
+<button [routerLink]="['/compra']" routerLinkActive="seccionActiva">Ir a Compras</button>
+
+Y hacemos clic en el botón 'Ir a Compras' y vemos que nos lleva correctamente
+a la ruta '/compras' que habíamos protegido con nuestro Guard
+porque el identificador del usuario de la validación coincide con '1234'
+y el Guard está pasando como true.
+
+
+Ahora vamos a guardar inicialmente otro identificador diferente
+en el localStorage para que el Guard no valide la condicón a true:
+
+src > app > app.component.ts
+
+export class AppComponent {
+
+	constructor() { // Simulamos el Id del usuario.
+		localStorage.setItem('id', '9999');
+	}
+	
+
+
+
 
 
 
