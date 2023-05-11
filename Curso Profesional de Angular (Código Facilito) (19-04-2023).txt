@@ -501,8 +501,159 @@ export class AppComponent {
 	}
 	
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-06-Rutas-Clase-05-Aplicando lazy loading en rutas
+
+Hemos estado trabajando con rutas en el módulo anterior
+y tenemos un montón de rutas definidas en nuestro proyecto.
+y eso está bastante bien pero lo que pasa con las Single Page Application (SPA)
+es que solo cargan una vez todos los módulos 
+y después el usuario puede recorrer entre ellos sin necesidad
+de que la página se recargue.
+
+El problema puede surgir si nuestra aplicación tiene
+muchas páginas, muchas rutas y muchos módulos
+la carga inicial de nuestra aplicación puede ser un poco lenta.
+Así que dependiendo del número de módulos de nuestra aplicación
+en algún punto no es viable está cargando todo en el inicio.
+
+Porque en la mayoría de los casos los usuarios no van a utilizar
+todas las rutas que tenemos definidas en nuestro proyecto.
+Por lo que no sirve de nada relentizar la carga inicial de la página
+por cargar módulos que el usuario no va a utilizar.
+
+La solución para este problema se llama: lazy loading
+es decir, carga perezosa que es una estrategia para descargar
+de manera perezosa o en otras palabras a demanda
+algunos módulos que nosotros queramos cargar así.
+
+Por ejemplo, si nuestra aplicación tiene 10 módulos
+pero los que más utilizan todos los usuarios son dos
+los podemos cargar en el inicio de la aplicación
+y los demás van a cargar cuando el usuario intente entrar
+en la ruta de cada módulo.
+
+De este modo la carga inicial será más rápida
+y cuando usuario intenté entrar a la ruta de un módulo no cargaddo
+se va a descargar toda la lógica de este módulo.
+
+Vamos a crear en nuestra aplicación de ejemplo
+un nuevo módulo de venta y que tenga lazy loading implementado.
+
+Creamos el módulo de venta:
+$ ng g m venta --routing=true
+
+CREATE src/app/venta/venta-routing.module.ts (248 bytes)
+CREATE src/app/venta/venta.module.ts (276 bytes)
+
+Nos crea un fichero extra, para manejar las rutas de nuestro
+nuevo módulo de manera encapsulada:
+
+src/app/venta/venta-routing.module.ts
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class VentaRoutingModule { }
 
 
+---------- Añadimos unos componentes para nuestro módulo de venta -----------
+con el mismo nombre que nuestros componentes del módulo de compra
+pero que estén dentro de la carpeta 'venta'
+
+$ ng g c venta/listado
+CREATE src/app/venta/listado/listado.component.html (22 bytes)
+CREATE src/app/venta/listado/listado.component.spec.ts (606 bytes)
+CREATE src/app/venta/listado/listado.component.ts (206 bytes)
+CREATE src/app/venta/listado/listado.component.css (0 bytes)
+UPDATE src/app/venta/venta.module.ts (364 bytes)
+
+$ ng g c venta/historial-venta
+CREATE src/app/venta/historial-venta/historial-venta.component.html (30 bytes)
+CREATE src/app/venta/historial-venta/historial-venta.component.spec.ts (656 bytes)
+CREATE src/app/venta/historial-venta/historial-venta.component.ts (237 bytes)
+CREATE src/app/venta/historial-venta/historial-venta.component.css (0 bytes)
+UPDATE src/app/venta/venta.module.ts (480 bytes)
+
+$ ng g c venta/nueva-venta
+CREATE src/app/venta/nueva-venta/nueva-venta.component.html (26 bytes)
+CREATE src/app/venta/nueva-venta/nueva-venta.component.spec.ts (628 bytes)
+CREATE src/app/venta/nueva-venta/nueva-venta.component.ts (221 bytes)
+CREATE src/app/venta/nueva-venta/nueva-venta.component.css (0 bytes)
+UPDATE src/app/venta/venta.module.ts (580 bytes)
+
+
+En nuestro nuevo módulo de ventas, añadimos las nuevas rutas:
+
+src > app > venta > venta-routing.module.ts
+
+import { NuevaVentaComponent } from './nueva-venta/nueva-venta.component';
+import { HistorialVentaComponent } from './historial-venta/historial-venta.component';
+
+const routes: Routes = [{
+	path: '',
+	children: [
+		{ path: '', redirectTo: 'nueva', pathMatch: 'full' },
+		{ path: 'nueva', component: NuevaVentaComponent },
+		{ path: 'historial', component: HistorialVentaComponent },
+	],
+}];
+	
+Hemos creado un nuevo módulo y tenemos que añadirlo al fichero:
+
+src > app > app.module.ts
+
+import { VentaModule } from './venta/venta.module';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+	... ... ... ...
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    CompraModule,
+    VentaModule ************ Incluimos en nuevo módulo venta   
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+Anora vamos a añadir una nueva ruta pero en nuestro fichero:
+
+src > app > app-routing.module.ts
+
+const routes: Routes = [
+	... ... ... ... ..., 
+	{ path: 'compra', 
+		component: ListadoComponent, 
+		canActivate: [AuthGuard],
+		children: [
+			{ path: 'nueva', component: NuevaCompraComponent },
+			{ path: 'historial', component: HistorialCompraComponent },
+		]
+	},
+	{ path: 'venta', ********************* Nueva Ruta
+		loadChildren: () => 
+			import('./venta/venta.module').then((m) => m.VentaModule),
+	},
+];
+
+Para que se carguen el módulo de venta tendremos que ir a la url
+del navegador e introducir: http://localhost:4200/venta
+
+Desde las herramientas de desarrollo del Chrome vemos como ahora
+se descarga el módulo de venta.
 
 
 
