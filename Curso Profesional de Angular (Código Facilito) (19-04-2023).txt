@@ -656,4 +656,125 @@ Desde las herramientas de desarrollo del Chrome vemos como ahora
 se descarga el módulo de venta.
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-07-Forms-Clase-01-Forms-FormControl
+
+Creando y gestionando formularios con Angular
+Existen dos tipos de manejos de formularios:
+-Formuarios por template
+-Formularios reactivos
+
+Creamos un nuevo repositorio para ver los formularios
+
+$ ng new 0014-curso-profesional-angular-formularios
+
+Creamos un nuevo componente:
+(con --skip-test no se creará el fichero de test)
+
+Creamos un componente para crear formularios reactivos
+$ ng g c formularios --skip-tests
+
+Y también creamos un nuevo componente para crear botones
+de navegación:
+$ ng g c cabecera --skip-tests
+
+#Añadimos la ruta para el componente formularios en:
+const routes: Routes = [
+	{ path: '', redirectTo: 'formularios', pathMatch: 'full' }
+    { path: '/formularios', component: FormulariosComponent  }
+];
+
+Pero aún no se muestra nada, nos vamos a:
+src > app > app.component.hml
+
+Y añadimos
+<app-cabecera></app-cabecera>
+<router-outlet></router-outlet>
+
+En el template del componente cabecera añadimos al menos un botón:
+<button [routerLink]="['/formularios']" routerLinkActive="seccionActiva">Ir a Formularios</button>
+<hr>
+
+Para poder utilizar los formularios reactivos añadimos el módulo: ReactiveFormsModule en:
+
+scr > app > app.module.ts
+
+Añadimos:
+
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    CabeceraComponent,
+    FormulariosComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule ******** Formularios Reactivos
+
+
+Ahora vamos a añadir un control que estará asociado o tendrá un binding
+a una varible del formulario:
+
+scr > app > formularios > formularios.component.ts
+
+import { FormControl } from '@angular/forms';
+
+@Component({ ...
+export class FormulariosComponent {
+  name = new FormControl('');
+}
+
+scr > app > formularios > formularios.component.html
+
+<input type="text" placeholder="Nombre" [formControl]="name">
+{{name.value}} // Incluímos una interpolación para ver el valor de la variable del input
+
++Añadimos otro campo:
+
+@Component({ ...
+export class FormulariosComponent {
+  name = new FormControl('');
+  isChecked = new FormControl(false);
+}
+
+<input type="checkbox" [formControl]="isChecked"/>
+{{isChecked.value}}
+
+Para visualizar un objeto y sus propiedades por pantalla
+por ejemplo para depuración podemos escribir:
+
+<pre>
+	<code>
+		{{isChecked | json}}
+	</code>
+</pre>
+
+------------- Añadimos Validators ----------------------------------
+
+Por ejemplo, añadimos Validators al campo name:
+
+@Component({ ...
+export class FormulariosComponent {
+  name = new FormControl('', [Validators.minLength(4), Validators.required]);
+
+Y también añadimos en el template la sintaxis anterior para ver el objeto
+y las validaciones y sus estados cuando utilizamos el campo:
+
+<pre>
+	<code>
+		{{name | json}}
+	</code>
+</pre>
+
+Ahora vamos a añadir un nuevo botón que esté deshabilido si hay errores
+en el campo nombre y habilitado si no hay errores:
+
+<button [disabled]="name.errors">Enviar</button>
+
+
+
 
