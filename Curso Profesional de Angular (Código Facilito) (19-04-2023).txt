@@ -776,5 +776,43 @@ en el campo nombre y habilitado si no hay errores:
 <button [disabled]="name.errors">Enviar</button>
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-07-Forms-Clase-02-FormsGroups
+
+FormsGroups es un objeto que nos permite manejar varios FormsControl.
+
+Por ejemplo, para crear un FormGroup con los FormsControl
+del ejemplo anterior sería:
+
+form = new FormGroup({
+    name: new FormControl('', [Validators.minLength(4), Validators.required]),
+    isChecked: new FormControl(false)
+});
+
+Para completar el template utilizando FormGroups:
+
+<form [formGroup]="form">
+  <div class="">
+      <input type="text" placeholder="Nombre" formControlName="name">
+      <br/>{{form.get('name')?.value}}
+  </div>
+  <hr>
+  <div class="">
+      <input type="checkbox" formControlName="isChecked"/>
+      <br/>{{form.get('isChecked')?.value}}
+  </div>
+</form>
+<br/>
+<button [disabled]="form.get('name')?.errors">Enviar</button>
+
+<br/><br/><hr>
+Para visualizar el formulario:
+<br/>
+{{form.value | json}}
+
+
+
+
 
 
