@@ -812,6 +812,280 @@ Para visualizar el formulario:
 {{form.value | json}}
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-08-Forms-Clase-01-Arquitectura de servicios en Angular
+
++Utilizar y consumir servicios HTTP:
+
+Diagrama: App Angular <--(json)-> API REST <---> SERVIDOR
+
+App Angular:
+[Componentes <---> Servicios] <--(json)-> API REST <---> SERVIDOR
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-08-Forms-Clase-02-Servicios en Angular (petición get)
+
+API REST que consumiremos: https://jsonplaceholder.typicode.com/todos
+
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "delectus aut autem",
+    "completed": false
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "quis ut nam facilis et officia qui",
+    "completed": false
+  },
+  {
+    "userId": 1,
+    "id": 3,
+    "title": "fugiat veniam minus",
+    "completed": false
+  },
+... ... ... ... ... ... ... ... ... ... ... ... 
+
+Creamos un nuevo componente:
+
+$ ng g c todos
+CREATE src/app/todos/todos.component.html (20 bytes)
+CREATE src/app/todos/todos.component.spec.ts (592 bytes)
+CREATE src/app/todos/todos.component.ts (198 bytes)
+CREATE src/app/todos/todos.component.css (0 bytes)
+UPDATE src/app/app.module.ts (848 bytes)
+
+y dentro de la carpeta, creamos un servicio:
+
+$ cd src/app/todos
+$ ng g s todo
+CREATE src/app/todos/todo.service.spec.ts (347 bytes)
+CREATE src/app/todos/todo.service.ts (133 bytes)
+
+
+Se ha creado el servicio: 'todo.service'
+
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root' ********* Con esta propiedad declarada se habilita en Angular
+					 ********* que todos los componentes puedan hacer uso de un Servicio
+})
+export class TodoService {
+
+  constructor() { }
+}
+
+
+Si la propiedad providedIn: 'root' no está declarada
+para utilizar un Servicio en un módulo habría que añadirlo.
+En nuestra aplicación simple de formularios solo tenemos:
+
+src > app > app.module.ts
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    CabeceraComponent,
+    FormulariosComponent,
+    Formularios2Component,
+    TodosComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule
+  ],
+  providers: [TodoService], ******** Añadimos el Servicio.
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+Si la aplicación tuviese diferentes módulos añadiríamos
+el Servicio al módulo o módulos desde los que deseamos utilizar el servicio:
+
+Ejemplo:
+src > app > venta > venta.module.ts
+
+@NgModule({
+  declarations: [
+    ListadoComponent,
+    HistorialVentaComponent,
+    NuevaVentaComponent
+  ],
+  imports: [
+    CommonModule,
+    VentaRoutingModule
+  ],
+  providers: [TodoService], ******** Añadimos el Servicio.
+})
+export class VentaModule { }
+
+
+----------------------- Para hacer peticiones Http --------------------------
+
+------------------------------------------------------------------
+1º Añadir el módulo de Angular que utilizaremos: HttpClientModule:
+
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    CabeceraComponent,
+    FormulariosComponent,
+    Formularios2Component,
+    TodosComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule  ************** Añadir este módulo para hacer peticiones Http
+  ],
+  providers: [TodoService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+ 
+
+------------------------------------------------------------------
+2º Inyectar en el constructor del Servicio una instancia
+del módulo HttpClientModule que hemos añadido:
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoService {
+
+  constructor(private http: HttpClient) { }
+}
+
+
+------------------------------------------------------------------
+3º Implementar la petición Http en el Servicio:
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoService {
+
+  constructor(private http: HttpClient) {
+  }
+
+  // Implementamos la llamada Http:
+  getTodos() {
+      return this.http.get('https://jsonplaceholder.typicode.com/todos');
+  }
+
+}
+
+
+------------------------------------------------------------------
+4º Añadir en el template header.component.html un nuevo acceso:
+
+<button [routerLink]="['/todos']" routerLinkActive="seccionActiva">Todos</button>
+
+
+------------------------------------------------------------------
+5º Añadir en el: app-routing.module.ts la nueva ruta:
+
+import { TodosComponent } from './todos/todos.component';
+
+const routes: Routes = [
+	{ path: '', redirectTo: 'formularios', pathMatch: 'full'  },
+	{ path: 'formularios', component: FormulariosComponent    },
+	{ path: 'formularios2', component: Formularios2Component  },
+	{ path: 'todos', component: TodosComponent  } ********************** Nueva ruta
+];
+
+
+------------------------------------------------------------------
+6º Ahora tendremos que hacer uso del Servicio
+dentro de nuestro nuevo componente: TodosComponent
+
+export class TodosComponent implements OnInit {
+
+  constructor(private todoService: TodoService) {}
+
+  ngOnInit(): void {
+    this.todoService.getTodos().subscribe(res => {
+      console.log(res);
+    }
+  }
+
+
+
+Todo el módulo que añadimos Http devuelve un Observable de un Objeto:
+
+(method) TodoService.getTodos(): Observable<Object>
+"@return — An Observable of the response body as a JavaScript object."
+
+Un Observable es parecido a un flujo de datos que nos devolverá
+una respuesta de manera Asíncrona
+La respuesta llegará en un tiempo indeterminado, es una respuesta a futuro.
+
+Lo que tengo que hacer para obtener esa respuesta a futuro
+es suscribirme al evento que cuanto tenga la respuesta 
+me va a devolver esa respuesta.
+
+Dentro del subscribe, tendremos un Callback con lo que tenemos
+que hacer con la respuesta, siendo 'res' la respuesta.
+
+this.todoService.getTodos().subscribe(res => {
+	console.log(res);
+}
+
+Ahora lo ejecutamos y en la consola del navegador
+podemos visualizar el resultado de los valores obtenidos:
+
+Array(200)
+[0 … 99]
+0: {userId: 1, id: 1, title: 'delectus aut autem', completed: false}
+1: {userId: 1, id: 2, title: 'quis ut nam facilis et officia qui', completed: false}
+2: {userId: 1, id: 3, title: 'fugiat veniam minus', completed: false}
+...................................
+
+
+Para poder ver el resultado en pantalla, sin explicar nada más
+harímos los siguientes cambios:
+
+
+En la clase del componente añadimos:
+src > app > todos > todos.component.ts
+
+export class TodosComponent implements OnInit {
+
+  todos: any[] = []; // ************ Añadimos un array vacío para contener
+						************ nuestros resultados.
+
+  constructor(private todoService: TodoService) {}
+
+	ngOnInit(): void {
+		this.todoService.getTodos().subscribe((res: any) => {
+			console.log(res);
+			this.todos = res;
+			console.log(this.todos);
+		}
+	}
+
+
+En el template del componente añadimos:
+src > app > todos > todos.component.html
+
+<ul>
+	<li *ngFor="let todo of todos"> {{todo.title}} </li>
+</ul>
+
+
+
+
 
 
 
