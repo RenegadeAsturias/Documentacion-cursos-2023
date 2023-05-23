@@ -1084,8 +1084,72 @@ src > app > todos > todos.component.html
 </ul>
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-08-Forms-Clase-03-HTTP-Petición GET con params
+
+Veremos como pasarle query params en la llamada al servicio, por ejemplo:
+
+GET 	/comments?postId=1
+
+https://jsonplaceholder.typicode.com/comments?postId=1
 
 
+1º Reaprovechamos el Servicio anterior para el ejemplo e
+implementamos la llamada Http y pasamos una parámetro a la ruta
+------------------------------------------------------------------
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoService {
+
+  constructor(private http: HttpClient) {
+  }
+
+  // Implementamos la llamada Http y pasamos una parámetro a la ruta****************
+  getComents(postId: number) {
+      return this.http.get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`);
+  }
+
+}
+
+
+2º Implementamos la llamada al método del Servicio
+y pintamos el resultado en la consola
+------------------------------------------------------------------
+
+export class TodosComponent implements OnInit {
+	constructor(private todoService: TodoService) {}
+	ngOnInit(): void {
+		this.todoService.getComents(1).subscribe((res: any) => {
+			console.log('Comentarios...:'+res);
+		});
+	}
+}
+
+
+3º Implementamos la llamada al método del Servicio
+utilizando otra sintaxis que nos permita enviar muchos parámetros de una forma agrupada.
+------------------------------------------------------------------
+
+  // Implementamos la llamada Http y pasamos los parámetros que necesitemos
+  getComents2(postId: number) {
+	const params = {
+		postId: postId,
+		param1: value1,
+		param2: value2,
+		... ... ... ... ... ... 
+	}
+    return this.http.get(`https://jsonplaceholder.typicode.com/comments`, {params});
+  }
+
+Invocamos al nuevo método desde la clase del componente que utiliza el servicio
+y pintamos los resultados en la consola:
+
+    this.todoService.getComents2(1).subscribe((res) => {
+		console.log('Comentarios2...:', res);
+    });
 
 
 
