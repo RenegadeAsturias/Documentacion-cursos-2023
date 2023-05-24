@@ -1152,5 +1152,40 @@ y pintamos los resultados en la consola:
     });
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-08-Forms-Clase-04-HTTP-Petición POST,PUT,DELETE
+
+Ejemplo de petición POST:
+
+POST 	/posts
+
+En las peticiones Post se requiere un parámetro 'body'
+(An argument for 'body' was not provided.)
+como en nuestra función de llamada de ejemplo no vamos a utilizar
+el parámetro 'body' le pasamos un null como parámetro 
+
+  getPosts() {
+    return this.http.post('https://jsonplaceholder.typicode.com/posts', null);
+  }
+
+Invocamos al nuevo método desde la clase del componente que utiliza el servicio
+y pintamos los resultados en la consola:
+
+    this.todoService.getPosts().subscribe((res) => {
+			console.log('Posts...:', res);
+    });
+
+
+Para probar los métodos PUT, PATCH, DELETE
+simplemente cambiamos el nombre del método en la llamada, algo así:
+------------------------------------------------------------------
+
+PUT 	/posts/1 ...: return this.http.put(`https://jsonplaceholder.typicode.com/posts/1`);
+
+PATCH 	/posts/1 ...: return this.http.patch(`https://jsonplaceholder.typicode.com/posts/1`);
+
+DELETE 	/posts/1 ...: return this.http.delete(`https://jsonplaceholder.typicode.com/posts/1`);
+
 
 
