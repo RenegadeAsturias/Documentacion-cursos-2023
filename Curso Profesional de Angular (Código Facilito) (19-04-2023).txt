@@ -1188,4 +1188,132 @@ PATCH 	/posts/1 ...: return this.http.patch(`https://jsonplaceholder.typicode.co
 DELETE 	/posts/1 ...: return this.http.delete(`https://jsonplaceholder.typicode.com/posts/1`);
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-08-Forms-Clase-05-HTTP-Interceptores
+
+Nos brinda la posibilidad de interceptar todas las peticiones que salgan de nuestro
+frontent para ejecutar la lógica que necesitemos.
+
+(1) Crearemos un nuevo Servicio en la carpeta services:
+
+$ ng g s services/interceptor
+CREATE src/app/services/interceptor.service.spec.ts (382 bytes)
+CREATE src/app/services/interceptor.service.ts (140 bytes)
+
+Nos crea el servicio:
+
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InterceptorService {
+
+  constructor() { }
+}
+
+-----------------------------------------------------------------
+(2) Añadimos la implementación 'implements HttpInterceptor'
+y nos solicita implementar el método: 'intercept':
+
++ El parámetro: 'req' se corresponde con la petición
+que hacemos y que es interceptada
+por ejemplo: https://jsonplaceholder.typicode.com/comments?postId=1
+
++ El parámetro: 'next'
+se refiere a la acción que se realizará acontinuación de la intercepción
+
+
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InterceptorService implements HttpInterceptor {
+
+  constructor() { }
+  
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    throw new Error('Method not implemented.');
+  }
+
+}
+
+
+-----------------------------------------------------------------
+(2) Implementamos el método: 'intercept'
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Interceptado!');
+	return next.handle(req);
+  }
+
+
+-----------------------------------------------------------------
+(3) Comentamos en secciones anteriores que los Servicios que tenían
+la anotación @Injectable con la propiedad: providedIn: 'root'
+no era necesario definirla en el módulo.
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InterceptorService implements HttpInterceptor {
+
+
+Esto era correcto porque el Servicio se iba a utilizar desde
+los componentes como:
+
+constructor(private todoService: TodoService) {}
+
+En este caso, el interceptor no va a ser utilizado
+desde ningún componente sino que será utilizado desde el módulo
+así que tenemos que definirlo:
+
+  providers: [
+	TodoService,
+	{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true },
+  ],
+
+Ahora en la consola veremos una traza por cada una de las llamadas
+que lanzábamos desde nuestro componente:
+
+Por ejemplo, para la llamada:
+
+    this.todoService.getTodos().subscribe((res: any) => {
+			console.log(res);
+			this.todos = res;
+			console.log(this.todos);
+    });
+
+Se muestra:
+
+	Interceptado!
+	
+-----------------------------------------------------------------
+(4) Vamos a implementar nuevo código para nuestro interceptor
+y añadiremos una nueva cabecera a la petición interceptada:
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Interceptado!');
+	const newReq = req.clone({
+		setHeaders: {
+			Authorizacion: 'FakeAuth'
+		}
+	})
+	return next.handle(newReq);
+  }
+
+Ahora desde las herramientas del Chrome veremos desde la pestaña: 'Network'
+en las cabeceras de la petición (Headers)
+que se añadió a las cabeceras de la petición (Request Headers)
+la cabecera que añadimos:
+
+authorizacion: 'FakeAuth'
+
+
+
+
 
