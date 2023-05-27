@@ -1314,6 +1314,179 @@ la cabecera que añadimos:
 authorizacion: 'FakeAuth'
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-09-RxJS-Clase-01-Introducción a RxJS
+
+RxJS es una librería de JavaScript que es utilizada por Angular.
+Permite comunicar información entre distintos lugares con Observers y Subjects.
+Es el pilar de la Reactividad.
+
+Para la explicación, tomamos como ejemplo una cuenta de Twitter
+donde una cuenta se corresponde con el Subject
+y los Observers son los usuarios suscritos al Subject
+y que serán notificados cuando el Subject transmita una comunicación.
+
+En RxJS existe el concepto de Operadores (Operators)
+
+Podemos representar también a los Observables como una manguera
+que es el medio por el que va a pasar la información
+
+Y los Operadores (Operators) transforman la salida de la información.
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-09-RxJS-Clase-02-RxJS-Casos prácticos
+
+
+Recuperamos nuestro servicio desde el que hacíamos un llamada
+al método getTodos()
+
+export class TodoService {
+  constructor(private http: HttpClient) {
+  }
+  getTodos() {
+      return this.http.get('https://jsonplaceholder.typicode.com/todos');
+  }
+
+
+que devolvía un Observable de tipo Object:
+
+(method) TodoService.getTodos(): Observable<Object>
+
+Por lo que esto ya sería un Observable:
+
+return this.http.get('https://jsonplaceholder.typicode.com/todos');
+
+Y getTodos() devuelve un Observable.
+
+
+Y desde el Componente nos suscribimos a la información que este canal vaya a emitir
+y le mandamos una función de lo que vamos a hacer cuando obtengamos esa información.
+
+  this.todoService.getTodos().subscribe((res: any) => {
+		console.log(res);
+		this.todos = res;
+		console.log(this.todos);
+  });
+
+
+(1) Vamos a crear nuestro propio Observable en el Servicio:
+
+Creamos el Subject, el canal de información:
+
+import { Subject } form 'rxjs';
+
+export class TodoService {
+
+// Canal de información:
+postSource = new Subject();
+
+Y ahora creamos un Observable,
+por convención los Observables terminan con $:
+
+// Observable, que consumiremos desde los Componentes:
+posts$ = this.postSource.asObservable();
+
+
+(2) En la clase del componente, implementamos un método
+para hacer uso del Subject:
+
+src > app > todos > todos.component.ts
+
+*El 'next('Información!')' se corresponde con abrir el grifo de la manguera
+y enviamos nueva información con una cadena de texto 'Información!'
+actualizando la salida de agua de nuestra manguera
+
+updatePost(){
+	this.todoService.postSource.next('Información!');
+}
+
+
+(3) Para llamar al método de la clase 'updatePost()' 
+añadimos en el template del Componente un botón:
+
+<button (click)="updatePost()">Actualizar posts</button>
+
+
+Si ahora actualizamos el proyecto y hacemos clic en el botón
+estamos emitiendo la información nueva
+pero no hay nadie suscrito que pueda recibir esa información
+y que se pueda mostrar en la consola.
+
+Vamos a crear una suscripción desde el mismo componente así:
+
+ngOnInit(): void {
+
+ this.todoService.posts$.subscribe((res) => {
+	console.log('Nuevos datos: ', res);
+ });
+... ... ... ... ... ... ... ... 
+
+
+Si ahora hacemos clic en el botón visualizamos por la consola
+> Nuevos datos:  Información!
+
+
+(4) Para continuar con el ejemplo creamos un nuevo componente
+
+$ ng g c todos/todo
+CREATE src/app/todos/todo/todo.component.html (19 bytes)
+CREATE src/app/todos/todo/todo.component.spec.ts (585 bytes)
+CREATE src/app/todos/todo/todo.component.ts (194 bytes)
+CREATE src/app/todos/todo/todo.component.css (0 bytes)
+UPDATE src/app/app.module.ts (1245 bytes)
+
+
+(5) Inyectamos el Servicio en el Constructor del nuevo componente
+y nos suscribimos desde nuestro nuevo componente
+y quitamos la suscripción del componente anterior.
+
+
+export class TodoComponent  implements OnInit {
+	constructor(private todoService: TodoService) {}  
+	ngOnInit(): void {
+		this.todoService.posts$.subscribe((res) => {
+			console.log('Nuevos datos: ', res);
+		});
+	}
+}
+
+
+(6) Añadimos nuestro nuevo componente al componente todos:
+
+<p>todos works!</p>
+<br/>
+<button (click)="updatePost()">Actualizar posts</button>
+<br/><br/>
+<ul>
+  <li *ngFor="let todo of todos">{{todo.title}}</li>
+</ul>
+
+<app-todo></app-todo> ********* Añadido!
+
+
+Ahora cuando haga clic en el botón del Componente todos.componnent
+se transmitirá la información al nuevo Componete todo.component
+a pesar de que ambos componentes no están conectados.
+
+Por lo tanto podemos utilizar un Subject para comunicar información
+entre nuestros componentes que no necesitan estar ni tan siquiera
+relacionados. Podemos comunicarlos a través de los Observables.
+
+
+---------------------------------------------------------------------
+También podemos dejar creados los dos Observables subscritos
+en cada componente, de esta forma nos llegaría la transmisión
+del Subject a ambos:
+
+Observable componente "todos.component" datos1 :  Información!
+Observable componente "todo.component"  datos2 :  Información!
+
+
+
+
 
 
 
