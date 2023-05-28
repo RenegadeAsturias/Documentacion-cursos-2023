@@ -1485,8 +1485,106 @@ Observable componente "todos.component" datos1 :  Información!
 Observable componente "todo.component"  datos2 :  Información!
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-09-RxJS-Clase-03-RxJS-Operadores
+
+Los Operadores transforman la información que nos llegan a los Observables
+Añadimos '.pipe()' después del Observable
+y añadimos los operadores necesarios:
+
+(1) Operador: map
+
+export class TodoComponent  implements OnInit {
+	constructor(private todoService: TodoService) {}  
+	ngOnInit(): void {
+		this.todoService.posts$.pipe( *********** Añadimos los operadores
+			map( res => {
+				console.log(res);
+				return res; *********** Es obligatorio devoler algo si queremos
+							*********** que continúe el flujo
+			})
+		)
+		.subscribe((res) => {
+			console.log('Nuevos datos: ', res);
+		});
+	}
+}
 
 
+(2) Podríamos cambiar la llamada por un array:
+
+updatePost(){
+	this.todoService.postSource.next([1,2,3,4,5]);
+}
+
+(3) Y también podríamos transformar la respuesta:
+
+	this.todoService.posts$.pipe( *********** Añadimos los operadores
+		map( res => {
+			console.log(res);
+			res = ['uno','dos','tres'];
+			return res; 
+		})
+
+(4) Hacemos un ejemplo para filtrar el resultado
+
+Definimos el Subject de un tipo específico: Array de numbers
+
+postSource = new Subject<number[]>(); ****** Definimos de tipo number
+posts$ = this.postSource.asObservable();
 
 
+(5) Ahora res, es un Array de numbers y puedo hacer uso
+de las funciones de los arrays como 'filter'
+En la salida se mostrarán los números del array mayores de 3.
+
+this.todoService.posts$.pipe( *********** Añadimos los operadores
+	map( res: number[] => {   *********** res está definido como un Array de numbers
+		console.log(res);
+		return res.filter( num => num > 3); 
+	})
+)
+
+Se muestra en la consola:
+(2) [4, 5]
+
+
+(6) Si queremos también podemos aplicar el pipe con el filtro
+a la definición del Observable para que cuando me suscriba ya obtenga los datos filtrados.
+
+posts$ = this.postSource.asObservable().pipe( *********** Añadimos los operadores
+	map((res): number[] => {
+		console.log(res);
+		return res.filter( num => num > 3); 
+	})
+);
+
+
+(7) Operador: tap
+
+El Operador 'tap' es un operador especial que no interrumpe
+ni afecta al flujo de los datos.
+De hecho ni siquiera es necesario el return.
+
+Este Operador nos será muy útil por ejemplo para depurar
+o también mostrar por consola los resultados.
+
+export class TodoComponent  implements OnInit {
+	constructor(private todoService: TodoService) {}  
+	ngOnInit(): void {
+		this.todoService.posts$.pipe( *********** Añadimos los operadores
+			map( res: number[] => {
+				console.log(res);
+				return res.filter( num => num > 3); 
+			}),
+			tap( (res) => {
+				console.log('Desde el tap:' ,res);
+			})	
+		)
+		.subscribe((res) => {
+			console.log('Nuevos datos: ', res);
+		});
+	}
+}
 
