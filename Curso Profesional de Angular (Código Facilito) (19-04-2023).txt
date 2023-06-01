@@ -1793,3 +1793,214 @@ scr > app > pages > list > list.component.css
 }
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-10-ProyectoFinal-Clase-05-Listado-Funcionalidad del listado
+
+(1) Desde la página : https://ygoprodeck.com/api-guide/
+podemos ver cómo va ser la información de cada carta:
+
+{
+  "data": [
+    {
+      "id": 23771716,
+      "name": "7 Colored Fish",
+      "type": "Normal Monster",
+      "frameType": "normal",
+      "desc": "A rare rainbow fish that has never been caught by mortal man.",
+      "atk": 1800,
+      "def": 800,
+      "level": 4,
+      "race": "Fish",
+      "attribute": "WATER",
+      "card_sets": [
+        {
+          "set_name": "Gold Series",
+          "set_code": "GLD1-EN001",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "0.74"
+        },
+        {
+          "set_name": "Metal Raiders",
+          "set_code": "MRD-098",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "1.06"
+        },
+        {
+          "set_name": "Metal Raiders",
+          "set_code": "MRD-E098",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "2.63"
+        },
+        {
+          "set_name": "Metal Raiders",
+          "set_code": "MRD-EN098",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "2.95"
+        },
+        {
+          "set_name": "Starter Deck: Joey",
+          "set_code": "SDJ-008",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "1.02"
+        },
+        {
+          "set_name": "Structure Deck: Fury from the Deep",
+          "set_code": "SD4-EN002",
+          "set_rarity": "Common",
+          "set_rarity_code": "(C)",
+          "set_price": "1.12"
+        }
+      ],
+      "card_images": [
+        {
+          "id": 23771716,
+          "image_url": "https://images.ygoprodeck.com/images/cards/23771716.jpg",
+          "image_url_small": "https://images.ygoprodeck.com/images/cards_small/23771716.jpg",
+          "image_url_cropped": "https://images.ygoprodeck.com/images/cards_cropped/23771716.jpg"
+        }
+      ],
+      "card_prices": [
+        {
+          "cardmarket_price": "0.07",
+          "tcgplayer_price": "0.23",
+          "ebay_price": "1.75",
+          "amazon_price": "0.25",
+          "coolstuffinc_price": "0.25"
+        }
+      ]
+    }]
+}
+
+(2) La idea es maquetar esa información y para ello vamos a utilizar la siguiente herramienta:
+
+https://quicktype.io/
+
+Pegamos el código JSON obtenido de la API e indicamos que queremos la salida para Typescript
+y obtenemos:
+
+export interface CardResponse {
+    data: Datum[];
+}
+
+export interface Datum {
+    id:          number;
+    name:        string;
+    type:        string;
+    frameType:   string;
+    desc:        string;
+    atk:         number;
+    def:         number;
+    level:       number;
+    race:        string;
+    attribute:   string;
+    card_sets:   CardSet[];
+    card_images: CardImage[];
+    card_prices: CardPrice[];
+}
+
+export interface CardImage {
+    id:                number;
+    image_url:         string;
+    image_url_small:   string;
+    image_url_cropped: string;
+}
+
+export interface CardPrice {
+    cardmarket_price:   string;
+    tcgplayer_price:    string;
+    ebay_price:         string;
+    amazon_price:       string;
+    coolstuffinc_price: string;
+}
+
+export interface CardSet {
+    set_name:        string;
+    set_code:        string;
+    set_rarity:      string;
+    set_rarity_code: string;
+    set_price:       string;
+}
+
+
+(3) Modificamos un poco la salida:
+
+(3.1) quitamos:
+
+export interface CardResponse {
+    data: Datum[];
+}
+
+(3.2) renombramos la segunda interface 'Datum' como:
+
+export interface Card {
+    id:          number;
+	... ... ... ...
+
+
+(4) En nuestra carpeta: src > app > interface
+creamos un nuevo fichero para guardar las interfaces creadas:
+
+src > app > interface > card.interfaces.ts
+
+
+(5) Creamos un nuevo servicio para consumir los datos de la API:
+
+ng g s services/card
+CREATE src/app/services/card.service.spec.ts (347 bytes)
+CREATE src/app/services/card.service.ts (133 bytes)
+
+
+(6) Desde el servicio utilizaremos HttpClientModule
+
+
+(6.1) Para hacer peticiones Http --------------------------
+
+Añadir al módulo de Angular que utilizaremos: HttpClientModule así:
+
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent, CardComponent, ListComponent, DetailComponent
+  ],
+  imports: [
+    BrowserModule, AppRoutingModule, HttpClientModule ************** Añadir este módulo para hacer peticiones Http
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+(6.2) En el servicio inyectamos HttpClient para hacer uso de HttpClientModule
+también añadimos una variable para guardar la ruta fija de la llamada
+y una función para obtener el listado de cartas:
+
+constructor(private http: HttpClient) { }
+
+Tendríamos:
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CardService {
+    API_URL ='https://db.ygoprodeck.com/api/v7/cardinfo.php';
+    constructor(private http: HttpClient) { }
+	
+	getCards() {
+		return this.http.get<Card[]>(this.API_URL);
+	}	
+}
+
+
+
+
