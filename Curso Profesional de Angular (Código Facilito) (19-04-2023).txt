@@ -1958,7 +1958,6 @@ CREATE src/app/services/card.service.ts (133 bytes)
 
 (6) Desde el servicio utilizaremos HttpClientModule
 
-
 (6.1) Para hacer peticiones Http --------------------------
 
 Añadir al módulo de Angular que utilizaremos: HttpClientModule así:
@@ -2000,6 +1999,152 @@ export class CardService {
 		return this.http.get<Card[]>(this.API_URL);
 	}	
 }
+(7) Ahora vamos a la clase del componente de la página
+desde la que se muestre el listado de cartas:
+
+src > app > pages >  list > list.component.ts
+
+En el constructor inyectamos el servicio para obtener la cartas
+y en el ngOnInit implementamos la llamada al método del servicio
+que obtiene el listado de cartas y mostramos el resultado por consola:
+
+export class ListComponent {
+
+	constructor(private cardService: CardService) { }
+	
+	ngOnInit(): void {
+		this.cardService.getCards().subscribe((res) => {
+			console.log(res);
+		});
+	}
+}
+
+Esto muestra en la consola un listado con todas las cartas:
+
+Object
+data: Array(12612)
+... ... ... ... ...
+{id: 34541863, name: '"A" Cell Breeding Device', type: 'Spell Card', frameType: 'spell', desc: 'During each of your Standby Phases, put 1 A-Counter on 1 face-up monster your opponent controls.', …}
+{id: 64163367, name: '"A" Cell Incubator', type: 'Spell Card', frameType: 'spell', desc: 'Each time an A-Counter(s) is removed from play by …e A-Counters on this card among face-up monsters.', …}
+... ... ... ... ...
+
+
+(8) La idea no sería mostrar todas las cartas
+sino utilizar la paginación y el 'intifinity scroll'
+
+
+El API nos dejará manejar la paginación de la siguiente manera.
+Si hacemos la siguiente petición el API nos devolverá:
+
+-num=10, las 10 primeras cartas
+-offset=0, la carta por la que quieres empezar
+
+https://db.ygoprodeck.com/api/v7/cardinfo.php?num=10&offset=10
+
+En la resupuesta nos enviará también un nodo 'meta'
+con el link para obtener las 10 siguientes de la próxima llamada
+
+>meta	
+current_rows:	 10
+total_rows:		 12612
+rows_remaining:	 12602
+total_pages:	 1261
+pages_remaining: 1261
+next_page:		 "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=10&offset=10"
+next_page_offset: 10
+
+
+En la llamada a la siguiente página, obtendremos un 'meta' con dos enlaces
+-uno para obtener las 10 siguientes 'next_page'
+-y otro para obtener las 10 anteriores 'previous_page' 
+
+
+> meta
+current_rows:	 10
+total_rows:		 12612
+rows_remaining:	 12592
+total_pages:	 1261
+pages_remaining: 1260
+previous_page: "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=10&offset=0"
+previous_page_offset: 0
+next_page: "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=10&offset=20"
+next_page_offset: 20
+
+
+Pero en realidad vamos a implementar nuestra lógica
+para pedir las cartas de cien en cien
+modificamos la implementación del método 'getCards' para pasarle los parámetros:
+
+getCards() {
+	const params = {
+		num: 100,
+		offset: 100,
+	};
+	return this.http.get<Card[]>(this.API_URL, { params });
+}
+
+
+Ahora en la respuesta obtendremos solo cien elementos...
+
+{data: Array(100), meta: {…}}
+	data: Array(100)
+		>0: {id: 34838437, name: 'Accellight', type: 'Spell Card', frameType: 'spell', desc: 'If you control no monsters: Special Summon 1 Level…ummon/Set during the turn you activate this card.', …}
+		>1: {id: 86066372, name: 'Accesscode Talker', type: 'Link Monster', frameType: 'link', desc: '2+ Effect Monsters\r\nYour opponent cannot activate …e to activate this effect of "Accesscode Talker".', …}
+		........................
+	meta: 
+		current_rows: 100,
+		........................
+
+
+(9) ...pero también obtenemos un nodo 'meta' que no vamos a utilizar
+así que vamos a modificar la respuesta obtenida para eliminar ese nodo
+
+getCards() {
+	const params = {
+		num: 100,
+		offset: 100,
+	};
+	return this.http.get<Card[]>(this.API_URL, { params }).pipe(
+		map( (res: any) => res.data ) ****************************** filtramos para obtener solo 'data'
+	);
+}
+
+
+(10) Puesto que ahora ya estamos devolviendo una array de 100 Cards
+modificamos el listado para devolver el listado de cards
+
+Añadimos a la clase un array de Cards en la clase
+y lo rellenamos con la respuesta de la subscripción:
+
+src > app > pages >  list > list.component.ts
+
+import { Card } from 'src/app/interfaces/card.interfaces'
+
+export class ListComponent {
+
+	cards: Card[] = []; *********** Array de Cards 
+
+	constructor(private cardService: CardService) { }
+	
+	ngOnInit(): void {
+		this.cardService.getCards().subscribe((res) => {
+			console.log(res);
+			
+			this.cards = res; **** rellenamos el array con la respuesta de la subscripción
+		});
+	}
+}
+
+
+(11) Modificamos el template del listado para recorrer el array: 'cards'
+scr > app > pages > list > list.component.html
+
+<div class="list">
+	<input type="text" class="form-control" placeholder="Buscar una carta"/>
+	<div class="cards">
+		<app-card *ngFor="let card of cards"></app-card>
+	</div>
+</div>
 
 
 
