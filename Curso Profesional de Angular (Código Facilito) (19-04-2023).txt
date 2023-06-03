@@ -2135,7 +2135,6 @@ export class ListComponent {
 	}
 }
 
-
 (11) Modificamos el template del listado para recorrer el array: 'cards'
 scr > app > pages > list > list.component.html
 
@@ -2143,6 +2142,78 @@ scr > app > pages > list > list.component.html
 	<input type="text" class="form-control" placeholder="Buscar una carta"/>
 	<div class="cards">
 		<app-card *ngFor="let card of cards"></app-card>
+	</div>
+</div>
+
+(12) Lo que estamos mostrando es un listado de 100 veces la misma carta 
+y en realidad no queremos eso.
+
+Con @Input y @Output vamos a comunicar los componentes:
+
+> card.component.ts
+> card.component.html
+
+
+(13) Empezamos modificando:
+
+scr > app > components > card > card.component.ts
+
+export class CardComponent implements OnInit {
+
+  @Input() card!:Card;  ********************* Añadimos: @Input()
+						********************* y con 'card! aseguramos a Typescript que el valor llegará
+
+  constructor() {}
+
+  ngOnInit(): void {
+  }
+
+}
+
+
+(14) Desde el template explotamos el valor del objeto 'card' de cada carta
+que será inyectado a la clase CardComponent desde el componente padre
+y en lugar de la ruta fija que teníamos antes:
+<img src="https://images.ygoprodeck.com/images/cards/6983839.jpg" alt="">
+
+La ruta de cada imagen la extraemos de cada objeto 'card' de la clase
+
+> 0: 
+>> archetype: "Photon"
+>> card_images: Array(1)
+>>> 0:
+>>>> id: 34838437
+>>>> image_url: "https://images.ygoprodeck.com/images/cards/34838437.jpg" ******************** Ruta de cada carta
+>>>> image_url_cropped: "https://images.ygoprodeck.com/images/cards_cropped/34838437.jpg"
+>>>> image_url_small: "https://images.ygoprodeck.com/images/cards_small/34838437.jpg"
+.......
+
+
+Y el cambio quedaría así:
+
+scr > app > components > card > card.component.html
+
+<div class="ygo-card">
+	<img [src]="card.card_images[0].image_url" alt="">
+</div>
+
+
+(15) Ahora nos falta inyectar desde el Componente padre las cartas que vamos recorriendo
+desde el template de la clase CardComponent en: @Input() card!:Card;
+
+scr > app > pages > list > list.component.html
+
+*Siendo [card] la variable en la que inyecto el objeto
+en el componente hijo: @Input() card!:Card;
+
+**Siendo "card" el objeto Card que le envío al componente hijo.
+
+Se quedaría así:
+
+<div class="list">
+	<input type="text" class="form-control" placeholder="Buscar una carta"/>
+	<div class="cards">
+		<app-card *ngFor="let card of cards" [card]="card"></app-card>
 	</div>
 </div>
 
