@@ -2218,5 +2218,179 @@ Se quedaría así:
 </div>
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-10-ProyectoFinal-Clase-06-Listado-Agregando scroll infinito
+
+Comportamiento Infinity Scroll, donde se van haciendo peticiones
+de cien en cien cartas mientras el usuario hace scroll
+
+(1) Para esto vamos a utilizar una herramienta. La instalamos:
+
+> npm i ngx-infinite-scroll@13.0.0
+> npm i ngx-infinite-scroll@16.0.0 --force (si no funciona la anterior)
+
+Y en https://www.npmjs.com/package/ngx-infinite-scroll
+
+tenemos las instrucciones para utilizarla:
+
+
+(2) Añadimos el módulo 'InfiniteScrollModule' en:
+
+scr > app > app.module.ts
+
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
+
+@NgModule({
+  declarations: [
+    AppComponent, CardComponent, ListComponent, DetailComponent
+  ],
+  imports: [
+    BrowserModule, AppRoutingModule, HttpClientModule, InfiniteScrollModule *** Añadimos el módulo
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+... ... ... ...
+
+
+(3) Según la documentación también tenemos que añadir lo siguiente a nuestro div contenedor:
+
+<div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()" **************** También tendremos que crear la función que ejecuta
+></div>
+
+Añadimos en:
+
+scr > app > pages > list > list.component.html
+
+<br/>
+<div class="list" class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()">
+  <input type="text" class="form-control" placeholder="Buscar una carta"/>
+
+  <div class="cards">
+    <app-card *ngFor="let card of cards" [card]="card"></app-card>
+  </div>
+
+</div>
+
+
+(4) Creamos la función que ejecutará la petición de las cartas
+al acercarnos al final de la página para pedir más cartas:
+
+La documentación ya tiene una por defecto:
+
+onScroll() {
+    console.log("scrolled!!");
+}
+
+
+(5) Vamos a cambiar en el servicio, que teníamos a fuego que siempre queríamos 100 cartas
+indicado con el parámetro 'offset' que ahora será un parámetro.
+Como la propiedad y el parámetro se llaman igual podríamos escribir solo offset
+
+En: app/services/card.service.ts
+
+  getCards(offset) {
+    const params = {
+      num: 100,
+      offset: offset
+    };
+
+
+(6) Vamos a reescribir nuestro componente:
+
+src > app > pages > list > list.component.ts
+
+de momento tenemos esto:
+
+export class ListComponent {
+	cards: Card[] = [];
+	constructor(private cardService: CardService) { }
+	ngOnInit(): void {
+		this.cardService.getCards().subscribe((res) => {
+			console.log(res);
+			this.cards = res;
+		});
+	}
+	onScroll() {
+		console.log("scrolled!!");
+	}
+}
+
+
+(6.1) Vamos a sacar la lógica de la subscripción del método onInit al método searchCards:
+
+searchCards() {
+	this.cardService.getCards(this.offset).subscribe((res) => {
+		console.log(res);
+		this.cards = res;
+	});
+}
+
+
+(6.2) Añadimos un propiedad para el offset:
+
+offset = 0;
+
+
+(6.3) En el método 'onScroll' también añadimos:
+
+onScroll() {
+	console.log("scrolled!!");
+	this.offset += 100; **************** Añadimos 100 a la petición de cartas de la subscripción
+	this.searchCards(); **************** Llamamos de nuevo al método para pedir cien cartas más
+}
+
+
+(6.4) Añadimos al método onInit una llamada al método: 'searchCards'
+para que se cargue al principio:
+
+ngOnInit(): void {
+	this.searchCards();
+}
+
+
+(6.5) Ahora tenemos:
+
+export class ListComponent {
+	cards: Card[] = [];
+	offset = 0;
+	constructor(private cardService: CardService) { }
+	ngOnInit(): void {
+		this.searchCards();
+	}
+	onScroll() {
+		console.log("scrolled!!");
+		this.offset += 100; 
+		this.searchCards(); 
+	}
+	searchCards() {
+		this.cardService.getCards(this.offset).subscribe((res) => {
+			console.log(res);
+			this.cards = res;
+		});
+	}
+}
+
+
+(6.6) No se comporta exáctamente como desearíamos
+cada vez que hacemos scroll se sustituyen las cien cartas anteriores
+por cien cartas nuevas de la nueva petición.
+
+Para solucionarlo vamos a modificar en el método searchCards::
+
+this.cards = [...this.cards, ...res]; ......... Concatenamos lo que tenemos con la nueva respuesta
+
+
+
+
 
 
