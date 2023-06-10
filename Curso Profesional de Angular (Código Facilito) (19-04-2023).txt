@@ -2390,6 +2390,61 @@ Para solucionarlo vamos a modificar en el método searchCards::
 this.cards = [...this.cards, ...res]; ......... Concatenamos lo que tenemos con la nueva respuesta
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-10-ProyectoFinal-Clase-07-Listado-Agregando filtrado
+
+
+Vamos a hacer la implementación de la búsqueda de cartas
+en la sintasix de la API para buscar se utiliza el parámetro 'fname':
+
+fname - A fuzzy search using a string. 
+For example &fname=Magician to search by all cards with "Magician" in the name.
+
+Podríamos hacer un nuevo método para la búsqueda
+pero esta vez vamos a reutilizar el método 'getCards'
+y le añadimos el parámetro 'name' a la petición si nos ha llegado:
+
+(1) En: app/services/card.service.ts
+
+// Implementación que reutiliza la función
+// y recibe también un parámetro 'name' para la búsqueda de cartas
+getCards(name: string | null, offset = 0) {
+	const params: any = {
+		num: 100,
+		offset: offset,
+	};
+	if (name) params.fname = name; *** Sólo añadimos el parámetro si su valor es distino de null
+	return this.http.get<Card[]>(this.API_URL, { params }).pipe(
+		map( (res: any) => res.data )
+	);
+}
+
+
+(2) En: src > app > pages > list > list.component.ts
+
+Modificamos la llamada para que pueda enviar también el parámetro:
+
+searchCards(cardName: string | null = null) {
+	this.cardService.getCards(cardName, this.offset).subscribe((res) => {
+		console.log(res);
+		this.cards = [...this.cards, ...res];
+	});
+}
+
+
+(3) Ahora hay que implementar que la caja de búsqueda recoja la entrada del usuario
+añadimos a la clase un Form Control que inicializamos vacío:
+
+En: src > app > pages > list > list.component.ts
+
+import { FormControl } from '@angular/forms';
+
+export class ListComponent {
+	cards: Card[] = [];
+	offset = 0;
+	cardTestFormControl = new FormControl(''); *** Para recoger el filtro de búsqueda de cartas
+	... ... ... ... ...
 
 
 
