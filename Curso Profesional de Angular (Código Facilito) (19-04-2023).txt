@@ -2447,5 +2447,69 @@ export class ListComponent {
 	... ... ... ... ...
 
 
+(4) Le asociamos el FormControl al input:
+
+scr > app > pages > list > list.component.html
+
+<br/>
+<div class="list" class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="100" (scrolled)="onScroll()">
+	<input type="text" class="form-control" placeholder="Buscar una carta" [formControl]="cardTestFormControl"/>
+	... ... ... ... ...
+
+
+(5) Nos muestra un error
+Can't bind to 'formControl' since it isn't a known property of 'input'.ngtsc(-998002)
+
+Porque en este proyecto no hemos añadido el Módulo de Formularios
+
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent, CardComponent, ListComponent, DetailComponent
+  ],
+  imports: [
+    BrowserModule, AppRoutingModule, HttpClientModule, InfiniteScrollModule,
+    ReactiveFormsModule ******** Añadimos el Módulo para utilizar los Formularios Reactivos
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+(6) Ahora implementamos recoger el evento cuando el usuario filtra el nombre:
+
+En: src > app > pages > list > list.component.ts
+
+Utilizaremos: this.cardTestFormControl.valueChanges *** Que es un Observable y nos podemos subscribir
+Me subscrito al FormControl.
+Y con este código se muestra en la consola el texto que escribe el usuario:
+
+
+export class ListComponent {
+	cards: Card[] = [];
+	offset = 0;
+	constructor(private cardService: CardService) { }
+	ngOnInit(): void {
+		this.cardTestFormControl.valueChanges.subscribe( res => {
+			console.log(res);
+		});
+		this.searchCards();
+	}
+
+
+(7) Para manadarle el texto de búsqueda a la función 'searchCards'
+
+ngOnInit(): void {
+	this.cardTestFormControl.valueChanges.subscribe( res => {
+		console.log(res);
+		this.searchCards(res); *** Llamamos a la funcíon de búsqueda y le pasamos la cadena de búsqueda
+	});
+	this.searchCards();
+}
+
+
+
 
 
