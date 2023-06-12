@@ -2509,7 +2509,54 @@ ngOnInit(): void {
 	this.searchCards();
 }
 
+(8) En la búsqueda actual se realizan un montón de llamadas a la función de búsqueda
+vamos a utilizar una estrategia para limitar esa búsqueda.
+Utilizaremos 'debounceTime(<<tiempo>>)
+que retrasa la llamada a la función para que al usuario le de tiempo a escribir
+el nombre completo que está buscando:
 
+import { debounceTime } from 'rxjs/operators';
+
+ngOnInit(): void {
+	this.cardTestFormControl.valueChanges.pipe(
+		debounceTime(1000) *************** Retrasa un segundo el tiempo de espera
+	)
+	.subscribe( res => {
+		console.log(res);
+		this.searchCards(res); *** Llamamos a la funcíon de búsqueda y le pasamos la cadena de búsqueda
+	});
+	this.searchCards();
+}
+
+
+(9) Con la lógica actual no está funcionando correctamente el filtro
+porque actualmente con la implementación actual
+estamos concatenando las cartas que ya teníamos buscadas
+con un nuevo conjunto de cartas resultado de la búsqueda:
+
+searchCards(cardName: string | null = null) {
+	this.cardService.getCards(cardName, this.offset).subscribe((res) => {
+		console.log(res);
+		this.cards = [...this.cards, ...res];
+	});
+}
+
+
+Para solucionarlo vaciamos el Array de Cartas para que la función
+solo nos devuleva las cartas que encontró la función de búsqueda
+aplicando la cadena de búsqueda:
+
+ngOnInit(): void {
+	this.cardTestFormControl.valueChanges.pipe(
+		debounceTime(1000) *************** Retrasa un segundo el tiempo de espera
+	)
+	.subscribe( res => {
+		console.log(res);
+		this.cards = []; ********* Vaciamos el Array para devoler solo las cartas encontradas
+		this.searchCards(res); *** Llamamos a la funcíon de búsqueda y le pasamos la cadena de búsqueda
+	});
+	this.searchCards();
+}
 
 
 
