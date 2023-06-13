@@ -2559,4 +2559,35 @@ ngOnInit(): void {
 }
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-10-ProyectoFinal-Clase-08-Detalle-Creando los componentes
+
+Vamos a implementar la visualización en la pantalla de detalle de la carta seleccionada
+
+(1) Empezamos añadiendo el Routing a la clase 'card.component.ts':
+
+src > app > component > card > card.component.ts
+
+(1.1) Inyectamos el router en el constructor
+
+import { Router } from '@angular/router';
+export class CardComponent implements OnInit {
+
+constructor(private router: Router ) {}
+
+... ... ... ... ... ... ... ... ... 
+
+(1.2) Implementamos el método que nos enrutará
+para ver el detalle de la carta y pasará el id de la carta como parámetro
+
+goToCard(){
+	this.router.navigate(
+		[`./card/${this.card.id}`]
+	)
+}
+
+
+
+
 
