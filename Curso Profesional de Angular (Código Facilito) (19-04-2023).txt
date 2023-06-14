@@ -2588,6 +2588,27 @@ goToCard(){
 }
 
 
+(2) Capturamos el evento clic sobre la carta seleccionada
+y llamamos al método implementado en el apartado anterior para que
+nos redirija a ver el detalle de la carta seleccionada:
+
+src > app > component > card > card.component.html
+
+<div class="ygo-card" (clic)="goToCard()">
+  <img [src]="card.card_images[0].image_url" alt="">
+</div>
+
+
+Ahora cuando hacemos clic sobre una carta nos redirije, por ejemplo, a:
+
+http://localhost:4200/card/34541863
+http://localhost:4200/card/64163367
+
+Y se visualiza el template del componente:
+
+src > app > pages > detail > detail.component.html
+
+detail works!
 
 
 
