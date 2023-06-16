@@ -2694,5 +2694,33 @@ src > app > pages > detail > detail.component.css
 
 
 
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Módulo-10-ProyectoFinal-Clase-09-Detalle-Funcionalidad
+
+(1) Primero vamos a obtener el identificador de la carta del parámetro en la url
+
+http://localhost:4200/card/34541863
+http://localhost:4200/card/64163367
+
+
+src > app > pages > detail > detail.component.ts
+
+(2) Partimos de la clase vacía del componente:
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css']
+})
+export class DetailComponent {
+
+}
+
+
+
+
 
 
