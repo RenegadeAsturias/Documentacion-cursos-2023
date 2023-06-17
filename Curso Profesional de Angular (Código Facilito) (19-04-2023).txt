@@ -2720,6 +2720,48 @@ export class DetailComponent {
 }
 
 
+(3) Modificamos:
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css']
+})
+export class DetailComponent implements OnInit {
+
+  id!: string; ********* Creamos una variable para almacenar el valor
+
+  *********** Inyectamos en el constructor un ActivatedRoute
+  ***********  que nos permitirá capturar la URL actual de la petición:
+
+  constructor(private route: ActivatedRoute) {} 
+
+  ngOnInit(): void {
+  
+	********* this.route.snapshot captura la url actual de la petición
+	********* y con paramMap accedemos al mapa de parámetros
+	********* y capturamos el valor del parmáetro 'id' o devolvemos '' si no hay.
+	
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+	console.log("id="+this.id);
+  }
+
+}
+
+
+El parámetro de la url que capturamos se llama 'id' porque lo definimos
+en la URL en:
+
+src > app > app-routing.module.ts
+
+const routes: Routes = [
+	{ path: '', component: ListComponent },
+	{ path: 'card/:id' , component: DetailComponent } ****** parámetro 'id'
+];
+
 
 
 
