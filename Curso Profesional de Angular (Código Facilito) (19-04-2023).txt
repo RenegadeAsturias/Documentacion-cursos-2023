@@ -2763,6 +2763,30 @@ const routes: Routes = [
 ];
 
 
+(4) En el servicio implementamos el método para obtener la carta 'getCard()'
+debajo de la implementación del método 'getCards()':
+
+En: app/services/card.service.ts
+
+getCards() {
+	const params = {
+		num: 100,
+		offset: 100,
+	};
+	return this.http.get<Card[]>(this.API_URL, { params }).pipe(
+		map( (res: any) => res.data ) ****************************** filtramos para obtener solo 'data'
+	);
+}
+
+getCard(id: string) { 
+	const params = { id };
+	return this.http
+		.get(this.API_URL, {params})
+		.pipe(map((res: any) => res.data[0]));
+}
+
+
+
 
 
 
