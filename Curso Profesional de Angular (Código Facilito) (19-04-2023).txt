@@ -2786,6 +2786,41 @@ getCard(id: string) {
 }
 
 
+(5) Para hacer uso del Servicio en lo inyectamos en el constructor
+y luego hacemos uso del Servicio en el 'ngOnInit': 
+
+src > app > pages > detail > detail.component.ts
+
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css']
+})
+export class DetailComponent implements OnInit {
+
+  id!: string;
+  constructor(
+		private route: ActivatedRoute, 
+		private cardService: CardService *********** Inyectamos en el constructor el Servicio
+  ) {} 
+
+  ngOnInit(): void {
+	this.id = this.route.snapshot.paramMap.get('id') || '';
+	console.log("id="+this.id);
+
+	this.cardService.getCard(this.id).subscribe( res => {
+		console.log(res);
+	})
+  }
+
+}
+
+
+
 
 
 
