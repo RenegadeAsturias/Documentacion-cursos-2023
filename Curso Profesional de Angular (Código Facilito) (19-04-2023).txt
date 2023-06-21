@@ -2821,6 +2821,59 @@ export class DetailComponent implements OnInit {
 
 
 
+(6) Con el método 'getCard(id)' obtengo el objecto de la carta
+seleccionada y lo imprimo en la consola:
+
+{
+    "id": 64163367,
+    "name": "\"A\" Cell Incubator",
+    "type": "Spell Card",
+    "frameType": "spell",
+    "desc": "Each time an A-Counter(s) is removed from play by a card effect, place 1 A-Counter on this card. When this card is destroyed, distribute the A-Counters on this card among face-up monsters.",
+    "race": "Continuous",
+    "archetype": "Alien",
+    "card_sets": [
+        {
+            "set_name": "Gladiator's Assault",
+            "set_code": "GLAS-EN062",
+            "set_rarity": "Common",
+            "set_rarity_code": "(C)",
+            "set_price": "2.1"
+        }
+    ],
+    "card_images": [
+        {
+            "id": 64163367,
+            "image_url": "https://images.ygoprodeck.com/images/cards/64163367.jpg",
+            "image_url_small": "https://images.ygoprodeck.com/images/cards_small/64163367.jpg",
+            "image_url_cropped": "https://images.ygoprodeck.com/images/cards_cropped/64163367.jpg"
+        }
+    ],
+    "card_prices": [
+        {
+            "cardmarket_price": "0.17",
+            "tcgplayer_price": "0.23",
+            "ebay_price": "1.25",
+            "amazon_price": "0.50",
+            "coolstuffinc_price": "0.25"
+        }
+    ]
+}
+
+(7) Se explica que la subscripción anterior no es realmente interesante en esta caso.
+El problema de los 'subcribe' es que implica también un 'desuscribe'
+y en este caso lo que obtendremos será una respuesta y la almacenaremos en una variable
+
+this.cardService.getCard(this.id).subscribe( res => {
+	console.log(res);
+})
+
+Así que vamos a utilizar un patrón que se utiliza en Angular
+sin falta de añadir la suscripción:
+
+
+
+
 
 
 
