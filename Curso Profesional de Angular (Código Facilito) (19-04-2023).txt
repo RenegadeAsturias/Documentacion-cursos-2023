@@ -2871,6 +2871,29 @@ this.cardService.getCard(this.id).subscribe( res => {
 Así que vamos a utilizar un patrón que se utiliza en Angular
 sin falta de añadir la suscripción:
 
+Así que vamos a utilizar un patrón que se utiliza en Angular
+sin falta de añadir la suscripción:
+
+
+(7.1) Creamos una variable Observable (el símbolo $ es por convención)
+
+import { Card } from 'src/app/interfaces/card.interfaces';
+import { Observable } from 'rxjs/internal/Observable';
+
+export class DetailComponent implements OnInit {
+  card$!: Observable<Card>;
+
+
+(7.2) Y ahora igualamos la variable Observable con lo que devuelve la llamada:
+
+  ngOnInit(): void {
+	this.id = this.route.snapshot.paramMap.get('id') || '';
+	console.log("id="+this.id);
+	this.card$ = this.cardService.getCard(this.id); **** Igualamos los Observables
+  }
+
+
+
 
 
 
