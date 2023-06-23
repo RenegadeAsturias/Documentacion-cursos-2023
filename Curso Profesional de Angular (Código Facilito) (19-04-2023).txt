@@ -2893,6 +2893,23 @@ export class DetailComponent implements OnInit {
   }
 
 
+(7.3) Ahora nos subscribiremos al Observable: this.card$ desde el HTML 
+para cargar los datos
+sin la necesidad de crear una variable para recibir los datos
+y la necesidad de subscribirme al Observable
+
+
+(7.4) Desde el HTML tendremos:
+
+En src > app > pages > detail > detail.component.html
+
+la respuesta se almacena en una variable 'card':
+
+<div class="detail-card"
+  *ngIf="card$ | async as card"> ******* modificamos esto!
+
+
+
 
 
 
