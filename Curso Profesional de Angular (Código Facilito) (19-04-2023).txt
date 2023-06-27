@@ -2961,10 +2961,46 @@ id=64163367
 }
 
 
+(7.6) Con esta modificación 'async as card' estoy haciendo la subcripción
+y tengo en 'card' el resultado de la respuesta:
 
+<div class="detail-card"
+  *ngIf="card$ | async as card"> ******* modificamos esto!
 
+Empezamos a explotar el objecto recuperado en el html y
+actualmente tenemos esto:
 
+<div class="detail-card"
+  *ngIf="card$ | async as card">
+	<div class="top">
+		<img src="https://images.ygoprodeck.com/images/cards/64163367.jpg"/>
+	</div>
+	<div class="bottom">
+		<h2>Nombre de la carta</h2>
+		<div class="item">
+			<p class="description">Descripción</p>
+		</div>
 
+		<div class="item">
+			<h3 class="title">Título</h3>
+			<p class="description">Descripción</p>
+		</div>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Market</th>
+				<th scope="col">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">Market</th>
+				<td>Price</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 
 
