@@ -3076,4 +3076,21 @@ implementamos una forma de solucionarlo:
 
 
 
+(7.7) Crearemos nuestro propio 'pipe' personalizados
+
+Lo vamos a crear en una nueva carpeta:
+
+src > app > pipes 
+
+Y ahora creamos el pipe desde dentro de la carpeta:
+
+ng g p marketName
+
+CREATE src/app/pipes/market-name.pipe.spec.ts (204 bytes)
+CREATE src/app/pipes/market-name.pipe.ts (225 bytes)
+UPDATE src/app/app.module.ts (941 bytes)
+
+
+
+
 
