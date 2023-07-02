@@ -3092,5 +3092,42 @@ UPDATE src/app/app.module.ts (941 bytes)
 
 
 
+(7.8) En nuestra definición original del pipe 'market-name' personalizado:
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'marketName'
+})
+export class MarketNamePipe implements PipeTransform {
+
+  transform(value: unknown, ...args: unknown[]): unknown {
+    return null;
+  }
+
+}
+
+Añadimos el siguiente array:
+
+@Pipe({
+  name: 'marketName'
+})
+export class MarketNamePipe implements PipeTransform {
+	markets = [
+		{ id: 'cardmarket_price', 	name: 'Amazon' },
+		{ id: 'tcgplayer_price', 	name: 'Cardmarket' },
+		{ id: 'ebay_price', 		name: 'Coolstuff Inc' },
+		{ id: 'amazon_price',		name: 'Ebay' },
+		{ id: 'coolstuffinc_price', name: 'TCG Player' },
+	]
+	transform(value: unknown, ...args: unknown[]): unknown {
+		return null;
+	}
+}
+
+
+
+
+
 
 
