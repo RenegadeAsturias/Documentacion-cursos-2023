@@ -3126,6 +3126,14 @@ export class MarketNamePipe implements PipeTransform {
 }
 
 
+(7.9) Y ahora modificamos la implementación del método: 'transform'
+
+	transform(value: string): string {
+		const market = this.markets.find( m => m.id === value);
+		return market?.name || '';
+	}
+
+
 
 
 
