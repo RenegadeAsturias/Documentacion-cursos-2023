@@ -3134,6 +3134,23 @@ export class MarketNamePipe implements PipeTransform {
 	}
 
 
+(7.10) Y ahora debemos hacer uso del @Pipe cuyo nombre es: 'marketName'
+para que en lugar de códigos me de descripciones del Array 'markets'
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Market</th>
+				<th scope="col">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let market of card.card_prices[0] | keyvalue">
+				<th scope="row">{{market.key | marketName}}</th> ********** Hacemos uso del Pipe
+				<td>{{market.value}}</td>
+			</tr>
+		</tbody>
+	</table>
 
 
 
