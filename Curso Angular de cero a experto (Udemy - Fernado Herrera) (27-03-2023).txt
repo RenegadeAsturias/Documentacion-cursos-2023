@@ -227,7 +227,18 @@ Sección 3: Base de TypeScript - Sección recomendada
 15. Tipos básicos y conceptos generales
 -------------------------------------------------------------
 
-... continuar...
+// Código de Typescript: 01-tipos-basicos.ts
+
+let nombre: string = 'René';
+const nick = 'Renegade';
+let puntosVida: number = 95;
+
+let puntosVidaPro: number | string = 95;
+puntosVidaPro = 'FULL';
+
+let estaVivo: boolean = true;
+
+
 
 
 
