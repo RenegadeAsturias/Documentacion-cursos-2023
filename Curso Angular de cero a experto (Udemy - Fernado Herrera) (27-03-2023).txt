@@ -239,6 +239,49 @@ puntosVidaPro = 'FULL';
 let estaVivo: boolean = true;
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+16. Objetos, arreglos e interfaces
+-------------------------------------------------------------
+
+// Código de Typescript: 02-arrays-objetos-interfaces.ts
+
+// Este Array acepta todos los tipos
+let habilidadesEjemplo: any[] = [1, 'René', true, [], {}];
+
+let habilidadesEjemplo2: string[] = ['Uno','Dos','Tres'];
+
+// Error, no puedes asignarle un número. Argument of type 'number' is not assignable to parameter of type 'string'.
+// habilidades.push(1); 
+
+// Error, no puedes asignarle un boolean. Argument of type 'boolean' is not assignable to parameter of type 'string'.
+// habilidades.push(true);
+
+let habilidadesEjemplo3: (string|number)[] = ['Uno','Dos','Tres', 99];
+
+habilidadesEjemplo3.push(55);
+habilidadesEjemplo3.push('Cuatro');
+
+interface Personaje {
+    nombre: string;
+    puntosVida: number;
+    habilidades: string[];
+	puebloNatal?: string;
+}
+
+// Objeto
+let personaje: Personaje = {
+    nombre: 'Batman',
+    puntosVida: 100,
+    habilidades: ['Golpe','Contraataque','Curación']
+}
+
+personaje.puebloNatal = 'Gijón';
+
+console.table(personaje);
+
+
+
 
 
 
