@@ -281,6 +281,32 @@ personaje.puebloNatal = 'Gijón';
 console.table(personaje);
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+17. Funciones básicas
+-------------------------------------------------------------
+
+// Código de Typescript: 03-funciones-basicas.ts
+
+function sumar(a: number, b: number): number {
+	return a + b;
+}
+
+const sumarFlecha = (a: number, b: number): number => {
+    return a + b;
+}
+
+function multiplicar(numero: number, otroNumero: number, base: number): number {
+    return numero * base;
+}
+
+// El segundo parámetro es opcional y el tercer parámtro siempre es 2.
+function multiplicar(numero: number, otroNumero?: number, base: number = 2): number {
+    return numero * base;
+}
+
+
+
 
 
 
