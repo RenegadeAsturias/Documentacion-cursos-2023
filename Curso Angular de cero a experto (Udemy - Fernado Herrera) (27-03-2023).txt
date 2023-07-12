@@ -408,6 +408,28 @@ console.log('El segundo actual de: ', reproductor.segundo);
 console.log('La canción actual de: ', reproductor.cancion);
 console.log('El autor es: ', reproductor.detalles.autor);
 
+// Aplicamos Desestructuración de objetos:
+// Desestructuración es extraer directamente ciertas propiedades
+// que nos interesan de un objeto y crear variables.
+
+const { volumen, segundo, cancion, detalles } = reproductor;
+const { autor } = detalles;
+
+// Otra opción menos recomendada porque es más difícil de leer es:
+// const { volumen, segundo, cancion, detalles: { autor } } = reproductor;
+// 'autor' en este caso, no es un objeto, es una propiedad
+//  y podría chocar con otra propidad definida, en ese caso podemos definirlo como:
+// const { volumen, segundo, cancion, detalles: { autor: autorDetalle } } = reproductor;
+
+// En nuestra opción favorita, también podemos poner un alias a la propiedad:
+// const { volumen: vol, segundo, cancion, detalles } = reproductor;
+
+console.log('El volumen actual de: ', volumen);
+console.log('El segundo actual de: ', segundo);
+console.log('La canción actual de: ', cancion);
+console.log('El autor es: ', autor);
+
+
 
 
 
