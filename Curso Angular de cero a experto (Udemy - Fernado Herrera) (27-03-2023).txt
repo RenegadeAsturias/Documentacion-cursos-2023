@@ -430,6 +430,37 @@ console.log('La canción actual de: ', cancion);
 console.log('El autor es: ', autor);
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+21. Desestructuración de Arrays
+-------------------------------------------------------------
+
+// Código de Typescript: 07-desestructuracion-arrays.ts
+
+const dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+
+console.log('Día 1:' + dias[0]);
+console.log('Día 2:' + dias[2]);
+console.log('Día 3:' + dias[3]);
+
+// Aplicamos Desestructuración de arrays:
+// Desestructuración es extraer directamente ciertas propiedades
+// que nos interesan de un array y crear variables.
+
+// Ojo! que la desestructuración es por posición:
+const dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+const [ d1, d2, d3, d4, d5 ] = dias;
+
+console.log('Día 1:' + d1);
+console.log('Día 2:' + d2);
+console.log('Día 3:' + d3);
+
+// Si solo quisiésemos el quinto elemento y los demás no nos interesan sería:
+const [ , , , , d5 ] = dias;
+console.log('Día 5:' + d5);
+
+
+
 
 
 
