@@ -460,6 +460,41 @@ const [ , , , , d5 ] = dias;
 console.log('Día 5:' + d5);
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+22. Desestructuración de Argumentos
+-------------------------------------------------------------
+
+// Código de Typescript: 08-desestructuracion-funcion.ts
+
+interface Producto {
+    desc: string;
+    precio: number;
+}
+
+const telefono: Producto = {
+    desc: 'Nokia A1',
+    precio: 150
+}
+
+const tableta: Producto = {
+    desc: 'iPad Air',
+    precio: 350
+}
+
+function calculaImpuestoSobreVenta(productos: Producto[]): number {
+    let total = 0;
+     productos.forEach( (producto) => {
+        total += producto.precio;
+   })
+    return total*0.15;
+}
+
+const productos = [telefono, tableta];
+
+const impuestoSobreVenta = calculaImpuestoSobreVenta(productos);
+console.log('ISV='+impuestoSobreVenta);
+
 
 
 
