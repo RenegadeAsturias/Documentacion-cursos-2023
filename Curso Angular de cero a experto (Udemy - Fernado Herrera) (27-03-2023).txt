@@ -496,6 +496,34 @@ const impuestoSobreVenta = calculaImpuestoSobreVenta(productos);
 console.log('ISV='+impuestoSobreVenta);
 
 
+// Aplicamos Desestructuración de Argumentos sobre:
+productos.forEach( (producto) => {
+	total += producto.precio;
+})
+
+// Y lo podríamos cambiar por { precio } 
+// porque es realmente lo que me interesa:
+productos.forEach( ({ precio }) => {
+    total += precio;
+})
+
+// Ahora aplicamos otro posible cambio:
+function calculaImpuestoSobreVentaEj(productos: Producto[]): [number, number] {
+    let total = 0;
+     productos.forEach( ({precio}) => {
+        total += precio;
+   })
+    return [total, total*0.15];
+}
+
+// Y ahora le aplico la Desestructuración sobre el resultado:
+
+const [total, isv] = calculaImpuestoSobreVentaEj(productos);
+console.log('Total='+total);
+console.log('ISV='+isv);
+
+
+
 
 
 
