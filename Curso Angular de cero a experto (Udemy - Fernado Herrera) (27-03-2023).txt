@@ -523,6 +523,34 @@ console.log('Total='+total);
 console.log('ISV='+isv);
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+23. Importaciones y exportaciones
+-------------------------------------------------------------
+
+// Código de Typescript: 09-imports-exports.ts
+
+Cuando intentamos utilizar en otro fichero de TypeScript lo siguiente
+debería darnos error porque no tenemos definida la interface Producto
+para ello deberíamos de importarla aunque previamente en el archivo
+donde fue definida deberíamos exportarla para exponerla al resto de fichero:
+
+------ uno.ts ---------
+export interface Producto {
+    desc: string;
+    precio: number;
+}
+
+------ dos.ts ---------
+
+// Ojo, que la estamos desestructurando
+import { Producto } from './uno.ts';
+
+const carritoCompras: Producto[] = [];
+
+***********************************************
+
+
 
 
 
