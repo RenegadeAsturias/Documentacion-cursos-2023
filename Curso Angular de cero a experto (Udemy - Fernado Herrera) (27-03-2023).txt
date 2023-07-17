@@ -550,6 +550,34 @@ const carritoCompras: Producto[] = [];
 
 ***********************************************
 
+Definimos un array de productos, por ejemplo:
+
+const carritoCompras: Producto[] = [
+	{
+		desc: 'Telefono 1',
+		precio: 100
+	},
+	{
+		desc: 'Telefono 2',
+		precio: 150
+	},
+];
+
+const [total, isv] = calculaImpuestoSobreVentaEj(productos);
+console.log('Total='+total);
+console.log('ISV='+isv);
+
+// Esto que hemos hecho nos daría error porque no encuentra
+// la función porque previamente hay que exportarla:
+
+export function calculaImpuestoSobreVentaEj(productos: Producto[]): [number, number] {
+
+// Ahora lo importamos, por ejemplo:
+
+import { Producto, calculaImpuestoSobreVentaEj } from './uno.ts';
+
+
+
 
 
 
