@@ -577,9 +577,25 @@ export function calculaImpuestoSobreVentaEj(productos: Producto[]): [number, num
 import { Producto, calculaImpuestoSobreVentaEj } from './uno.ts';
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+24. Clases básicas
+-------------------------------------------------------------
 
+// Código de Typescript: 10-clases-basicas.ts
 
+class Heroe {
+	private alterEgo: string;
+	public edad: number;
+	static nombreReal: string;
+}
 
+// Podemos acceder a una variable estática desde la Clase sin crear una instancia
+Heroe.nombreReal;
+
+// Creamos una instancia:
+const ironman = new Heroe();
+ironman.edad; // Solo vemos 'edad' porque es pública
 
 
 
