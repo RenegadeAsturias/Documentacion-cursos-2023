@@ -596,6 +596,29 @@ Heroe.nombreReal;
 // Creamos una instancia:
 const ironman = new Heroe();
 ironman.edad; // Solo vemos 'edad' porque es pública
+// Diferencias entre Interface y Clase que parecen iguales:
+
+interface Personaje {
+	alterEgo: string;
+	edad: number;
+	nombreReal: string;
+}
+
+class Heroe {
+	alterEgo: string;
+	edad: number;
+	nombreReal: string;
+}
+
+(1) La primera diferencia es que las Interfaces no existen
+en JavaScript y cuando se transpila a JavaScript no se crea.
+
+(2) Las Clases me permiten crear instancias como:
+const ironman = new Heroe();
+
+(3) En las interfaces no se implementan los métodos.
+
+
 
 
 
