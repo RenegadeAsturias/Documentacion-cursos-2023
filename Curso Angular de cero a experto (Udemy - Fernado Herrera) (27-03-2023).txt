@@ -619,6 +619,25 @@ const ironman = new Heroe();
 (3) En las interfaces no se implementan los métodos.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+25. Constructor de una clase
+-------------------------------------------------------------
+
+// Código de Typescript: 11-constructor-clases.ts
+
+// Ejemplo: 
+class Heroe {
+	alterEgo: string;
+	edad: number;
+	nombreReal: string;
+	
+	constructor(alterEgo: string) {
+		this.alterEgo = alterEgo;
+	}
+}
+
+
 
 
 
