@@ -637,6 +637,19 @@ class Heroe {
 	}
 }
 
+// Hay una nueva forma de definir las propiedades
+// de la clase utilizando el constructor, por ejemplo:
+
+class Heroe {
+	constructor(
+		public alterEgo: string,
+		public edad?: number,
+		public nombreReal?: string,
+	) {}
+}
+
+
+
 
 
 
