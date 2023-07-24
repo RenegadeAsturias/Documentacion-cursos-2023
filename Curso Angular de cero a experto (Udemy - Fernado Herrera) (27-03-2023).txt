@@ -649,6 +649,32 @@ class Heroe {
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+26. Extender una clase
+-------------------------------------------------------------
+
+// Código de Typescript: 12-extender-clases.ts
+
+// Creamos una nueva clase
+class PersonaNormal {
+	constructor(public nombre: string, public direccion: string) {}
+}
+
+class Heroe extends PersonaNormal {
+	constructor(
+		public alterEgo: string,
+		public edad: number,
+		public nombreReal: string,
+	) {
+		// Hay que llamar al super, constructor de la clase que se extiende
+		super(nombreReal, 'New York, USA');
+	}
+}
+
+
+
+
 
 
 
