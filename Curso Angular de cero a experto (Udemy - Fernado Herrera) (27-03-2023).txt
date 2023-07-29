@@ -697,6 +697,20 @@ function queTipoSoy<T>(argumento: <T>) {
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+28. Decoradores de clases
+-------------------------------------------------------------
+
+// Código de Typescript: 13-decoradores.ts
+
+Generalmente los decoradores sirven para cambiar las clases
+en el momento en que son definidas, de esta forma,
+cuando sea Angular o cualquier otra tecnología que use estos decoradores
+en el momento en que esté compilando, luego traduciéndolo a otra cosa,
+entonces va a extenderle internamente esas funcionalidades
+que nosotros queremos implementar.
+
 
 
 
