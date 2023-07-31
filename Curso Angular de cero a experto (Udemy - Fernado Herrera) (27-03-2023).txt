@@ -731,6 +731,21 @@ class MiSuperClase {
 	}
 }
 
+Hacemos una prueba y ejecutamos:
+console.log(MiSuperClase);
+
+Esto imprime los detalles de MiSuperClase pero no muestra nada sobre
+miPropiedad ni el método imprimir
+porque esos detalles aparecen cuando se crean las instancias.
+Este decorador trabaja a un nivel antes que la creación de una nueva instancia.
+
+Ahora creamos la instancia:
+
+const miClase = newMiSuperClase();
+console.log(miClase.miPropiedad);
+
+Y ya se muestra miPropiedad y el método imprimir.
+
 
 
 
