@@ -746,6 +746,14 @@ console.log(miClase.miPropiedad);
 
 Y ya se muestra miPropiedad y el método imprimir.
 
+Los decoradores sirven para expandir o añadir funcionalidades
+y Angular los utiliza mucho para poder diferenciar
+si esta clase es un Componente, o si es un Pipe, o si es una Directiva
+o si esta clase es cualquier otra cosa en Angular
+entonces Angular fácilmente puede reconocer a la hora de transpilar esto.
+Y si por ejemplo esto es un Componente va a funcionar como un Componente,
+esto es un Servicio entonces va a funcionar como un Servicio
+
 
 
 
