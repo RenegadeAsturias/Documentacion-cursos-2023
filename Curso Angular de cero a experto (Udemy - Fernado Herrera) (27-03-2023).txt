@@ -754,15 +754,10 @@ entonces Angular fácilmente puede reconocer a la hora de transpilar esto.
 Y si por ejemplo esto es un Componente va a funcionar como un Componente,
 esto es un Servicio entonces va a funcionar como un Servicio
 
-
-
-
-
-
-
-
-
-
+En resumen un decorador no es más que una función que expande
+su clase añadiéndole funcionalidades especiales.
+Y esto es todo lo que necesitamos saber de los decoradores.
+Y no vamos a crear decoradores personalizados, no nos va a hacer falta.
 
 
 
