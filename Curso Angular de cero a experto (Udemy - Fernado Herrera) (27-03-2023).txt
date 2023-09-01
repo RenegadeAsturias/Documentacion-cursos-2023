@@ -760,6 +760,42 @@ Y esto es todo lo que necesitamos saber de los decoradores.
 Y no vamos a crear decoradores personalizados, no nos va a hacer falta.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+29. Encadenamiento opcional
+-------------------------------------------------------------
+
+// Código de Typescript: 14-optional-chaining.ts
+
+Interface Pasajero {
+	nombre: string;
+	hijos?: string[]; // Aquí la '?' indica que la propiedad es opcional
+}
+
+const pasajero1: Pasajero = {
+	nombre: 'Fernando'
+}
+
+const pasajero2: Pasajero = {
+	nombre: 'Melissa',
+	hijos: ['Natalia','Gabriel']
+}
+
+function imprimeHijos(pasajero: Pasajero): void {
+	const cuantosHijos = pasajero.hijos.length;
+	console.log(cuantosHijos);
+}
+
+imprimeHijos(pasajero2); // Esto imprime 2.
+
+imprimeHijos(pasajero1); // Esto imprime Error!
+
+Uncaught TypeError: Cannot read property 'length' of undefined
+Porque la propiedad 'pasajero1.hijos' es undefined
+Es un error títipo de JavaScript.
+
+
+
 
 
 
