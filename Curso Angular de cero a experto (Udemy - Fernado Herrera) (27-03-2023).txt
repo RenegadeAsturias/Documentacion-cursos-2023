@@ -794,6 +794,23 @@ Uncaught TypeError: Cannot read property 'length' of undefined
 Porque la propiedad 'pasajero1.hijos' es undefined
 Es un error títipo de JavaScript.
 
+Si cambiamos la asignación de la variable y le ponemos una '?'
+le estamos pidiendo a JavaScript que trate de continuar la expresión con '.length' 
+si es posible y la propiedad 'hijos' tiene valor y no es undefined.
+
+const cuantosHijos = pasajero.hijos?.length;
+
+como la propiedad 'hijos' es undefined no es posible continuar evaluando la expresión
+Y el resultado mostrado es undefined.
+
+Como la idea es que nos devuelva un valor pondremos:
+const cuantosHijos = pasajero.hijos?.length || 0;
+
+De esta forma si la propiedad 'hijos' es null o undefined nos devolverá 0.
+
+Esto es el encadenamiento opcional
+que intente hacer lo que sigue, siempre y cuando sea seguro hacerlo también.
+
 
 
 
