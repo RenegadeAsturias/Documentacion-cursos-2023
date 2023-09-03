@@ -812,6 +812,17 @@ Esto es el encadenamiento opcional
 que intente hacer lo que sigue, siempre y cuando sea seguro hacerlo también.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 3: Base de TypeScript - Sección recomendada
+30. Código fuente de la sección
+-------------------------------------------------------------
+
+Incluye un resurso con el código fuente de los ejercicios del curso
+Y también un enlace para acceder al proyecto en un repositorio de GitHub:
+https://github.com/Klerith/curso-angular-intro-typescript-ecmascript
+
+
+
 
 
 
