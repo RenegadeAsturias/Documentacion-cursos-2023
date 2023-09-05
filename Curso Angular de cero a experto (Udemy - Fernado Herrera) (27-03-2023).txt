@@ -840,6 +840,24 @@ Este es un breve listado de los temas fundamentales:
 9.-Y más...
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+33. Introducción a Angular
+-------------------------------------------------------------
+
++Es un marco de trabajo estandarizado.
++Viene con todo lo que necesitas para trabajar.
++Es modular.
++Google es quien le da mantenimiento hoy en día.
+
+Bloques fundamentales de Angular:
+(1) Componentes
+(2) Rutas
+(3) Directivas
+(4) Servicios
+(5) Módulos
+
+
 
 
 
