@@ -858,6 +858,23 @@ Bloques fundamentales de Angular:
 (5) Módulos
 
 
+----------------- Detalles ----------------------------
+
+(1) Componente: HTML + Clase TypeScript que tiene un Decorador
+Se busca que los componentes sean bloques pequeños de código y lo más simples posibles.
+
+(2) Servicios
+Los Servicios son lugares centralizados de información.
+
+(3) Directivas
+
+(3.1) Directivas de Componentes.
+Las directivas de componentes básicamente es muy parecido a un componentes
+sólo que tiene un pedazo de código HTML reutilizables, el cuál ya viene como conectado.
+Es decir, colocas la directiva y ya crea ese HTML con cierta funcionalidad integrada
+y eso es muy útil.
+
+
 
 
 
