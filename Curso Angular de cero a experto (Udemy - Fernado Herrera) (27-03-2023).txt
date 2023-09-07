@@ -874,6 +874,17 @@ sólo que tiene un pedazo de código HTML reutilizables, el cuál ya viene como 
 Es decir, colocas la directiva y ya crea ese HTML con cierta funcionalidad integrada
 y eso es muy útil.
 
+(3.2) Directivas Estructurales.
+Las directivas estructurales modifican el DOM o el HTML, 
+ya sea añadiendo elementos o eliminando elementos.
+
+(3.3) Directivas de Atributos.
+Las directivas de atributos básicamente cambian la apariencia o el comportamiento
+de un elemento, otro componente o bien una directiva.
+
+(4) Rutas
+Mostrar diferentes componentes basados en la URL del Navegador Web.
+
 
 
 
