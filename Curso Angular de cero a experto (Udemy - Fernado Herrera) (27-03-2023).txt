@@ -885,6 +885,19 @@ de un elemento, otro componente o bien una directiva.
 (4) Rutas
 Mostrar diferentes componentes basados en la URL del Navegador Web.
 
+(5) Módulos
+Permiten agrupar todo lo que hemos hablado
+(1) Componentes / (2) Servicios / (3) Directivas / (4) Rutas
+inclusive otros módulos.
+
+Por ejemplo:
+-Módulo de Autenticación
+-Módulo de Productos
+-Módulo de Clientes
+-Módulo de Proveedores
+
+
+
 
 
 
