@@ -897,6 +897,25 @@ Por ejemplo:
 -Módulo de Proveedores
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+34. Crear un proyecto en Angular
+-------------------------------------------------------------
+
+ng new 0011-curso-angular-fh-bases (Routing=N+CSS)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+35. Nota de actualización
+-------------------------------------------------------------
+
+Nota: En la estructura del proyecto creado en la sección anterior-
+ya no trae TSLint, este fue deprecado. 
+Si quieren usar un linter, actualmente pueden usar ESLint.
+
+
+
 
 
 
