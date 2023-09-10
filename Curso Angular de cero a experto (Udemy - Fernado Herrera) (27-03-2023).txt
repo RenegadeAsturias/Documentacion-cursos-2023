@@ -915,6 +915,33 @@ ya no trae TSLint, este fue deprecado.
 Si quieren usar un linter, actualmente pueden usar ESLint.
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+36. Explicación de cada archivo del proyecto
+-------------------------------------------------------------
+
+Estructura del proyecto de Angular:
+
++tsconfig.json
+*************************************************************
+Es el archivo de configuración de TypeScript.
+Básicamente le dice a TypeScript cómo quiere que se traduzca a JavaScript
+o cómo quiere que funcione TypeScript en este proyecto.
+
+
++tsconfig.spect.json
+*************************************************************
+Extiende el archivo: './tsconfig.json' y le añade funcionalidades
+o características adicionales.
+Y un '.spect' es lo que está reclacionado a la parte de las pruebas.
+
+
++tsconfig.spect.json
+*************************************************************
+Extiende el archivo: './tsconfig.json'
+nuevamente extiende de la configuración y está enfocado propiamente en su aplicación.
+
+
 
 
 
