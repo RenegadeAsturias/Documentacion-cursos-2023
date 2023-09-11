@@ -942,6 +942,26 @@ Extiende el archivo: './tsconfig.json'
 nuevamente extiende de la configuración y está enfocado propiamente en su aplicación.
 
 
++README.md
+*************************************************************
+Habla brevemente de cómo se creó esta aplicación.
+
+
++package.json
+*************************************************************
+Es un archivo delicado y no deberíamos hacer cambios manualmente en este archivo.
+Si queremos añadir algo por ejemplo un nuevo paquete tenemos hacer algo en particular
+como añadir o eliminar cosas usualmente lo vamos a hacer mediante comandos.
+
+
++package-lock.json
+*************************************************************
+Este fichero tampoco lo vamos a modificar manualmente.
+En este archivo básicamente dice como se construyó los módulos del proyecto
+y cómo se construyó todo.
+
+
+
 
 
 
