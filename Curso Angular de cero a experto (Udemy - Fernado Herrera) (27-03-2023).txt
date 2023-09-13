@@ -961,6 +961,32 @@ En este archivo básicamente dice como se construyó los módulos del proyecto
 y cómo se construyó todo.
 
 
++karma.conf.js
+*************************************************************
+El karma config son las configuraciones para las pruebas unitarias
+sin integración basadas en karma.
+No se va a cubrir la parte de pruebas en este curso.
+
+
++angular.json
+*************************************************************
+Es un archivo importante praa nuestra aplicación, el cuál contiene
+configuraciones importantes para nuestra aplicación.
+Entre ellas están los assets que son los recursos estáticos:
+"assets": [
+	"src/favicon.icon",
+	"src/assets"
+]
+
+
++.gitignore
+*************************************************************
+Donde están los archivos que no quiero que Git le de seguimiento
+de mi proyecto.
+
+
+
+
 
 
 
