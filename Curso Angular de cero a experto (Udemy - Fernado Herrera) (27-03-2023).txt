@@ -985,9 +985,26 @@ Donde están los archivos que no quiero que Git le de seguimiento
 de mi proyecto.
 
 
++.editorconfig
+*************************************************************
+Incluye reglas que vienen para diferentes archivos.
 
 
++carpeta: src
+*************************************************************
+Que veremos en la siguiente lección.
 
+
++carpeta: node_modules
+*************************************************************
+La carpeta con los módulos de Node que contiene una gran cantidad de módulos.
+Aquí hay muchas cosas que si van a la aplicación de producción
+y hay otras cosas que no.
+
+
++carpeta: e2e (end to end testing)
+*************************************************************
+No se va a cubrir la parte de pruebas en este curso.
 
 
 
