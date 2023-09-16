@@ -1008,6 +1008,27 @@ No se va a cubrir la parte de pruebas en este curso.
 
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+37. Explicación de cada archivo -Parte 2 del proyecto
+-------------------------------------------------------------
+
+Explicación de los archivos dentro del SRC:
+
+src > app > app.component.html
+borrar todo y sustituir por <h1>Hola Mundo!</h1>
+
+----------Componente--------------
+El componente de mi aplicación y el punto inicial de la aplicación
+-app.component.css  // Son estilos encapsulados para 'app.component.html'
+-app.component.html
+-app.component.spec.ts
+-app.component.ts
+-----------------------------------
+
+
+
+
 
 
 
