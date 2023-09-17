@@ -1026,6 +1026,22 @@ El componente de mi aplicación y el punto inicial de la aplicación
 -app.component.ts
 -----------------------------------
 
+Módulos que componen nuestra aplicación:
+-app.module.ts
+
+Los assets son utilizados para colocar recursos estáticos en nuestra aplicación
+src > assets
+
+En los dos archivos de 'environments' angular de manera automática nos permite
+tener un lugar para nuestras variables de entorno ya sea de desarrollo y de producción
+
+src > environments > environments.ts  		// Entorno desarrollo
+src > environments > environments.prod.ts   // Entorno producción
+
+src > favicon.ico
+src > index.html   // Página HTML principal
+
+
 
 
 
