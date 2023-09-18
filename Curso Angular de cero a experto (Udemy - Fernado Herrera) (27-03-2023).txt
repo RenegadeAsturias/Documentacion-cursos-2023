@@ -1041,6 +1041,21 @@ src > environments > environments.prod.ts   // Entorno producción
 src > favicon.ico
 src > index.html   // Página HTML principal
 
+El archivo 'main.ts' nunca se toca y ayuda básicamentea decirle a Angular
+el ambiente en el que está corriendo y depende del target de la aplicación Angular.
+src > main.ts
+
+El archivo 'polyfills.ts' ayuda para tener una mayor compatibilidad con
+otros navegadores web y en principio no es necesario tocarlo nunca.
+src > polyfills.ts
+
+El archivo 'styles.css' es un archivo de estitos global de la aplicación.
+src > styles.css
+
+El archivo 'test.ts' para la configuración de nuestro ambiente de pruebas
+src > test.ts
+
+
 
 
 
