@@ -1056,6 +1056,22 @@ El archivo 'test.ts' para la configuración de nuestro ambiente de pruebas
 src > test.ts
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+38. App Component
+-------------------------------------------------------------
+
+Utilizaremos estos estilos disponibles en GitHub y lo pegamos en nuestro
+fichero de estilos global: src > styles.css
+https://gist.github.com/Klerith/3ddee04a27c09be05e888d5d4ac1d09f
+
+
+Analizamos el fichero 'app.component.ts'
+y que existe la posiblidad de poner
+-'template:' un template e indicar el html como valor
+-'templateUrl:' e indicar la ruta del template
+
+Y también cambiamos el valor de la variable 'titulo' por 'Contador App'
 
 
 
