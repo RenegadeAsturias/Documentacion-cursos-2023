@@ -1073,6 +1073,28 @@ y que existe la posiblidad de poner
 
 Y también cambiamos el valor de la variable 'titulo' por 'Contador App'
 
+--------------app.component.ts-------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  titulo = 'Contador App';
+}
+
+Y en el fichero 'app.component.html' añadimos '{{titulo}}'
+y vemos que podemos imprimir código de las propiedades de la clase en el HTML
+--------------app.component.html-------------------------
+<h1>{{titulo}}</h1>
+
+Dentro de las dobles llaves {{ <Expresión JavaScript> }}
+podemos escribir cuaquier expresión JavaScript, por ejemplo:
+<h1>{{1+1}}</h1>
+
+
 
 
 
