@@ -1095,6 +1095,20 @@ podemos escribir cuaquier expresión JavaScript, por ejemplo:
 <h1>{{1+1}}</h1>
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+39. Contador App
+-------------------------------------------------------------
+
+Para hacer nuestro contador hacemos los siguientes cambios:
+
+--------------app.component.ts-------------------------
+export class AppComponent {
+  titulo: string = 'Contador App';
+  numero: number = 10;
+}
+
+
 
 
 
