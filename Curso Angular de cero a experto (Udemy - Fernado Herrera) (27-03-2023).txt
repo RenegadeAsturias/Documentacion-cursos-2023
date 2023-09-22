@@ -1108,6 +1108,21 @@ export class AppComponent {
   numero: number = 10;
 }
 
+--------------app.component.html-------------------------
+<h1>{{titulo}}</h1>
+<button> + 1</button>
+<span> {{ numero }} </span>
+<button> - 1</button>
+
+Ahora definimos los eventos para incrementar y decrementar el contador.
+Los eventos son definidos con paréntesis y luego se escribe el nombre del evento
+y entre comillas va la expresión JavaScript que queremos ejecutar.
+
+<button (click)="numero=numero+1;" > + 1</button>
+<span> {{ numero }} </span>
+<button (click)="numero=numero-1;" > - 1</button>
+
+
 
 
 
