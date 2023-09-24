@@ -1123,6 +1123,21 @@ y entre comillas va la expresión JavaScript que queremos ejecutar.
 <button (click)="numero=numero-1;" > - 1</button>
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+40. Métodos en el componente
+-------------------------------------------------------------
+
+Vamos a cambiar las expresiones JavaScript desde el template
+por un método en el componente:
+
+--------------app.component.html-------------------------
+<h1>{{titulo}}</h1>
+<button (click)="acumular(1)" > + 1</button>
+<span> {{ numero }} </span>
+<button (click)="acumular(-1)" > - 1</button>
+
+
 
 
 
