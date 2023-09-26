@@ -1147,10 +1147,21 @@ export class AppComponent {
   }
 }
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+41. Tarea con el contador
+-------------------------------------------------------------
 
+La tarea consiste en utilizar una variable como base
+para incrementar y decrementar.
 
+--------------app.component.html-------------------------
+<h1>{{titulo}}</h1>
+<h3>La base es: <strong> {{base}} </strong></h3>
 
-
+<button (click)="acumular(base)" > + {{base}}</button>
+<span> {{numero}} </span>
+<button (click)="acumular(-base)" > - {{base}}</button>
 
 
 
