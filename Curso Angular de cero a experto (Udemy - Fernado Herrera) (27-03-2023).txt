@@ -1175,6 +1175,21 @@ export class AppComponent {
 }
 
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Sección 4: Introducción a Angular 
+42. Crear un componente manualmente
+-------------------------------------------------------------
+
+(1) Crear src > app > contador.component.ts
+Y escribimos manualmente:
+
+(2) Escribimos y cortamos el html de 'app.component.html'
+y lo pegamos en la sección template
+
+(3) Escribimos y cortamos el cuerpo de la clase 'app.component.ts'
+y lo pegamos en el cuerpo de la clase
+
+
 
 
 
