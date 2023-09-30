@@ -1213,6 +1213,17 @@ export class ContadorComponent {
   }
 }
 
+(4) Añadirmos nuestro Componente al template del 'app.component.html'
+--------------app.component.html-------------------------
+<app-contador></app-contador>
+
+
+(5) Esto nos está dando error de compilación y nos indica:
+1. If 'app-contador' is an Angular component, then verify that it is part of this module.
+Es decir, aún no hemos añadido nuestro componente a ningún módulo.
+Como el único módulo que tenemos de momento es 'app.module.ts' lo añadimos a ese módulo
+y nos aseguramos que también lo importamos:
+
 
 
 
