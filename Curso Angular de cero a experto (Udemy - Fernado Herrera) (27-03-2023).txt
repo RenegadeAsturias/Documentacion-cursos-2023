@@ -1225,6 +1225,18 @@ Como el único módulo que tenemos de momento es 'app.module.ts' lo añadimos a 
 y nos aseguramos que también lo importamos:
 
 
+--------------app.component.html-------------------------
+... ... ... ... ... ... ... ...
+import { AppComponent } from './app.component';
+import { ContadorComponent } from './contador.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+	ContadorComponent ****************** Añadido!
+  ],
+... ... ... ... ... ... ... ...
+
 
 
 
