@@ -1237,6 +1237,14 @@ import { ContadorComponent } from './contador.component';
   ],
 ... ... ... ... ... ... ... ...
 
+(6) Ahora podríamos tener dos instancias de nuestro contador 
+y ambas instancias manejan su estado de manera independiente.
+
+--------------app.component.html-------------------------
+<app-contador></app-contador>
+<app-contador></app-contador>
+
+
 
 
 
